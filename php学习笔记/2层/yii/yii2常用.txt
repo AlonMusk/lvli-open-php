@@ -1,0 +1,317 @@
+ yii版本
+ cho Yii::getVersion ()
+ 
+ whereIn 用法：
+ 
+ 
+ $roleEatlive = RoleEatlive::find()
+			->where(['in','role_id',$idStr])
+			->asArray()->all();
+//以某键值返回：		
+        return Industry::find()
+            ->select('name,id')
+            ->where(['in', 'id', array_keys($ids)])
+            ->indexBy('id')
+            ->column();
+
+//以数组返回
+        return Industry::find()
+            ->select('name,id')
+            ->where(['in', 'id', array_keys($ids)])
+            ->asArray()
+            ->all();
+
+->andWhere(['>', 'status', UserShop::STATUS_DELETE])
+
+$query->offset($offset)
+                ->limit($limit)
+			
+todo \Yii::$app->articleQueue->push
+
+MomentsMaterial
+//随机数
+mt_rand($min, $max);
+
+if (MomentsMaterial::find()
+            ->where([
+                'status' => BasicActiveRecord::STATUS_ACTIVE
+            ])
+            ->andFilterWhere([
+                'between',
+                'push_date',
+                strtotime(date("Y-m-d", strtotime("now")).' 00:00:00'),
+                strtotime(date("Y-m-d", strtotime("now")).' 23:59:59')])
+            ->one()) {
+            throw new BusinessException('平台每天最多只能新建1条朋友圈素材');
+        }
+		
+
+// whereIn		
+ ->where(['in', 'brand_category_id', array_keys($industryIds)]);
+ // not in
+ $query->andFilterWhere(['not in', 'id',explode(',',$this->ext_ids)]);
+ 
+  ->where(['moments_material_id' => $materialId])	
+  
+  
+$query->createCommand()->getRawSql()
+
+
+->select(new Expression('(CONCAT_WS("_",brand_id,username,mobile)) '))
+
+新建job
+php yii  job  
+ $query->leftJoin(ShopInfo::tableName() . " as s", "a.shop_id = s.shop_id")
+
+   $query->orderBy(['id' => SORT_DESC]);
+   
+ $field = 'id';
+        $tableName = \common\vendor\Env::get('db.tablePrefix') . 'shop_goods';
+        $params = [];
+            $updateIds && $sql = Functions::batchUpdate($updateIds, $field, $params, $tableName);
+            $updateIds && $res = Yii::$app->db->createCommand($sql)->execute();		
+
+Yii::$app->clickhouse->createCommand()->batchInsert(BehaviorLog::tableName(), $insertFields, $behaviorInsert)->execute();
+ Yii::$app->clickhouse->createCommand()->insert(BrandVisitLog::tableName(), $data)->execute();   
+ 
+ Yii::$app->db->createCommand()->batchInsert(ShopArticle::tableName(), $insertkey, $insert)->execute();
+
+// 控制台应用 进度条
+https://blog.csdn.net/qq_40816112/article/details/100516233
+Console::output(string $log);
+ /* 进度条 */
+        Console::startProgress(0, 1000);
+        for ($n = 1; $n <= 1000; $n++) {
+            usleep(1000);
+            Console::updateProgress($n, 1000);
+ 
+        }
+        Console::endProgress()
+		
+$confirm = Console::confirm("一共执行" . count($betweenYmd) . "天的数据，会消耗一定的时间，是否继续执行?");
+if (!$confirm) {
+	return;
+}
+
+
+Functions::logError($e, [LinkUser::AT_PENG_ZHEN_WEI], $e->getMessage());
+
+//
+ $customerExist = HighseasBrandCustomer::find()
+                    ->select(new Expression('(CONCAT_WS("_",brand_id,username,mobile)) '))
+                    ->where([
+                        'status' => BasicActiveRecord::STATUS_ACTIVE,
+                        'brand_id' => $brandId
+                    ])
+                    ->column();
+					
+->scalar()
+
+ $query->andWhere(new Expression('FIND_IN_SET(:region_id, region_id)'));
+
+-- 素材发布记录表
+   CREATE TABLE `blj_material_publish_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `brand_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '品牌id',
+  `shop_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '门店id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '创建者ID',
+  `relate_type`  int(10)  unsigned NOT NULL DEFAULT 0 COMMENT '素材内容相关类型',
+  `relate_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '素材内容相关id',
+  `is_check` tinyint(1) unsigned NOT NULL DEFAULT  1 COMMENT '内容审核 0:未审核 1:已审核',
+  `deal_status` tinyint(1) unsigned NOT NULL DEFAULT  0 COMMENT '处理状态 0:未处理 1:处理中 2:已处理',
+  `push_status` tinyint(1) unsigned NOT NULL DEFAULT  0 COMMENT '推送状态 0:未推送 1:已推送 2:推送失败',
+  `push_time` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '推送时间',
+  `created_at` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '状态(0-删除1-正常2-禁用)',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='素材发布记录表';
+
+
+ALTER TABLE `blj_shop_customer` ADD INDEX `guest_id`(`guest_id`) USING BTREE;
+
+-- 商家用户信息表
+ALTER TABLE `blj_user_shop`
+ADD column  `subscribe_to_updates`  tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '店内素材订阅更新 1:开启 0:关闭' after `brand_applet_role_id`;
+
+-- 店铺客户信息表
+ALTER TABLE `blj_shop_customer`
+change  `remarks`  `remarks` varchar(200) NOT NULL DEFAULT '' COMMENT '客户姓名';
+
+//模板消息
+ NotifyMessageUtil
+ 
+ 'mobile' => (string)Functions::encryptFunc(trim($mobile))  //加密
+ $list[$key]['mobile'] = Functions::decryptFunc($mobilePwd);  //解密
+
+
+FROM_UNIXTIME(created_at)
+
+ set_time_limit(0);
+ ini_set('memory_limit', '512M');
+ 
+ 
+ $requestValidator
+ 
+ 
+ 
+获取小程序码的token 
+
+
+1.6 blj-seller-share-queue.conf  ;卖家分享记录脚本
+/v1/shop-count/seller-share-log
+
+
+C端访客通知
+/v1/visit-log/guest-visit
+
+C端的访问
+/v1/shop-count/visit
+visitQueue
+VisitJob
+1.2 blj-visit-queue.conf  ;美家帮手-门店首页、内容模块  
+
+商品访问记录  C端
+/v1/shop-goods/good-visit
+案例访问记录 C端
+/v1/shop-scheme/scheme-visit 已修改
+
+
+  $transaction = Yii::$app->db->beginTransaction();
+  
+   $transaction->commit();
+   
+          $transaction->rollBack();
+
+$shopCoverInfo['image'] ? PhotoResize::thumbPhotoImage($shopCoverInfo['image'])
+
+
+
+Html::button('取消订单', ['class'=>'btn btn-sm btn-danger pull-right','data-toggle' => 'modal', 'data-target' => '#cancel-modal']);
+
+Html::a(
+            '类目管理',
+            'javascript:',
+            [
+                'id' => 'cateList',
+                'title' => '类目管理',
+                'class' => 'btn btn-sm btn-danger pull-left',
+                'data-toggle' => 'modal',
+                'data-target' => '#form-modal'
+            ]),
+
+
+// html:button();
+// htm:a();
+
+GridView::widget()
+
+$c[] = [
+    'label' => '链接',
+    'attribute' => 'link',
+    'vAlign' => 'middle',
+    'format' => 'raw',
+    'value' => function($row){
+        return '<span title="' . $row['link'] . '">' . StringHelper::truncate($row['link'],30) . '</span><button type="button" style="margin-left: 5px" class="btn btn-sm btn-copy" data-clipboard-text="' . $row['link'] . '">复制</button>';
+    },
+
+];
+
+
+GridView::widget([
+  'columns' => $c,
+ 'toolbar'=>[
+    html:a(),
+ ]
+]);
+
+
+
+
+
+
+$a[] = [
+'columns' =>[
+     [
+	    'attribute'=>'',
+		'label'=>'',
+	 ],
+ ],
+ 
+  
+ ];
+ 
+$a[] = [
+    'group' => true,
+    'label' => '<div class="footer-button-group-wrapper">' . Html::submitButton('保存', [
+            'class' => 'btn btn-primary',
+        ]) . Html::resetButton('取消', [
+            'class' => 'btn btn-default',
+            'onclick' => 'parent.closeDialog()',
+        ]) . '</div>',
+];
+ 
+ DetailView::widget(
+    'attributes' => $a
+ );
+
+## DetailView::widget
+$switchBtn = SwitchInput::widget([
+    'name' => 'superpositionForm[][status]',
+    'pluginOptions' => [
+        'size' => 'mini',
+        'onText' => '启用',
+        'offText' => '禁用',
+        'class'=>'superposition-status'
+    ],
+    'value' => 1,
+    'options' => [
+        'class' => 'bootstrapSwitch'
+    ],
+    'pluginEvents' => [
+        'switchChange.bootstrapSwitch' => 'function(obj){
+            changeStatus($(obj.target));
+        }',
+    ],
+]);
+
+
+// GridView::widget 首页轮播
+$gridColumns[] = [
+    'label' => '首页轮播',
+    'hAlign' => 'center',
+    'vAlign' => 'middle',
+    'format' => 'raw',
+    //'labelColOptions' => ['class'=>'col-xs-2'],
+    'value' => function($row) {
+        $value=  SwitchInput::widget([
+            'id'=>$row['talentImageTextId'],
+            'name' => 'rotationStatus',
+            'value' => $row['rotation'],
+            'pluginOptions' => [
+                'size' => 'mini',
+                'onText'  => '&nbsp;&nbsp;',
+                'offText' => '&nbsp;&nbsp;',
+                'onColor' => "success",
+            ],
+        ]);
+        return $value ;
+    },
+];
+
+// 小部件(widget) 有 InputWidget  ActiveForm
+// kratik-v/yii2-detail-view 有  detailView    
+// kratik-v/yii2-grid 有  gridView  
+
+Q：detailView 是什么
+A： 详情页
+
+Q: GridView是什么
+A： 列表页
+
+// table 列超出后的格式混乱 处理：
+$trOne = '<tr style="height: 6px; display: none;"> ';
+for($i=0;$i<11;$i++){
+    $trOne .= '<td></td>';
+}
+$trOne .= '</tr>';

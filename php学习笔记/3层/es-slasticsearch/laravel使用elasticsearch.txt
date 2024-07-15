@@ -1,0 +1,68 @@
+引     擎：elasticsearch
+全文搜索包：scout
+
+1、查看centos8安装elasticsearch
+
+2、安装 scout#
+composer require laravel/scout
+
+可能 composer 时可能会报错，是版本太高，实现降权 (降低版本就好)【 composer require laravel/scout ^5.0.3】
+
+
+#存疑： 安装scout的es驱动 没用了 因为没用调用 setHandler
+#composer require tamayo/laravel-scout-elastic
+
+3、composer require babenkoivan/scout-elasticsearch-driver
+引入第三方包 https://github.com/babenkoivan/scout-elasticsearch-driver
+可以用类似App\MyModel::search('phone') 
+    ->with('makers')
+    ->get();
+执行命令
+php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
+php artisan vendor:publish --provider="ScoutElastic\ScoutElasticServiceProvider"
+
+.env配置：  可以查看 https://learnku.com/articles/48200
+#scout-elasticsearch-driver
+SCOUT_DRIVER=elastic
+SCOUT_ELASTIC_HOST=erp-cs.fulan.com:9200
+
+创建索引文件  在文件中可以指定索引名称和设置
+php artisan make:index-configurator MyIndexConfigurator
+向服务器请求，新增索引（新增数据库意思）：该命令会在 elasticsearch 中创建相应的索引名
+php artisan elastic:create-index "App\MyIndexConfigurator"
+//生成一个elasticsearch专用的 Model，如 用户表文件
+//注意--index选项 意思是，把UserModel这个表 放到 索引 --index指定的文件，即 数据表存放到数据库下
+php artisan make:searchable-model MyModel --index-configurator=MyIndexConfigurator
+
+//执行命令 搜索规则文件添加 
+//规则怎么配置，看看参考文档的 laravel-elastic有说明
+# php artisan make:search-rule App\\Search\\Rules\\UserRule
+
+把userModel对应的数据表数据 映射（插入到）elastic服务器上
+//执行命令
+//userModel更改了，则需要更新下
+# php artisan elastic:update-mapping App\\Search\\Models\\UserModel
+//把数据库的数据 插入映射到 elastic服务器上
+# php artisan scout:import "App\Search\Models\UserModel"
+ 
+//说明：如果 UserModel的 properties 既字段的属性类型更改了，那么 执行上面的两个命令将会失败
+//因此需要 先执行删除索引，创建索引 这两个命令，重复上面的步骤。
+
+//最后控制器 调用elasticearch的model进行查询
+\App\Search\Models\UserModel::search('查询的字眼')->get();
+
+4、composer require elasticsearch/elasticsearch:^7.0
+//  https://github.com/elastic/elasticsearch-php.git
+Elasticsearch Version	Elasticsearch-PHP Branch
+>= 7.x	7.x
+>= 6.6, < 7.0	6.7.x
+>= 6.0, < 6.6	6.5.x
+>= 5.0, < 6.0	5.0
+>= 2.0, < 5.0	1.0 or 2.0
+>= 1.0, < 2.0	1.0 or 2.0
+<= 0.90.x	0.4
+
+composer require guzzlehttp/guzzle:^7.0.1,
+
+composer require yurunsoft/guzzle-swoole
+$client = \Elasticsearch\ClientBuilder::create()->setHosts(['192.168.0.233:9200'])->setHandler(new \Yurun\Util\Swoole\Guzzle\Ring\SwooleHandler())->build();

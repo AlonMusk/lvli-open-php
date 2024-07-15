@@ -1,0 +1,7 @@
+1、3年以上Python开发经验，有作为开发团队核心骨干交付项目经验； 
+2、Java|python基础扎实，精通微服务架构，大数据、高并发编程，熟练掌握Spring Mybatis，Springcloud，dubbo，spark，kafka，netty，hadoop生态等开源框架; 
+3、后端方向：对视觉用户研究有一定经验和见解，对软件可用性有相当的认识简洁；掌握人机交互设计理论知识和实践经验，对于用户体验有较强的理解，能够从用户的角度来设计界面；精通JavaScript、jQuery、Ajax、Json等技术，熟知各种后端框架，了解javascript的mvvm思想，对angularJs，nodeJs,bootstrap, 等技术有所涉及；熟悉两种并掌握一种Photoshop、Illustartor、HTML等软件；精通HTML/XHTML、DIV+CSS网页制作技术,精通页面架构和布局，能够处理各种浏览器的常见的兼容性问题；
+4、数据库知识丰富，对关系型数据库（mysql等），缓存数据库（redis等），非关系型数据（mongo，es，hive等），至少精通1-2项。
+5、熟悉网络编程，熟悉Kubernetes，docker优先。
+6、有电力行业软件设计、开发经验者优先；
+7、有流程、监控平台类软件设计、开发经验者优先。

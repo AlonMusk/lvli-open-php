@@ -1,0 +1,34 @@
+PHP层的主要变化
+
+SPL类和接口
+延迟静态绑定
+intl yii2用php扩展intl来支持国际化
+
+类自动加载器
+
+组件和对象  component和baseObject
+CComponent 拆成 yii/base/component和 yii/base/Object yii/base/Object是一个轻量级的基类。可以通过getters和setters来定义属性。component类继承自 yii/base/Object 支持事件和行为
+
+事件
+
+路径别名 path alias
+
+小部件 widget
+
+assets 前端资源 aseet Bundle(资源包)
+动作 过滤器
+活动记录
+活动记录行为
+
+URL管理（现在控制器和动作的驼峰命名会被转换成小写字母，其中每个单词有一个专有的了连字符号分隔。路由命名）
+
+
+执行yii命令的时候出现错误：/usr/bin/env: ‘php\r’: No such file or directory
+进入编辑模式输入：  set ff=unix回车，然后wq保存退出
+
+
+
+
+
+
+

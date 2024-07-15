@@ -1,0 +1,51 @@
+高并发  查询（es） 存储(swoole?) 响应  处理数据（RabbitMQ redis  swoole）
+高流量
+高可用
+分布式
+主从同步
+冷热备份
+
+
+先分布式再集群
+https://learnku.com/articles/19541
+
+
+Cobar 是由 Alibaba 开源的 MySQL 分布式处理中间件，它可以在分布式的环境下看上去像传统数据库一样提供海量数据服务。
+
+
+MySQL 中间件汇总比较 
+https://www.sohu.com/a/323922825_120043609
+推荐 DRDS
+云原生分布式数据库PolarDB-X
+PolarDB-X（原DRDS升级版）
+
+MyCat：开源分布式数据库中间件  前身 Cobar，开源，较为活跃
+
+全局事务服务 GTS  GTS SDK 目前只支持 Java 版本。
+
+mycat安装与配置
+https://blog.csdn.net/qq_14824885/article/details/81144973
+
+MySQL集群(PXC)入门
+https://www.cnblogs.com/xyabk/p/10906952.html
+MySQL数据库集群-PXC方案 付费
+https://coding.imooc.com/class/274.html
+
+
+分布式事务概念和解决方案
+https://www.cnblogs.com/markLogZhu/p/12052741.html
+
+高并发面试比较实际的
+https://learnku.com/laravel/t/24359
+PHP千万级秒杀项目实战教程
+https://www.bilibili.com/video/BV1Ub411E7xz?p=7
+
+Linux高可用之Keepalived 
+HAProxy从零开始到掌握
+HAProxy：可用来做redis多个结点的负载均衡、也可做mysql等数据库的负载、支持4层负载和7层负载；（一般配合Keepalived做高可用）
+缓存集群
+消息中间件集群
+针对读多写少的请求，引入缓存集群
+针对高写入的压力，引入消息中间件集群，
+https://www.jianshu.com/p/c9f6d55288c0
+https://www.jianshu.com/p/b050d8861fc1

@@ -1,0 +1,47 @@
+1、
+E: Unable to locate package
+原因是软件源有问题，要进入/etc/apt/目录，修改sources.list，因为新的docker环境下没有vim编辑器，软件源有问题也没法装vim。
+
+方法1
+使用echo逐条写进source.list。
+sudo echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" >> /etc/apt/sources.list
+此时碰到报错：
+
+bash: /etc/apt/sources.list: Permission denied
+
+原因是可以将命令改为sudo的权限加在了echo上，而没有加在>>上，可以将命令改为
+echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" |  sudo tee -a /etc/apt/sources.list
+然后更新源
+sudo apt update
+
+
+
+方法2
+把ubuntu主系统中的sources.list文件复制进docker，然后更新源即可。
+cp sources.list /etc/apt/sources.list
+apt update
+
+
+sources.list：
+deb http://mirrors.ustc.edu.cn/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse
+deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse
+deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
+deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial main restricted universe multiverse
+deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse
+deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
+
+问题2：
+ E: There were unauthenticated packages and -y was used without --allow-unauthenticated
+ 
+ 解答：
+ 是因为 dockerfile 自动执行报的错。
+ 手动执行没用报错
+ 
+ zlib1g-dev : Depends: zlib1g (= 1:1.2.8.dfsg-2ubuntu4.3) but 1:1.2.8.dfsg-5 is to be installed
+ 问题出现的原因：因依赖的软件版本不匹配，因为现在要安装的 zlib1g，需要依赖 1:1.2.11.dfsg-zubuntu9.1 版本，但是电脑中安装的是 1:1.2.11.dfsg-zubuntu9.2 版本。
+
+ apt-get install --reinstall  zlib1g=1:1.2.8.dfsg-2ubuntu4.3

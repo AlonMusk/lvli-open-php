@@ -1,0 +1,83 @@
+阿里巴巴《Java 开发手册》提出单表行数超过 500 万行或者单表容量超过 2GB
+事实上，这个数值和实际记录的条数无关，而与 MySQL 的配置以及机器的硬件有关。因为，MySQL 为了提高性能，会将表的索引装载到内存中。InnoDB buffer size 足够的情况下，其能完成全加载进内存，查询不会有问题。但是，当单表数据库到达某个量级的上限时，导致内存无法存储其索引，使得之后的 SQL 查询会产生磁盘 IO，从而导致性能下降。当然，这个还有具体的表结构的设计有关，最终导致的问题都是内存限制。这里，增加硬件配置，可能会带来立竿见影的性能提升哈。
+
+mysql单表 大于4GB的MyISAM表，可使用允许AVG_ROW_LENGTH和MAX_ROWS选项的CREATE TABLE语句。创建了表后，也可以使用ALTER TABLE更改这些选项，以增加表的最大允许容量
+MySQL数据库的MyISAM存储引擎单表大小限制已经不是由MySQL数据库本身来决定，而是由所在主机的OS上面的文件系统来决定了。
+
+而MySQL另外一个最流行的存储引擎之一Innodb存储数据的策略是分为两种的，一种是共享表空间存储方式，还有一种是独享表空间存储方式。
+
+当使用共享表空间存储方式的时候，Innodb的所有数据保存在一个单独的表空间里面，而这个表空间可以由很多个文件组成，一个表可以跨多个文件存在，所以其大小限制不再是文件大小的限制，而是其自身的限制。从Innodb的官方文档中可以看到，其表空间的最大限制为64TB，也就是说，Innodb的单表限制基本上也在64TB左右了，当然这个大小是包括这个表的所有索引等其他相关数据。 
+而当使用独享表空间来存放Innodb的表的时候，每个表的数据以一个单独的文件来存放，这个时候的单表限制，又变成文件系统的大小限制了。
+
+
+MYSQL  SKU 
+1000条  占用空间数据+索引 530KB
+10000条   5.3M
+130W条   689M
+129 5804   索引：154.77 MB  数据：533.98 MB   数据*1.3倍
+
+Mongo  flash 没有找到具体的大小 只是复制出来的文本计算而已 
+1000   包括索引，共1.59M   
+10000   15.9M
+
+
+  mysql 和mongo  mongo和mysql  mysql和mongo
+map
+
+mongo存数据的极限。每天产生的数据量。foreach和数组最大
+处理速度  架构上面的  设计模式  关联查询。
+
+数组的大小：是由 memory_limit决定
+16M
+
+一个字节 8位
+connection 库
+collection  文档表  collection 命名空间：<database>.<collection>最大长度为120字节
+document  文档
+
+
+每个索引都会占用一些空间，并且导致插入操作的资源消耗，因此，建议每个集合的索引数尽量控制在5个以内。
+
+
+批量插入（batchInsert）可以减少数据向服务器的提交次数，提高性能。但是批量提交的BSON Size不超过48MB。
+
+ <mongodb 权威指南>
+ mongodb的另一个存储机制 ---- 无返回码
+mongo  MMAPv1的引擎 WiredTiger引擎
+MongoDB的Doc 是由BSON格式的数据组成而成的一个形似JSON格式的文档。
+一、BSON文档 Binary JSON
+BSON可以做为网络数据交换的一种存储形式，但是BSON是一种schema-less的存储形式，它的优点是灵活性高，但它的缺点是空间利用率不是很理想，
+BSON有JSON没有的一些数据类型，如Date和BinData类型
+    1、BSON文档尺寸：一个document文档最大尺寸为16M；大于16M的文档需要存储在GridFS中。
+
+    2、文档内嵌深度：BSON文档的结构（tree）深度最大为100。
+
+与JSON的区别    （1）更快的遍历速度  （2）操作更简易  （3）增加了额外的数据类型
+
+GridFS 用于存储和恢复那些超过16M（BSON文件限制）的文件(如：图片、音频、视频等)。
+GridFS 也是文件存储的一种方式，但是它是存储在MonoDB的集合中。
+GridFS 可以更好的存储大于16M的文件。
+GridFS 会将大文件对象分割成多个小的chunk(文件片段),一般为256k/个,每个chunk将作为MongoDB的一个文档(document)被存储在chunks集合中。
+GridFS 用两个集合来存储一个文件：fs.files与fs.chunks。
+每个文件的实际内容被存在chunks(二进制数据)中,和文件有关的meta数据(filename,content_type,还有用户自定义的属性)将会被存在files集合中。
+
+JSON只有6种数据类型 （字符串（string）、数值(number)、布尔（true、false）、 null、对象（object）、数组（array））
+
+PHP默认POST数据的限制是2M
+
+单集合大小上限和你的OS还有文件系统有关，MongoDB本身没有限制。此外，如果集合类型是capped collection，那么最大的文档数是 2^32。
+另外单集合的collection数据量不建议超过千万级s
+
+目前也就总共3.8W个订单
+3W家    10w个订单
+有多少家企业  每家每天产生多少订单
+
+
+530KB * 100 = 53M
+
+深度：2  10W条联合数组数据  256M内存够用   for用时 0.11s  foreach用时 0.18s     100W条联合数组数据  需要2G内存 for用时1.98s   foreach用时1.21s
+ 
+深度：3  10W条联合数组数据  256M内存够用   for用时 0.12s  foreach用时 0.06s     100W条联合数组数据  需要2G内存 for用时1.91s   foreach用时0.76s
+
+用array_map 代替foreach
+

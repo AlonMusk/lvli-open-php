@@ -1,0 +1,130 @@
+https://www.runoob.com/php/php7-new-features.html
+
+PHP 7 的17个新特性
+PHP 7+ 版本极大地改进了性能，在一些WordPress基准测试当中，性能可以达到PHP 5.6的3倍。
+
+PHP 7+ 版本新加特性如下表所示：
+
+序号	内容
+1	PHP 标量类型与返回值类型声明
+2	PHP NULL 合并运算符
+3	PHP 太空船运算符（组合比较符）
+4	PHP 常量数组
+5	PHP 匿名类
+6	PHP Closure::call()
+7	PHP 过滤 unserialize()
+8	PHP IntlChar()
+9	PHP CSPRNG
+10	PHP 7 异常
+11	PHP 7 use 语句
+12	PHP 7 错误处理
+13	PHP intdiv() 函数
+14	PHP 7 Session 选项
+15	PHP 7 废弃特性
+16	PHP 7 移除的扩展
+17	PHP 7 移除的 SAPI
+
+
+默认情况下，所有的PHP文件都处于弱类型校验模式。
+PHP 7 增加了标量类型声明的特性，标量类型声明有两种模式:
+强制模式 (默认)
+严格模式
+标量类型声明语法格式：
+declare(strict_types=1); 
+代码中通过指定 strict_types的值（1或者0），1表示严格类型校验模式，作用于函数调用和返回语句；0表示弱类型校验模式。
+可以使用的类型参数有：
+int
+float
+bool
+string
+interfaces
+array
+callable
+严格模式实例
+实例
+<?php
+// 严格模式
+declare(strict_types=1);
+
+function sum(int ...$ints)
+{
+   return array_sum($ints);
+}
+print(sum(2, '3', 4.1));  //PHP Fatal error:
+?>
+
+返回类型声明类似。
+一个新的返回值类型void被引入。 返回值声明为 void 类型的方法要么干脆省去 return 语句，要么使用一个空的 return 语句。 对于 void 函数来说，NULL 不是一个合法的返回值。
+返回的类型还有 void，定义返回类型为 void 的函数不能有返回值，即使返回 null 也不行。
+void 函数可以省去 return 语句，或者使用一个空的 return 语句。
+function swap(&$left, &$right) : void
+{
+    if ($left === $right) {
+        return;
+    }
+
+    $tmp = $left;
+    $left = $right;
+    $right = $tmp;
+}
+
+$a = 1;
+$b = 2;
+var_dump(swap($a, $b), $a, $b);
+
+
+PHP 7 session_start() 函数可以接收一个数组作为参数，可以覆盖 php.ini 中 session 的配置项。
+这个特性也引入了一个新的 php.ini 设置（session.lazy_write）, 默认情况下设置为 true，意味着 session 数据只在发生变化时才写入。
+
+除了常规的会话配置指示项， 还可以在此数组中包含 read_and_close 选项。如果将此选项的值设置为 TRUE， 那么会话文件会在读取完毕之后马上关闭， 因此，可以在会话数据没有变动的时候，避免不必要的文件锁。
+
+实例
+把 cache_limiter 设置为私有的，同时在阅读完 session 后立即关闭。
+
+实例
+<?php
+session_start([
+   'cache_limiter' => 'private',
+   'read_and_close' => true,
+]);
+?>
+
+
+
+性能优化：
+1、opcache
+在php.ini配置文件中加入:
+zend_extension=opcache.so
+opcache.enable=1
+opcache.enable_cli=1"
+
+2、使用新的编译器
+使用新一点的编译器, 推荐GCC 4.8以上, 因为只有GCC 4.8以上PHP才会开启Global Register for opline and execute_data支持, 这个会带来5%左右的性能提升(Wordpres的QPS角度衡量)
+其实GCC 4.8以前的版本也支持, 但是我们发现它支持的有Bug, 所以必须是4.8以上的版本才会开启这个特性.
+3、HugePage
+首先在系统中开启HugePages, 然后开启Opcache的huge_code_pages.
+以我的CentOS 6.5为例, 通过:
+$sudo sysctl vm.nr_hugepages=512
+分配512个预留的大页内存:
+$ cat /proc/meminfo | grep Huge
+然后在php.ini中加入:
+
+ opcache.huge_code_pages=1
+ 然后我们来重启 php-fpm：
+
+/etc/init.d/php-fpm-72 reload
+
+
+4、Opcache file cache
+开启Opcache File Cache(实验性), 通过开启这个, 我们可以让Opcache把opcode缓存缓存到外部文件中, 对于一些脚本, 会有很明显的性能提升.在php.ini中加入:
+opcache.file_cache=/tmp
+这样PHP就会在/tmp目录下Cache一些Opcode的二进制导出文件, 可以跨PHP生命周期存在.
+
+紧接着，我在接口中写了一些常用的业务代码进行实际测试，随即发现了一个很有意思的现象：当链接数据库读取数据时，若数据库在本地，则安装了 opcache 带来的性能提升依旧非常明显，虽无本文中示例代码测试结果那么夸张，却仍然可以达到 10 倍！但若是从远程数据库读取数据，则安装了 opcache 带来的则是性能的明显下降。我反复测试了几次之后，这个数值大概在 110%~140% 浮动，反而是负优化。
+
+ 
+
+
+
+
+

@@ -1,0 +1,164 @@
+
+中国电信PHP开发工程师招聘面试题
+
+
+PHP程序员考题
+
+
+注意：以下问题均在闭卷形式下回答，满分为100分，时间为45分钟。
+
+1）	对于Form表单的提交，GET 和POST方式有什么区别？（5分）
+
+
+
+
+
+2）	实现字符串的反转，如：输入abc，输出cba（5分）
+
+
+
+
+
+3）	用PHP打印出前一天的时间格式是2006-5-10 22:21:21？（5分）
+
+
+
+
+
+4）	echo(),print(),print_r()的区别？（5分）
+
+
+
+
+
+5）	能够使HTML和PHP分离开使用的模板？（5分）
+
+
+
+
+
+
+6）	利用CSS样式表定义已访问的超链接字体大小为14pt,颜色为red。 （5分）
+
+
+
+7）	PHP代码如下：
+$str="cd";
+$$str="landog";
+$$str.="ok";
+echo $cd;              其结果是？（10分）
+
+
+
+
+8）	PHP代码如下：
+$a="hello"; 
+$b=&$a;
+unset($b);
+$b="world"; 
+echo $a;
+其结果是？ （10分）
+
+
+
+9）	javascript能否定义二维数组，如果不能你如何解决？ （5分）
+
+
+
+
+
+
+
+10）	假设a.html和b.html在同一个文件夹下面，用javascript实现当打开a.html五秒钟后，自动跳转到b.html。 （10分）
+
+
+
+
+
+
+
+
+
+11）	说说优化MYSQL数据库的方法，及php+mysql事务处理的方法（5分）
+
+
+
+
+
+
+
+
+12）	有一个远程页面a.html 它的编码是utf-8 如何用php读取该页面的内容 并将显示的内容转换为gbk 编码（PHP5）（5分）
+
+
+
+
+
+
+
+
+13）	PHP最简单的得到文件扩展名的方法？（5分）
+
+
+
+
+
+14）	用PHP的preg_match_all函数，匹配下面HTML中的所有id，姓名，年龄（10分）
+注意：其中姓名字段的bgcolor有可能是任意6位16进制颜色，并且可能包含大写
+<table>
+<thead>
+<tr>
+<th>id</th><th>姓名</th><th>年龄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td><td bgcolor="#ffcc00">张三</td><td>18</td>
+</tr>
+<tr>
+<td>2</td><td bgcolor="#123aEf">李四</td><td>19</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+15）	编写SQL语句（10分）
+表a结构为：	name		string
+   	score		integer		
+表b结构为：	name		string
+havingscore	boolean	(true/false)	默认值为true
+写一个SQL语句，将表b中有，但对应表a中没有的记录，在havingscore中赋为false
+	例：表a数据为：
+ 
+Name	Score	   
+Andy	57	   
+Bob	87	   
+Steve	69	 
+表b数据为：
+ 
+Name	Havingscore	   
+Andy	T	   
+Bob	T	   
+Robert	T	   
+Nancy	T	 
+		处理完数据应为：
+ 
+Name	Score	   
+Andy	T	   
+Bob	T	   
+Robert	F	   
+Nancy	F	 
+
+

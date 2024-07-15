@@ -1,0 +1,61 @@
+1、下载相同版本的php源码包
+cd /root
+wget http://us1.php.net/distributions/php-5.6.9.tar.bz2
+tar -xf php-5.6.9.tar.bz2
+
+2、到 /php-5.6.9/ext/ 目录下，使用ext_skel生成扩展骨架
+cd ./php-5.6.9/ext
+php ext_skel.php --ext musk
+
+2.1 修改config.m4，将
+
+dnl PHP_ARG_WITH(myext, for myext support,
+dnl Make sure that the comment is aligned:
+dnl [  --with-myext             Include myext support])
+修改为
+
+PHP_ARG_WITH(myext, for myext support,
+[  --with-myext             Include myext support])
+下边还有一个 –enable-myext，是表示编译到php内核中。with是作为动态链接库载入的。
+
+2.2 修改musk_module.c
+看到PHP_FUNCTION(confirm_myext_compiled); 这里就是扩展函数声明部分，可以增加一行 PHP_FUNCTION(myext_helloworld); 表示声明了一个myext_helloworld的扩展函数。
+然后修改myext.c，这个是扩展函数的实现部分。
+const zend_function_entry myext_functions[] = {
+        PHP_FE(confirm_myext_compiled,  NULL)           /* For testing, remove later. */
+        PHP_FE(myext_helloworld,  NULL)
+        PHP_FE_END      /* Must be the last line in myext_functions[] */
+};
+这的代码是将函数指针注册到Zend引擎，增加一行PHP_FE(myext_helloworld,  NULL)（后面不要带分号）。
+
+加myext_helloworld的执行代码。
+PHP_FUNCTION(myext_helloworld)
+{
+        char *arg = NULL;
+	int arg_len, len;
+	char *strg;
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
+		return;
+	}
+	php_printf("Hello World!\n");
+	RETURN_TRUE;
+}
+zend_parse_parameters是用来接受PHP传入的参数，RETURN_XXX宏是用来返回给PHP数据。
+
+
+3、在 /root/php-5.6.9/ext/test/ 目录下，建立php扩展模块：
+phpize
+
+4、回到 /root/php-5.6.9/ 目录，重新建立编译需要的配置：（这一步似乎可以忽略）
+cd ../..
+./buildconf --force
+
+5.再到 /root/php-5.6.9/ext/test/ 目录下，生成配置：
+./configure 
+
+6.编译并生成.so扩展文件
+make
+make install
+
+7、配置php.ini 重启php服务（然后修改php.ini加入extension=myext.so
+执行php -r “myext_helloworld(‘test’);”，输出hello world!）

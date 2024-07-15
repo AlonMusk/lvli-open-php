@@ -1,0 +1,18 @@
+
+yum install -y cmake3
+# 使用cmake3编译libzip
+wget https://libzip.org/download/libzip-1.8.0.tar.gz --no-check-certificate
+tar zxvf libzip-1.8.0.tar.gz && cd libzip-1.8.0/
+mkdir build && cd build/
+cmake3 ..
+make && make install
+
+# 重新编译zip扩展
+wget http://pecl.php.net/get/zip-1.16.0.tgz
+tar zxvf zip-1.16.0.tgz && cd zip-1.16.0/
+/www/server/php/74/bin/phpize
+./configure --with-php-config=/www/server/php/74/bin/php-config
+make && make install
+
+# 启动php验证
+/etc/init.d/php-fpm-74 start

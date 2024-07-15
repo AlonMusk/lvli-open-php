@@ -1,0 +1,73 @@
+禁用cookie之后，如何使用session？
+
+1、如果用户禁止cookie，服务器仍会将sessionId以cookie的方式发送给浏览器，但是，浏览器不再保存这个cookie(即sessionId)了。
+可以使用url重写来实现sessionId的跟踪。
+
+2、
+session.use_cookies = 0  //设置客户端是否使用cookie来保存session值  该参数的值不影响上述机制的进行。
+
+但是为了验证该机制，这里把该参数设为0，排除cookie携带seesionid的可能
+
+session.use_only_cookies = 0  //是否只使用cookie来保存session值  该参数为1时，上述机制失效。
+
+设置session.use_trans_sid = 1（可以使用会话 ID 透传机制）或者编译时打开打开了--enable-trans-sid选项
+
+这样他会在每个url后面自动加上PHPSESSID的值，然后正常使用session就可以了。
+
+所以如果想要在浏览器开启cookie的时候用基于cookie的方式，在未开启cookie的时候使用url的方式就进行如下设置（最常用的方式，推荐）
+在php.ini文件中
+session.use_trans_sid=1
+session.use_only_cookies=0
+session.use_cookies=1
+
+
+描述Cookie和Session的作用，区别和各自的应用范围，Session工作原理
+
+1.Cookie的工作原理
+（1）浏览器端第一次发送请求到服务器端
+（2）服务器端创建Cookie，该Cookie中包含用户的信息，然后将该Cookie发送到浏览器端
+（3）浏览器端再次访问服务器端时会携带服务器端创建的Cookie
+（4）服务器端通过Cookie中携带的数据区分不同的用户
+
+2.Session的工作原理
+（1）浏览器端第一次发送请求到服务器端，服务器端创建一个Session，同时会创建一个特殊的Cookie（name为JSESSIONID的固定值，value为session对象的ID），然后将该Cookie发送至浏览器端
+（2）浏览器端发送第N（N>1）次请求到服务器端,浏览器端访问服务器端时就会携带该name为JSESSIONID的Cookie对象
+（3）服务器端根据name为JSESSIONID的Cookie的value(sessionId),去查询Session对象，从而区分不同用户。
+name为JSESSIONID的Cookie不存在（关闭或更换浏览器），返回1中重新去创建Session与特殊的Cookie
+name为JSESSIONID的Cookie存在，根据value中的SessionId去寻找session对象
+value为SessionId不存在**（Session对象默认存活30分钟）**，返回1中重新去创建Session与特殊的Cookie
+value为SessionId存在，返回session对象
+
+四、区别对比：
+(1)cookie数据存放在客户的浏览器上，session数据放在服务器上
+(2)cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗,如果主要考虑到安全应当使用session
+(3)session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，如果主要考虑到减轻服务器性能方面，应当使用COOKIE
+(4)单个cookie在客户端的限制是4K，就是说一个站点在客户端存放的COOKIE不能4K。一个站点最多保存20个Cookie。对于session来说并没有上限。
+(5)所以：将登陆信息等重要信息存放为SESSION;其他信息如果需要保留，可以放在COOKIE中
+
+（6）存储方式不同
+cookie中只能保管ASCII字符串，并需要通过编码方式存储为Unicode字符或者二进制数据。
+session中能够存储任何类型的数据，包括且不限于string，integer，list，map等。
+（7）跨域支持上不同
+cookie支持跨域名访问。
+session不支持跨域名访问。
+（8）有效期上不同
+开发可以通过设置cookie的属性，达到使cookie长期有效的效果。
+session依赖于名为JSESSIONID的cookie，而cookie JSESSIONID的过期时间默认为-1，只需关闭窗口该session就会失效，因而session不能达到长期有效的效果。
+（9）浏览器支持不同
+假如客户端浏览器不支持cookie：
+cookie是需要客户端浏览器支持的，假如客户端禁用了cookie，或者不支持cookie，则会话跟踪会失效。关于WAP上的应用，常规的cookie就派不上用场了。
+运用session需要使用URL地址重写的方式。一切用到session程序的URL都要进行URL地址重写，否则session会话跟踪还会失效。
+
+假如客户端支持cookie：
+cookie既能够设为本浏览器窗口以及子窗口内有效，也能够设为一切窗口内有效。
+session只能在本窗口以及子窗口内有效。
+
+
+
+其他：
+1、Cookie有个数和大小的限制，大小一般是4k
+2、session是基于Cookie技术实现，重启浏览器后再次访问原有的连接依然会创建一个新的session，
+   因为Cookie在关闭浏览器后就会消失，但是原来服务器的Session还在，只有等到了销毁的时间会自动销毁
+   
+   session_id() 可以用来获取/设置 当前会话 ID。

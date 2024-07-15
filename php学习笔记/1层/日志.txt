@@ -1,0 +1,83 @@
+php-fpm 慢日志
+php慢日志需要在php-fpm.conf设置
+查找find / -name php-fpm.conf
+
+开启慢查询日志
+旧的版本是在php-fpm.conf设置 （实际是我忘记了哪个版本），php7.x版本源码包编译后需要www.conf修改慢查询配置
+vim /usr/local/php/etc/php-fpm.d/www.conf
+slowlog 设置慢查询日志的生成目录
+request_slowlog_timeout 设置慢查询的标准时间（打开此配置就相当于开启了慢查询日志），配置以秒为单位，一般设置3s。
+你好
+
+
+php-error 错误日志
+在生产环境中是不允许php报错的，就算报错也是白屏或者500，所以在生产环境中的日志收集是非常重要的。
+，php错误日志的配置都在php.ini文件中
+error_log 错误日志的生成目录
+error_reporting 生产环境错误级别应全开
+display_errors 在页面上不显示错误
+log_errors 开启错误日志
+
+error_log = /var/log/php_error.log
+display_errors = Off
+error_reporting = E_ALL
+log_errors = On
+
+
+1、laravel log 路径：
+/var/www/tthongren/storage/logs/
+
+2、fpm log 
+/var/log/php7.3-fpm.log
+
+3、nginx log 
+/var/log/nginx/laravel-error.log
+
+4/mysql
+ /var/log/mysql/error.log
+
+
+ubuntu16.04系统资源紧缺时杀掉session，进程
+[login]
+KillUserProcesses=no
+to /etc/systemd/logind.conf and reboot.
+
+1、PHP慢脚本日志
+间歇性的502，是后端 PHP-FPM 不可用造成的，间歇性的502一般认为是由于 PHP-FPM 进程重启造成的。
+在 PHP-FPM 的子进程数目超过的配置中的数量时候，会出现间歇性的502错误，如果在配置中设置了max_requests的话，超过数量也会出现502错误，而max_requests的设置，正是为了防止不安全的第三方library脚本的 内存泄露 ，当然你自己编写的脚本存在 死锁 的话，也会出现502现象。
+
+如果你发现mysql负载并不高，但是php-fpm的进程数和内存占用过高的话，恭喜你，大多数情况下是因为脚本存在死锁。
+
+2. 既然找到了是php的问题，如何去定位php脚本呢？
+开启php慢查询日志：
+
+$ sudo vi /usr/loal/php/etc/php-fpm.conf
+; Default Value: 0
+request_slowlog_timeout = 1s
+; The log file for slow requests
+; Default Value: /usr/local/php/log/php-fpm.log.slow
+slowlog = /usr/local/php/log/php-fpm.log.slow
+默认的 request_slowlog_timeout 是0，php的慢脚本日志是关闭的，因此设置为大于0的n，表示执行时间超过n的脚本将记录进入slowlog里。
+然后监测到网站存在问题的时候查看下slowlog即可发现慢脚本，对脚本进行检查处理即可。
+
+3. 2、Mysql的慢查询日志
+mysql慢查询日志对于跟踪有问题的查询非常有用,可以分析出当前程序里有很耗费资源的sql语句,那如何打开mysql的慢查询日志记录呢?
+
+其实打开mysql的慢查询日志很简单,只需要在mysql的配置文件里(windows系统是my.ini,linux系统是my.cnf)的[mysqld]下面加上如下代码：
+
+log-slow-queries=/var/lib/mysql/slowquery.log
+long_query_time=2
+long_query_time=2中的2表示查询超过两秒才记录.
+如果日志内容很多，用眼睛一条一条去看会累死，mysql自带了分析的工具，使用方法如下：
+
+$ cd /usr/local/mysql/bin
+$ mysqldumpslow –help
+-s，是order的顺序，主要有c,t,l,r和ac,at,al,ar，分别是按照query次数，时间，lock的时间和返回的记录数来排序，前面加了a的时倒叙
+-t，是top n的意思，即为返回前面多少条的数据
+-g，后边可以写一个正则匹配模式，大小写不敏感的
+$ mysqldumpslow -s c -t 20 host-slow.log #访问次数最多的20个sql语句
+$ mysqldumpslow -s r -t 20 host-slow.log #返回记录集最多的20个sql
+$ mysqldumpslow -t 10 -s t -g “left join” host-slow.log #按照时间返回前10条里面含有左连接的sql语句
+
+
+

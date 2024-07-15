@@ -1,0 +1,51 @@
+laravel从学徒到工匠  https://xueyuanjun.com/books/laravel-from-appreciate-to-artisan
+
+1、一次laravel请求的生命周期
+
+2、服务容器
+
+3、服务提供者
+
+4、门面
+
+5、契约
+
+
+php生命周期:
+当我们请求一个php文件时,PHP 为了完成这次请求，会发生5个阶段的生命周期切换:
+
+模块初始化（MINIT），即调用 php.ini 中指明的扩展的初始化函数进行初始化工作，如 mysql 扩展。
+
+请求初始化（RINIT），即初始化为执行本次脚本所需要的变量名称和变量值内容的符号表，如 $_SESSION变量。
+
+执行该PHP脚本。
+
+请求处理完成(Request Shutdown)，按顺序调用各个模块的 RSHUTDOWN 方法，对每个变量调用 unset函数，如 unset $_SESSION 变量。
+
+关闭模块(Module Shutdown) ， PHP调用每个扩展的 MSHUTDOWN 方法，这是各个模块最后一次释放内存的机会。这意味着没有下一个请求了。
+
+WEB模式和CLI（命令行）模式很相似，区别是：
+
+CLI 模式会在每次脚本执行经历完整的5个周期，因为你脚本执行完不会有下一个请求；
+WEB模式为了应对并发，可能采用多线程，因此生命周期1和5有可能只执行一次，下次请求到来时重复2-4的生命周期，这样就节省了系统模块初始化所带来的开销。
+可以看出PHP生命周期是很对称的。说了这么多，就是为了定位Laravel运行在哪里，没错，Laravel仅仅运行再 第三个阶段：
+作用
+理解这些，你就可以优化你的 Laravel 代码，可以更加深入的了解 Laravel 的singleton（单例）。至少你知道了，每一次请求结束，PHP 的变量都会 unset，Laravel 的 singleton 只是在某一次请求过程中的singleton；你在 Laravel 中的静态变量也不能在多个请求之间共享，因为每一次请求结束都会 unset。理解这些概念，是写高质量代码的第一步，也是最关键的一步。因此记住，PHP是一种脚本语言，所有的变量只会在这一次请求中生效，下次请求之时已被重置，而不像Java静态变量拥有全局作用。
+
+laravel分为四步：
+1. require __DIR__.'/../bootstrap/autoload.php';
+2. $app = require_once __DIR__.'/../bootstrap/app.php';
+   $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+3. $response = $kernel->handle(
+      $request = Illuminate\Http\Request::capture()
+   );
+   $response->send();
+4. $kernel->terminate($request, $response);
+1、文件载入composer生成的自动加载设置，包括所有你 composer require的依赖。
+2、生成容器Container，Application实例，并向容器注册核心组件（HttpKernel，ConsoleKernel ，ExceptionHandler）（对应代码2，容器很重要，后面详细讲解）。
+
+3、处理请求，生成并发送响应（对应代码3，毫不夸张的说，你99%的代码都运行在这个小小的handle 方法里面）。
+4、请求结束，进行回调（对应代码4，还记得可终止中间件吗？没错，就是在这里回调的）。
+
+
+

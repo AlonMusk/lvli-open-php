@@ -1,0 +1,95 @@
+swoole源码  https://github.com/AlonMusk/swoole-src.git
+
+异步任务队列
+
+主要是使用laravels 投递方法： deliver
+要创建基于  Hhxsv5\LaravelS\Swoole\Task\Task基类的 待处理任务类
+
+
+异步事件监听处理
+分系统事件和自定义异步事件
+系统事件有：laravle应用级别的系统事件和worker进程级别的系统事件 
+
+应用级别系统事件 比如扩展包自带的 laravels.receved_request 和laravels.generated_respose 
+laravels.receved_request swoole\Http\Request 请求实例转化为Illuminte\Http\Reuqest时触发
+源码在 vendor/hhxsv5/laravel-s/src/LaravelS.php
+
+该事件是通过laravel内置的事件分发机制触发的。可以用laravel的事件监听机制监听该事件并进行处理。
+laravels.generated_respose  同理。
+
+进程级别系统事件：
+workerStart  对应事件监听器接口 Hhxsv5\LaravelS\Swoole\Events\WorkerStartInterface 触发时间：当 Worker/Task 进程启动时触发，此时 Laravel 初始化已经完成。
+workStop
+WorkError 
+这3个我们要实现事件监听器类。
+并且在配置文件当中配置  event_handlers
+
+自定义异步事件
+基于swoole的异步任务  需要创建一个继承自 Hhxsv5\LaravelS\Swoole\Task\Event 基类的事件类。
+然后创建监听该事件的监听器类（继承自Hhxsv5\LaravelS\Swoole\Task\Listener 基类） 最后在laravels配置文件的events配置事件和事件监听器的映射关系（可以一个事件绑定多个监听器）
+'events' => [
+    \App\Events\TestEvent::class => [
+        \App\Listeners\TestEventListener::class,
+    ]
+],
+最后测试事件触发：
+$event = new \App\Events\TestEvent('测试异步事件监听及处理');
+$success = \Hhxsv5\LaravelS\Swoole\Task\Event::fire($event);
+
+
+
+
+集成swoole的注意事项记录一下：
+laravels扩展包提供了一个基于swoole的HTTP服务器  
+laravel的应用实例不会回收
+
+主要是单注意例模式 和禁用函数两大类
+单例模式
+如上所述，Laravel 应用实例位于 Swoole 的 Worker 进程中，并且常驻内存，这种模式提升了应用性能的同时，也引入了新的复杂性，因为 Laravel 底层的核心是一个 Application IoC 容器，所有服务都绑定在这个容器里，然后在应用的时候从里面解析，包括通过 singleton 方法以单例模式绑定的服务。
+
+这在传统的每次请求重新初始化新的 Application 容器的开发模式中当然没有什么问题，但是现在问题来了，单例模式绑定的服务在整个应用生命周期内解析时返回的都是同一个对象实例，现在这个生命周期延生到整个 Worker 进程的生命周期，只要 Worker 进程还在，那么多个请求使用的可能都是同一个单例服务，这对不同请求可以复用单例的场景来说是好事，比如数据库连接，但是对另一些场景，不同请求不能复用同一个实例，比如用户认证，则是灾难了，所以在这种场景下，需要在一次请求完成后手动注销这些单例服务（或者在下次实例化先判断单例是否存在，如果存在将其销毁）。
+
+还是以 laravels 扩展包为例，它为我们提供的针对这种场景的解决方案是在每次请求处理完成后调用清理器对这些单例服务进行请求，你可以通过在 laravels 配置文件中注释 cleaners 配置项来启用这些清理器：
+
+'cleaners'                 => [
+    Hhxsv5\LaravelS\Illuminate\Cleaners\SessionCleaner::class, // If you use the session/authentication in your project, please uncomment this line
+
+    Hhxsv5\LaravelS\Illuminate\Cleaners\AuthCleaner::class,    // If you use the authentication/passport in your project, please uncomment this line
+
+    Hhxsv5\LaravelS\Illuminate\Cleaners\JWTCleaner::class,     // If you use the package "tymon/jwt-auth" in your project, please uncomment this line
+    // ...
+],
+上面三个都是用户认证相关的清理器，除此之外，该扩展包还提供了针对 Request 和 Cookie 的清理器，可以去源码中查看，如果你想要自定义清理器，也可以仿照这些自带的清理器实现来编写实现了 Hhxsv5\LaravelS\Illuminate\Cleaners\CleanerInterface 接口的清理器类并将其配置到 cleaners 配置项。
+
+除了清理类之外，还可以像上面介绍的那样，在中间件或者服务提供者中处理新请求时销毁已存在的单例服务（laravels 配置文件中包含一个 register_providers 配置项，用于在每次请求处理时重新初始化服务绑定设置）。
+
+同理，通过 static 定义的静态变量也要在必要的时候进行清理，通过 global 定义的全局变量则要慎用，因为它会在同一个 Worker 进程处理的多个请求中复用。
+
+禁用函数
+1、exit/die 相关
+由于 Swoole 中禁用 exit/die 函数，所以在 Laravel 中也不能使用它们，以及与之相关的 dd 函数。
+2、请求相关
+不要使用 $_GET/$_POST/$_FILES/$_COOKIE/$_REQUEST/$_SESSION/$GLOBALS/$_ENV 之类的超全局变量，统一通过 Illuminate\Http\Request 对象获取请求数据。
+另外，Swoole 限制 GET 请求头长度不能超过 2KB，POST 请求数据长度也会通过 package_max_length 配置进行限制，默认是 2M。
+3、响应相关
+统一通过 Illuminate\Http\Response 返回响应，不要使用 header()/setcookie()/http_response_code() 之类的函数，以免引起异常问题。
+4、flush 相关
+swoole_http_response 不支持 flush 函数，所以不要使用与之相关的 flush/ob_flush/ob_end_flush/ob_implicit_flush 等函数。
+
+
+共享内存读写工具 swoole\Table
+
+Socket.io提供了基于事件的实时双向通讯
+https://www.jianshu.com/p/4e80b931cdea
+https://www.jianshu.com/p/a3e06ec1a3a0
+Socket.io将数据传输部分独立出来形成engine.io，engine.io对WebSocket和AJAX轮询进行了封装，形成了一套API，屏蔽了细节差异和兼容性问题，实现了跨浏览器/跨设备进行双向数据通信。
+
+swoole和laravel启动过程：（本质上讲 swoole充当一个服务器，而laravel就是一个应用。）
+这个 Swoole 服务器启动后，会开启多个 Worker 进程，在每个 Worker 进程中，Laravel 应用启动及之前的环境初始化工作只执行一次，请求结束后，Laravel 应用实例不会回收，后续发给该 Worker 进程处理的请求会复用之前已经启动的 Laravel 应用实例，再结合 MySQL、Redis 长连接，从而极大提高了 Laravel 应用的性能。
+
+
+
+
+
+
+

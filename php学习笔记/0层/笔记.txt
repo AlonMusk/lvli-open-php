@@ -1,0 +1,306 @@
+
+https://help.aliyun.com/document_detail/187598.html
+
+tail -20 /var/log/supervisord.log
+
+
+安装过程
+
+网络模式：
+桥接模式
+
+问题1： 桥接模式下，没有找到网卡  
+查看网络连接属性当中是否存在“VirtualBox Bridged Networking Driver”，如下图所示，如果没选中则选中。如果没有该驱动，则点击“安装”–“服务”–“添加”–“从磁盘安装”–“浏览”
+找到virtualbox安装目录下的这个路径
+选择VBoxNetLwf.inf，进行安装。
+再返回virtualbox中选择桥接网卡，即可选择对应的界面名称。
+
+问题2：虚拟机ping不通主机。防火墙导致的
+1.打开windows 防火墙，选择高级设置 
+2.选择入栈规则
+3.找到“文件和打印共享(回显请求 – ICMPv4-In)”
+4.右击，选择属性，点击已启用
+5.点击确定，解决问题。
+
+问题3：容器启动报错 ERRO[0063] Error setting up exec command in
+sudo sysctl -w vm.max_map_count=262144
+
+问题4 ：apt-get update 报错 比如： Temporary failure resolving 'archive.ubuntu.com'
+关闭防火墙 重启nginx 重启docker
+关闭防火墙和 SElinux
+[root@promote ~]# systemctl stop firewalld.service
+[root@promote ~]# setenforce 0  (关闭SElinux 这一步不能少 因为可能会出现 403 is forbidden)
+/etc/init.d/nginx start
+cd /etc/docker
+touch daemon.json
+然后将如下的内容放入daemon.json里面
+{                                                                          
+    "dns": ["8.8.8.8", "114.114.114.114"]             
+}   
+systemctl restart docker
+
+问题5  docker  apt-get太慢
+cp   /etc/apt/sources.list  /etc/apt/sources.list.bak
+echo > /etc/apt/sources.list
+cat >> /etc/apt/sources.list <<EOF
+deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb http://mirrors.aliyun.com/debian-security stretch/updates main
+deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
+deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+EOF
+
+问题6：vim : Depends: libtinfo5 (>= 6) but it is not going to be installed
+#docker 系统基本版：debian:buster-slim
+#执行安装 apt-get install vim时出错
+# 依赖库版本过低导致
+#重新安装
+ apt install -y libtinfo5 --allow-remove-essential
+ 
+ 问题7 不能安装增强功能  
+ 先进入桌面(
+ 安装
+ yum  groupinstall "Server with GUI" -y   
+ systemctl set-default graphical 
+ sudo yum install elfutils-libelf-devel
+ reboot )，将增强包弹出，在安装，在桌面弹出窗口安装即可
+ 
+ 安装增强功能：
+ 用root
+ 
+ 问题8： docker  Temporary failure resolving 'archive.ubuntu.com'
+ sudo vim /etc/resolv.conf
+添加
+nameserver 114.114.114.114
+nameserver 8.8.8.8
+运行完重启系统解决
+会被重置
+必须要在/etc /sysconfig/network-scripts/ifcfg-eth0里面最后加上dns的设置
+修改/etc /sysconfig/network-scripts/ifcfg-eth0
+DNS1=192.168.30.2
+之后重启网卡
+立即生效connection，有3种方法
+nmcli c up ethX
+nmcli d reapply ethX
+nmcli d connect ethX
+
+
+问题9： docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+原因是 docker 没有启动
+开启docker: 
+systemctl start docker
+产看docker 进程 ps -ef | grep docker
+
+问题10 Package "mongodb" Version "1.6.0" does not have REST xml available
+install failed
+pecl channel-update pecl.php.net   更新其协议，再安装。
+
+问题11 相互可以ping通但是访问不了虚拟机
+把虚拟机centos防火墙关闭
+
+问题12
+密码：
+su: 鉴定故障
+解决方法：
+使用命令：sudo su root
+
+问题13 403 is forbidden
+引起nginx 403 forbidden通常是三种情况：一是缺少索引文件，二是权限问题，三是SELinux状态
+
+问题14 unknown directive "﻿server" in
+conf文件被记事本编辑过，保存成了含[BOM] 。所以才报错的
+
+网卡：
+/etc/sysconfig/network-scripts
+
+安装docker
+0、删除旧的docker
+sudo yum remove docker \
+docker-client \
+docker-client-latest \
+docker-common \
+docker-latest \
+docker-latest-logrotate \
+docker-logrotate \
+docker-selinux \
+docker-engine-selinux \
+docker-engine
+1、运行以下命令，安装Docker存储驱动的依赖包。
+dnf install -y device-mapper-persistent-data lvm2
+运行以下命令，添加稳定的Docker软件源。
+2、dnf config-manager --add-repo=https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+运行以下命令，查看已添加的Docker软件源。
+3、dnf list docker-ce
+正确的返回示例如下。
+docker-ce.x86_64        3:19.03.13-3.el7        docker-ce-stable
+4、运行以下命令安装Docker。
+dnf install -y docker-ce --nobest
+5、运行以下命令启动Docker。
+systemctl start docker
+
+拉取镜像
+mysql
+1. 获取 mysql 镜像
+docker pull mysql:5.7
+2.启动容器 cyt_mysql
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name cyt_mysql mysql:5.7
+Copy
+命令参数解释：
+-p:端口映射，映射容器的3306
+后面就是密码和名称
+
+php7.3
+1. 获取 php7.3 镜像
+docker pull php:7.3-fpm
+2.创建 PHPfpm 容器
+docker run -d -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link cyt_mysql:mysql --name cyt_phpfpm php:7.3-fpm 
+命令参数解释：
+-v 前面是主机的目录映射容器的目录
+link：挂上msyql
+
+测试目录映射：
+进入到PHP容器 (可以用name也可以用容器id)
+docker exec -it cyt_phpfpm /bin/bash
+就会到var/www/html 目录，新建一个PHP文件
+touch test.php
+然后退出容器
+exit
+到主机的 var/nginx/www/html 目录下也出现了个test.php
+
+
+在php容器进行 php 的扩展安装
+1.docker-php-ext-install pdo_mysql（curl ...）
+
+要安装php-redis的话，需要另外下载,执行下面这个命令就可以了，有问就no或者空格就好
+pecl install redis && docker-php-ext-enable redis
+
+2.安装后 php -m
+发现就都有了哦
+
+
+nginx容器
+1.获取 Nginx1.18.0 镜像
+docker pull nginx:1.18.0
+
+2.运行nginx容器
+ docker run -d -p 80:80 --name cyt_nginx -v /var/nginx/www/html:/var/www/html --link cyt_phpfpm:phpfpm --name cyt_nginx nginx:1.18.0
+
+参数解释
+-p:映射80端口
+-v:映射目录，最好和PHP的一样
+-name:容器名
+-link：跟PHP关联
+
+主机和容器共享文件
+可以先实现宿主机和虚拟机的共享，虚拟机和容器的共享。间接实现
+docker run --name test -it -v //f/workspace/new/erp-api:/var/www/html    nginx:1.18.0  /bin/bash
+
+安装docker-compose
+1、安装python-pip
+yum -y install epel-release
+dnf install -y python3
+dnf install python3-paramiko
+
+2、安装docker-compose
+pip3 install docker-compose -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
+3、查看docker-compose版本
+docker-compose version
+
+ 
+删除所有的容器
+docker rm $(docker ps -aq)
+删除所有的镜像
+docker rmi $(docker images -q)
+  
+安装laraveldock 
+先将workspace 下面的dockerfile的Mandatory Software's Installation 之前脚本代码 添加一个 apt-get update 命令
+将
+curl -o- https://monitor-majors.oss-cn-shenzhen.aliyuncs.com/install.sh|bash \
+替换行
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh|bash \
+
+运行容器
+docker-compose up -d nginx mysql phpmyadmin redis workspace 
+进入workspace容器
+docker-compose exec --user=laradock workspace bash
+docker-compose exec workspace bash
+
+启动docker
+systemctl start docker
+
+创建laravel项目
+composer create-project laravel/laravel demo --prefer-dist "5.5.*"
+没有权限
+sudo chmod -R 777
+
+基于laradock在docker中快速构建laravel应用：
+https://xueyuanjun.com/post/6582.html
+
+重启nginx
+docker-compose restart nginx
+
+让你的Nginx容器加载你的配置
+# 在Laradock目录下
+docker-compose exec nginx nginx -t
+docker-compose exec nginx nginx -s reload
+
+
+给centos添加新用户
+sudo adduser www-data
+给新用户设置密码
+sudo passwd www-data
+删除用户
+sudo userdel www-data
+在CentOS上，默认情况下，对转轮的成员具有sudo访问权限。
+如果您希望新创建的用户具有管理权限，则将该用户添加到组中：
+sudo usermod -aG wheel www-data
+查看用户列表
+cat /etc/group
+
+建立 docker 组：
+$ sudo groupadd docker
+将当前用户加入 docker 组：
+$ sudo usermod -aG docker $USER
+
+
+
+//卸载挂载
+umount -v  目录
+mount -t vboxsf -o uid=1000,gid=1001 www /mnt/www/
+//linux拥有访问共享文件权限 ：  docker  982  www-data  1001
+mount -t vboxsf -o uid=1001,gid=1001 erp-api   /var/www/erp-api
+
+//查看nginx的运行角色
+查看/etc/nginx/nginx.conf
+
+修改laradock的php.ini配置文件
+如果直接修改php-fpm目录下的php7.3.ini，是不会生效的，哪怕你rebuild都不会重新生效。
+其实要修改的是php-fpm目录下的laravel.ini文件。
+修改php.ini ：是要修改完laravel.ini之后按照如下三个步骤操作，即可生效。
+1，docker-compose stop
+2，docker-compose build php-fpm
+
+laradock安装php扩展
+1. 修改 .env PHP_FPM配置
+PHP_FPM_INSTALL_BCMATH=true
+2. 执行 build 命令
+这里注意需要进入到 laradock 所在路劲内
+docker-compose build php-fpm
+
+docker-compose build --no-cache workspace php-fpm
+
+安装swoole扩展
+http://www.imleslie.com/topics/108
+
+查看是否安装mongo扩展
+docker-compose exec workspace bash
+php -m | grep mongo
+
+//执行脚本
+shell_exec()
+
+
+

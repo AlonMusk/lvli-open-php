@@ -1,0 +1,280 @@
+
+PUT test_shop_scheme
+{
+  "mappings": {
+    "properties": {
+      "pic_id": {
+        "type": "integer"
+      },
+      "pic_name": {
+        "type": "text"
+      },
+      "label_category": {
+        "type": "nested",
+        "properties": {
+          "label_id": {
+            "type": "integer"
+          },
+          "label_name": {
+            "type": "text"
+          },
+          "label_subcategory": {
+            "type": "nested",
+            "properties": {
+              "label_id": {
+                "type": "integer"
+              },
+              "label_name": {
+                "type": "text"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+PUT test_shop_scheme/_doc/1
+{
+  "pic_id": 1,
+  "pic_name": "图册1",
+  "label_category": [
+    {
+      "label_id": 1,
+      "label_name": "面积",
+      "label_subcategory": [
+        {
+          "label_id": 11,
+          "label_name": "50m以下"
+        }
+      ]
+    },
+    {
+      "label_id": 2,
+      "label_name": "户型",
+      "label_subcategory": [
+        {
+          "label_id": 21,
+          "label_name": "一室"
+        }
+      ]
+    },
+    {
+      "label_id": 3,
+      "label_name": "空间",
+      "label_subcategory": [
+        {
+          "label_id": 31,
+          "label_name": "玄关"
+        }
+      ]
+    },
+    {
+      "label_id": 4,
+      "label_name": "风格",
+      "label_subcategory": [
+        {
+          "label_id": 41,
+          "label_name": "北欧"
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+GET test_shop_scheme/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "nested": {
+            "path": "label_category",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "term": {
+                      "label_category.id": 41
+                    }
+                  },
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            111,
+                            222,
+                            441,
+                            442
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET test_shop_scheme/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "nested": {
+            "path": "label_category",
+            "query": {
+              "bool": {
+                "should": [
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            11
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            12
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "label_category",
+            "query": {
+              "bool": {
+                "should": [
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            21
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            22
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "label_category",
+            "query": {
+              "bool": {
+                "should": [
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            31
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            32
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "label_category",
+            "query": {
+              "bool": {
+                "should": [
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            42
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "nested": {
+                      "path": "label_category.label_subcategory",
+                      "query": {
+                        "terms": {
+                          "label_category.label_subcategory.label_id": [
+                            42
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

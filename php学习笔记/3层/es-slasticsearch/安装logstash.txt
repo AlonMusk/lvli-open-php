@@ -1,0 +1,42 @@
+https://www.jianshu.com/p/1bffca69ac1a
+
+
+下载 https://artifacts.elastic.co/packages/7.x/yum/7.13.3/logstash-7.13.3-x86_64.rpm
+rpm -ivh logstash-7.13.3-x86_64.rpm
+
+
+rpm -ql logstash #查看安装目录
+ln -s /usr/share/logstash/bin/logstash /bin/ #创建软链接
+4.测试
+
+logstash -e 'input { stdin { } } output { stdout {} }' 
+#运行成功后输入任意内容测试
+
+/etc/logstash/logstash.yml
+
+
+安装 mysql-connector-java 包
+https://repo1.maven.org/maven2/mysql/mysql-connector-java/
+https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.11/mysql-connector-java-8.0.11.jar
+官方更推荐MySQL5.6以上使用connector/j 8.0
+Connector/J  version	JRE Supported
+8.0	          1.8.x
+
+
+logstash -f /etc/logstash/logstash-mysql.conf
+
+
+
+https://blog.csdn.net/weixin_42400518/article/details/113386003?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.control&spm=1001.2101.3001.4242
+
+https://www.jianshu.com/p/970c1e0c672d
+
+
+常见问题：
+1、[ERROR][logstash.config.sourceloader] No configuration found in the configured sources.
+./logstash -f logstash.conf
+config文件路径写错了
+
+2、ruby报错
+conf里面的
+filter 配置有误  比如 关于timestamp的配置

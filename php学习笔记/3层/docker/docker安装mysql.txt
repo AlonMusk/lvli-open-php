@@ -1,0 +1,17 @@
+docker pull mysql:5.7
+
+docker run -d -p 3306:3306 --privileged=true -v /docker/mysql/conf/my.cnf:/etc/my.cnf -v /docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+
+--privileged=true 获取临时的selinux的权限
+-v 宿主机目录挂在到容器的地址，映射
+-e MYSQL_ROOT_PASSWORD 初始化密码
+
+-v /docker/mysql/conf/my.cnf:/etc/my.cnf   将服务器中的my.cnf配置映射到docker中的/docker/mysql/conf/my.cnf配置
+
+新建MySQL用户, 先进入容器
+docker exec -it mysql bash
+  执行MySQL命令, 输入root密码, 连接MySQL
+mysql -uroot -p
+　　输入密码后, 执行下面命令创建新用户 (用户名: test , 密码: test123)
+
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' IDENTIFIED BY 'test123' WITH GRANT OPTION;

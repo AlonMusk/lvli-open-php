@@ -1,0 +1,63 @@
+ 
+https://learnku.com/articles/48200
+
+
+# Download and install the public signing key:
+$ rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+# 添加 yum 源
+$ vim /etc/yum.repos.d/elasticsearch-7.x.repo
+# 要添加的内容 ##################################################################
+[elasticsearch-7.x] 
+name=Elasticsearch repository for  7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1 
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1 
+autorefresh=1 
+type=rpm-md
+###############################################################################
+
+# 安装 es
+$ yum install -y elasticsearch
+
+# 管理 es
+$ systemctl start elasticsearch.service
+$ systemctl stop elasticsearch.service
+
+# 测试 elasticsearch
+# 参考 https://www.elastic.co/guide/cn/elasticsearch/guide/current/running-elasticsearch.html
+$ curl http://127.0.0.1:9200?pretty 
+
+
+外网访问 Elasticsearch
+
+1、编辑 elasticsearch 配置文件：vim /etc/elasticsearch/elasticsearch.yml
+找到 network.host 这一行，更改为 network.host: 0.0.0.0
+
+2、重启服务，发现报错
+
+ERROR: [1] bootstrap checks failed
+[1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+
+3、以 root 账户更改 /etc/sysctl.conf 文件，添加如下内容
+
+vm.max_map_count=655360
+
+4、以 root 账户执行下面命令
+
+[***@elk01 ~]$ sudo sysctl -p
+vm.max_map_count = 655360
+
+5、再次启动服务，开放 9200 端口。依然会报错 ERROR: [1] bootstrap checks failed
+[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
+
+6、在 elasticsearch.yml 中添加配置项：
+
+bootstrap.memory_lock: false
+bootstrap.system_call_filter: false
+
+cluster.initial_master_nodes: ["node-1"]
+这个的话，这里的 node-1 是上面一个默认的记得打开就可以了
+
+7、再次重启服务，成功开启 es 服务

@@ -1,0 +1,14 @@
+//指定box目录安装
+vagrant box add laravel/homestead ~/Downloads/virtualbox.box
+
+
+{
+    "name": "laravel/homestead",
+    "versions": [{
+        "version": "8.5.1", 
+        "providers": [{
+            "name": "virtualbox",
+            "url": "E:\zwpeng\workspce\Homestead\homestead-virtualbox-0.4.4.box"  
+        }]
+    }]
+}

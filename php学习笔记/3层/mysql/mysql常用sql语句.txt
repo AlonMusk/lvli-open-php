@@ -1,0 +1,26 @@
+新增一列：
+
+1.添加列（add）
+alter table 表名 add 列名 列的类型( 列的约束);
+alter table student add chengji int not null;
+
+alter  TABLE `li_order` add `addr_id` int(4) DEFAULT 0 COMMENT '地址ID'
+
+alter  TABLE `li_order` add  `pay_type` int(4) DEFAULT 0 COMMENT '支付方式 0:小程序支付' after  `evaluate_status`; 
+ alter  TABLE `li_order` add `pay_at`  timestamp  DEFAULT NULL COMMENT '支付时间' after  `evaluate_status`;
+ alter  TABLE `li_order` add `express_type` int(4) DEFAULT 0 COMMENT '配送方式 0:立即送出' after  `evaluate_status`;
+ alter  TABLE `li_order` add `issue_invoice` int(4) DEFAULT '0' COMMENT '是否已开发票 0:否 1:是' after  `evaluate_status`;
+
+
+4.删除列（drop）
+alter table 表名 drop  列名;
+alter table student drop chengji;
+alter  TABLE `li_order` drop `addr_id`
+
+2.修改列（modify）
+alter table 表名 modify  列名 列的类型( 列的约束);
+alter table student modify sex varchar(2);
+
+3.修改列名（change）
+alter table 表名 change  列名 新的列名 列的类型( 列的约束);
+alter table student change sex gender varchar(2);

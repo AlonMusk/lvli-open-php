@@ -1,0 +1,82 @@
+问题1： 桥接模式下，没有找到网卡  
+查看网络连接属性当中是否存在“VirtualBox Bridged Networking Driver”，如下图所示，如果没选中则选中。如果没有该驱动，则点击“安装”–“服务”–“添加”–“从磁盘安装”–“浏览”
+找到virtualbox安装目录下的这个路径
+选择VBoxNetLwf.inf，进行安装。
+再返回virtualbox中选择桥接网卡，即可选择对应的界面名称。
+
+问题2：虚拟机ping不通主机。防火墙导致的
+1.打开windows 防火墙，选择高级设置 
+2.选择入栈规则
+3.找到“文件和打印共享(回显请求 – ICMPv4-In)”
+4.右击，选择属性，点击已启用
+5.点击确定，解决问题。
+
+问题3：容器启动报错 ERRO[0063] Error setting up exec command in
+sudo sysctl -w vm.max_map_count=262144
+
+问题4 ：apt-get update 报错 比如： Temporary failure resolving 'archive.ubuntu.com'
+关闭防火墙 重启nginx 重启docker
+关闭防火墙和SElinux
+[root@promote ~]# systemctl stop firewalld.service
+[root@promote ~]# setenforce 0
+/etc/init.d/nginx start
+cd /etc/docker
+touch daemon.json
+然后将如下的内容放入daemon.json里面
+{                                                                          
+    "dns": ["8.8.8.8", "114.114.114.114"]             
+}   
+systemctl restart docker
+
+问题5  docker  apt-get太慢  执行命令：
+cp   /etc/apt/sources.list  /etc/apt/sources.list.bak
+echo > /etc/apt/sources.list
+cat >> /etc/apt/sources.list <<EOF
+deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb http://mirrors.aliyun.com/debian-security stretch/updates main
+deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
+deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+EOF
+
+问题6：vim : Depends: libtinfo5 (>= 6) but it is not going to be installed
+#docker 系统基本版：debian:buster-slim
+#执行安装 apt-get install vim时出错
+# 依赖库版本过低导致
+#重新安装
+ apt install -y libtinfo5 --allow-remove-essential
+ 
+ 问题7 不能安装增强功能  
+ 先进入桌面(
+ 安装
+ yum  groupinstall "Server with GUI" -y   
+ systemctl set-default graphical 
+ sudo yum install elfutils-libelf-devel
+ reboot )，将增强包弹出，在安装，在桌面弹出窗口安装即可
+ 安装增强功能：
+ 用root
+ 
+ 问题8： docker  Temporary failure resolving 'archive.ubuntu.com'
+ sudo vim /etc/resolv.conf
+添加
+nameserver 114.114.114.114
+nameserver 8.8.8.8
+
+在/etc /sysconfig/network-scripts/ifcfg-eth0里面最后加上dns的设置
+修改/etc /sysconfig/network-scripts/ifcfg-eth0
+DNS1=192.168.30.2
+之后重启网卡
+立即生效connection，有3种方法
+nmcli c up ethX
+nmcli d reapply ethX
+nmcli d connect ethX
+
+
+问题9： docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+原因是 docker 没有启动
+开启docker: 
+systemctl start docker
+查看docker 进程 ps -ef | grep docker

@@ -1,0 +1,95 @@
+
+阮一峰博客
+架构概念：请求的生命周期 服务容器 服务提供者 门面  契约
+
+请求的生命周期：http/console 处于核心枢纽
+服务容器：
+服务提供者：
+门面：
+契约：就是接口
+
+31个:
+Auth
+Broadcasting
+Bus
+Cache
+Config
+console
+container
+contracts
+Cookie
+DataBase
+// Debug
+Encryption
+Events
+Filesystem
+Foundation
+Hashing
+Http
+LOG
+Mail
+Notifications
+Pagination
+Pipeline
+Queue
+Redis
+Routing
+Session
+Support
+Testing
+Translation
+Validation
+View
+
+
+
+composer create-project --prefer-dist laravel/laravel apidemo 5.5.*
+迁移和模型
+php artisan make:model Article -m
+php artisan migrate
+数据库填充
+php artisan make:seeder ArticlesTableSeeder
+php artisan db:seed
+php artisan make:controller ArticleController
+认证
+php artisan make:migration --table=users adds_api_token_to_users_table
+
+
+
+200：OK，标准的响应成功状态码
+201：Object created，用于 store 操作
+204：No content，操作执行成功，但是没有返回任何内容
+206：Partial content，返回部分资源时使用
+400：Bad request，请求验证失败
+401：Unauthorized，用户需要认证
+403：Forbidden，用户认证通过但是没有权限执行该操作
+404：Not found，请求资源不存在
+500：Internal server error，通常我们并不会显示返回这个状态码，除非程序异常中断
+503：Service unavailable，一般也不会显示返回，通常用于排查问题用
+
+
+内存级的SQLite
+为测试设置模型工厂
+php  artisan make:factory ArticleFactory
+
+编写测试用例
+php artisan make:test LoginTest
+
+composer test
+
+JWT是什么？ VUE SPA又是什么  VUE单页面应用
+
+php  artisan make:transformer UserTransformer
+
+
+php artisan make:resource ArticleResource
+
+
+API构建的多个角度：
+功能角度  限流、开关降级以及性能优化等角度
+
+
+持续集成 （CI） continuous iIntergration
+
+开箱即用 CircleCI 
+JAVA go ruby  python PHP   Node.js

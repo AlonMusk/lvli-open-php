@@ -1,0 +1,61 @@
+用laradock安装或者     pecl install https://pecl.php.net/get/swoole-4.6.1.tgz
+pecl install swoole
+[swoole]
+extension=swoole.so
+
+# 如果只想在开发环境安装请加上 --dev
+composer require swoole/ide-helper:@dev --dev 
+
+安装配置 LaravelS
+在 Laravel 应用中使用 Swoole 之前，先通过 Composer 安装 LaravelS 扩展包：
+composer require hhxsv5/laravel-s
+
+php artisan laravels publish
+
+
+通过 Supervisor 管理 LaravelS
+[program:laravel-s-test]
+command=/user/local/bin/php /path/to/project/bin/laravels start -i
+numprocs=1
+autostart=true
+autorestart=true
+startretries=3
+user=www-data
+redirect_stderr=true
+stdout_logfile=/path/to/project/storage/logs/supervisord-stdout.log
+
+upstream laravels {
+    # Connect IP:Port
+    server workspace:5200 weight=5 max_fails=3 fail_timeout=30s;
+    keepalive 16;
+}
+server {
+    listen 80;
+    
+    server_name erp-api.fulan.com;
+    root /var/www/erp-api/public;
+    index index.php index.html index.htm;
+    
+    # Nginx 处理静态资源，LaravelS 处理动态资源
+    location / {
+        try_files $uri @laravels;
+    }
+    
+    location @laravels {
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Real-PORT $remote_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header Scheme $scheme;
+        proxy_set_header Server-Protocol $server_protocol;
+        proxy_set_header Server-Name $server_name;
+        proxy_set_header Server-Addr $server_addr;
+        proxy_set_header Server-Port $server_port;
+        proxy_pass http://laravels;
+    }
+}
+
+
+

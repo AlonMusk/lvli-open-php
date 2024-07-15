@@ -1,0 +1,68 @@
+安装docker
+0、删除旧的docker
+sudo yum remove docker \
+docker-client \
+docker-client-latest \
+docker-common \
+docker-latest \
+docker-latest-logrotate \
+docker-logrotate \
+docker-selinux \
+docker-engine-selinux \
+docker-engine
+
+1、运行以下命令，安装Docker存储驱动的依赖包。
+dnf install -y device-mapper-persistent-data lvm2
+运行以下命令，添加稳定的Docker软件源。
+2、dnf config-manager --add-repo=https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+运行以下命令，查看已添加的Docker软件源。
+3、dnf list docker-ce
+正确的返回示例如下。
+docker-ce.x86_64        3:19.03.13-3.el7        docker-ce-stable
+4、运行以下命令安装Docker。
+dnf install -y docker-ce --nobest
+5、运行以下命令启动Docker。
+systemctl start docker
+
+6、安装docker-compose
+6.1、安装python-pip
+yum -y install epel-release
+dnf install -y python3
+dnf install python3-paramiko
+
+6.2、安装docker-compose
+pip3 install docker-compose -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
+6.3、查看docker-compose版本
+docker-compose version
+
+7、安装laraveldock 
+在/var/www 执行
+git clone https://github.com/LaraDock/laradock.git
+备份 docker-compose.yml   workspace/Dockerfile  php-fpm/Dockerfile    php-fpm/laravel.ini  然后拿到文件去覆盖
+
+8、创建laravel项目
+在/var/www 执行
+composer create-project laravel/laravel demo（项目名） --prefer-dist "5.5.*"
+如果是已有项目 可以通过挂载形式 让docker可以访问项目
+mount -t vboxsf -o uid=0<用户id>,gid=0<用户组id> share-test(共享名称)   /var/www/share-test(linux下的路径)
+mount -t vboxsf -o uid=0,gid=0 share-test   /var/www/html/share-test
+
+9、在  nginx/sites/ 下新增站点配置文件
+
+让Nginx容器加载你的配置
+docker-compose exec nginx nginx -t
+docker-compose exec nginx nginx -s reload
+
+10、构建容器
+docker-compose build --no-cache workspace php-fpm nginx
+docker-compose build --no-cache mysql
+11、运行容器
+docker-compose up -d workspace php-fpm nginx
+docker-compose up -d mysql
+
+12、进入workspace容器
+docker-compose exec workspace bash
+找到项目根目录 执行 composer install
+
+13、调试配置是否成功
+

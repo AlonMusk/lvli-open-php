@@ -1,0 +1,139 @@
+
+概述
+PHP支持的由Daniel Stenberg创建的libcurl库允许你与各种的服务器使用各种类型的协议进行连接和通讯。
+
+libcurl目前支持http、https、ftp、gopher、telnet、dict、file和ldap协议。libcurl同时也支持HTTPS认证、HTTP POST、HTTP PUT、 FTP 上传(这个也能通过PHP的FTP扩展完成)、HTTP 基于表单的上传、代理、cookies和用户名+密码的认证。
+
+PHP中使用cURL实现Get和Post请求的方法
+
+这些函数在PHP 4.0.2中被引入。
+
+PHP cURL 函数
+以下包含了PHP cURL函数列表：
+
+函数	描述
+curl_close()	关闭一个cURL会话。
+curl_copy_handle()	复制一个cURL句柄和它的所有选项。
+curl_errno()	返回最后一次的错误号。
+curl_error()	返回一个保护当前会话最近一次错误的字符串。
+curl_escape()	返回转义字符串，对给定的字符串进行URL编码。
+curl_exec()	执行一个cURL会话。
+curl_file_create()	创建一个 CURLFile 对象。
+curl_getinfo()	获取一个cURL连接资源句柄的信息。
+curl_init()	初始化一个cURL会话。
+curl_multi_add_handle()	向curl批处理会话中添加单独的curl句柄。
+curl_multi_close()	关闭一组cURL句柄。
+curl_multi_exec()	运行当前 cURL 句柄的子连接。
+curl_multi_getcontent()	如果设置了CURLOPT_RETURNTRANSFER，则返回获取的输出的文本流。
+curl_multi_info_read()	获取当前解析的cURL的相关传输信息。
+curl_multi_init()	返回一个新cURL批处理句柄。
+curl_multi_remove_handle()	移除curl批处理句柄资源中的某个句柄资源。
+curl_multi_select()	等待所有cURL批处理中的活动连接。
+curl_multi_setopt()	设置一个批处理cURL传输选项。
+curl_multi_strerror()	返回描述错误码的字符串文本。
+curl_pause()	暂停及恢复连接。
+curl_reset()	重置libcurl的会话句柄的所有选项。
+curl_setopt_array()	为cURL传输会话批量设置选项。
+curl_setopt()	设置一个cURL传输选项。
+curl_share_close()	关闭cURL共享句柄。
+curl_share_init()	初始化cURL共享句柄。
+curl_share_setopt()	设置一个共享句柄的cURL传输选项。
+curl_strerror()	返回错误代码的字符串描述。
+curl_unescape()	解码URL编码后的字符串。
+curl_version()	获取cURL版本信息。
+
+
+curl_setopt — 设置一个cURL传输选项。
+说明
+bool curl_setopt ( resource $ch , int $option , mixed $value )
+为给定的cURL会话句柄设置一个选项。
+参数
+ch 由 curl_init() 返回的 cURL 句柄。
+option  需要设置的CURLOPT_XXX选项。
+value  将设置在option选项上的值。
+
+//以下代码没有测试过的
+// form.php
+
+   /**
+    * curl Post文件，
+    * 
+    * @param $action (处理上传文件的url，form表单的action)
+    * @param $path (文件路径)
+    **/
+    function upload_file($action, $path){
+        $data = array(
+            'pic'=>new CURLFile($path)
+          // 如果无效可以这样
+         // 'pic'=>curl_file_create($path)	
+            'name'  =>  'issac'
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $action);
+        curl_setopt($ch, CURLOPT_POST, true );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);  //该curl_setopt可以向header写键值对
+        curl_setopt($ch, CURLOPT_HEADER, false); // 不返回头信息
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;       
+    }
+   
+    // 调用
+    upload_file('accrpt.php', '/files/img.png');
+	
+	
+	// accept.php  传文件处理脚本
+print_r($_FILES);  // 输出上传到服务器的临时文件的信息
+print_r($_POST);  // name => issac
+
+常见命令行
+https://www.jianshu.com/p/07c4dddae43a
+常用参数分类：
+# 调试类
+-v, --verbose                          输出信息
+-q, --disable                          在第一个参数位置设置后 .curlrc 的设置直接失效，这个参数会影响到 -K, --config -A, --user-agent -e, --referer
+-K, --config FILE                      指定配置文件
+-L, --location                         跟踪重定向 (H)
+
+# CLI显示设置
+-s, --silent                           Silent模式。不输出任务内容
+-S, --show-error                       显示错误. 在选项 -s 中，当 curl 出现错误时将显示
+-f, --fail                             不显示 连接失败时HTTP错误信息
+-i, --include                          显示 response的header (H/F)
+-I, --head                             仅显示 响应文档头
+-l, --list-only                        只列出FTP目录的名称 (F)
+-#, --progress-bar                     以进度条 显示传输进度
+
+# 数据传输类
+-X, --request [GET|POST|PUT|DELETE|…]  使用指定的 http method 例如 -X POST
+-H, --header <header>                  设定 request里的header 例如 -H "Content-Type: application/json"
+-e, --referer                          设定 referer (H)
+-d, --data <data>                      设定 http body 默认使用 content-type application/x-www-form-urlencoded (H)
+    --data-raw <data>                  ASCII 编码 HTTP POST 数据 (H)
+    --data-binary <data>               binary 编码 HTTP POST 数据 (H)
+    --data-urlencode <data>            url 编码 HTTP POST 数据 (H)
+-G, --get                              使用 HTTP GET 方法发送 -d 数据 (H)
+-F, --form <name=string>               模拟 HTTP 表单数据提交 multipart POST (H)
+    --form-string <name=string>        模拟 HTTP 表单数据提交 (H)
+-u, --user <user:password>             使用帐户，密码 例如 admin:password
+-b, --cookie <data>                    cookie 文件 (H)
+-j, --junk-session-cookies             读取文件中但忽略会话cookie (H)
+-A, --user-agent                       user-agent设置 (H)
+
+# 传输设置
+-C, --continue-at OFFSET               断点续转
+-x, --proxy [PROTOCOL://]HOST[:PORT]   在指定的端口上使用代理
+-U, --proxy-user USER[:PASSWORD]       代理用户名及密码
+
+# 文件操作
+-T, --upload-file <file>               上传文件
+-a, --append                           添加要上传的文件 (F/SFTP)
+
+# 输出设置
+-o, --output <file>                    将输出写入文件，而非 stdout
+-O, --remote-name                      将输出写入远程文件
+-D, --dump-header <file>               将头信息写入指定的文件
+-c, --cookie-jar <file>                操作结束后，要写入 Cookies 的文件位置
+

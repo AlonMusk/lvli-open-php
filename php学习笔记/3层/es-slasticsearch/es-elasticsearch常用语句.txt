@@ -1,0 +1,428 @@
+新增文档
+curl -H 'Content-Type: application/json' -X PUT 'localhost:9200/erp-cs/room/2' -d '
+{
+  "rid": "999999",
+  "name": "room999999"
+}'
+
+删除文档
+curl -X DELETE 'localhost:9200/erp-cs/room/1'
+
+使用 kibana 测试 es
+点击 bin/kibana.bat
+修改配置
+进入config: kibana.yml 
+elasticsearch.hosts: ["http://192.168.7.10:9200"]
+
+访问：http://localhost:5601，出现以下界面即完成安装。
+http://localhost:5601/
+
+
+常用脚本 painless
+
+工具：
+删除索引
+DELETE  demo1
+增加索引：
+PUT demo1
+创建索引+文档
+PUT twitter/_doc/1
+{
+  "user": "GB",
+  "uid": 1,
+  "city": "Beijing",
+  "province": "Beijing",
+  "country": "China"
+}
+
+//新增：自动生成id
+POST twitter/_doc
+{
+  "user": "GB",
+  "uid": 1,
+  "city": "Beijing",
+  "province": "Beijing",
+  "country": "China"
+}
+
+查询
+GET twitter/_source/1
+
+GET blj/shop_scheme/_search?size=20
+
+我们也可以这样对多个 index 进行搜索：
+POST /index1,index2,index3/_search
+
+返回特定字段
+GET blj/shop_scheme/_search
+{
+  "size":1,
+  "_source": ["scheme_id", "brand_id"],
+  "query": {
+    "match_all": {
+    }
+  }
+}
+
+//查询字段
+GET twitter/_search
+{
+  "query": {
+    "match": {
+      "city": "北京"
+    }
+  }
+}
+或者
+GET twitter/_search?q=city:"北京"
+
+
+GET blj/shop_scheme/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "brand_id.keyword": "115"
+        }
+      }
+    }
+  }
+}
+
+查看自定义mapping
+GET   /demo_index/_mapping
+Mapping 中字段类型禁止直接修改，否则需要重新建立新的所以，然后做 reindex 操作
+copy_to：将该字段的值复制到目标字段，实现类似 _all 的作用，不会出现在 _source 中，只用来搜索。
+注意：创建文档时，如果索引不存在，es 会自动创建对应的 index 和 type。建议在创建索引时，定义 mapping。
+使用 POST _bulk 一次创建多个文档，从而减少网络传输开销，提升写入速率
+
+### 重新索引
+
+1、设置别名
+PUT /es_shop_scheme/_alias/shop_scheme
+2、新建索引
+PUT /new_shop_scheme/
+{
+}
+3、重建索引
+POST /_reindex
+{
+  "source": {
+    "index": "es_shop_scheme"
+  },
+  "dest": {
+    "index": "new_shop_scheme"
+  }
+}
+4、切换别名
+POST /_aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "es_shop_scheme",
+        "alias": "shop_scheme"
+      }
+    },
+    {
+      "add": {
+        "index": "new_shop_scheme",
+        "alias": "shop_scheme"
+      }
+    }
+  ]
+}
+5、删除原索引
+DELETE /es_shop_scheme
+
+6、删除索引下的所有文档
+POST es_shop_scheme/doc/_delete_by_query
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+
+//多字段查询
+GET /shop_scheme/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "image": "88758.png"
+          }
+        },
+        {
+          "term": {
+            "c_share": 0
+          }
+        }
+      ]
+    }
+  },
+  "size": 2,
+  "from": 0,
+  "sort": [
+    {
+      "shop_id": {
+        "order": "desc"
+      }
+    }
+  ],
+   "aggs": {
+    "categorySeries": {
+      "terms": {
+        "field": "category_series",
+       
+        "size": 5
+      }
+    },
+    "categoryLayout": {
+      "terms": {
+        "field": "category_layout",
+       
+        "size": 5
+      }
+    }
+  }
+}
+
+//聚合
+GET /shop_scheme/_search
+{
+  "size": 0,
+  "aggs": {
+    "categorySeries": {
+      "terms": {
+        "field": "category_series",
+        "size": 5
+      }
+    },
+    "categoryLayout": {
+      "terms": {
+        "field": "category_layout",
+        "size": 5
+      }
+    }
+  }
+}
+
+模糊查询   wildcard 类似 mysql like
+https://blog.csdn.net/weixin_43859729/article/details/108134329
+
+//修改
+PUT /customer/_doc/1?pretty
+{
+  "name": "John Doe"
+}
+
+
+父子文档映射
+PUT /article
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+       "brand_article_id": {
+          "type": "integer"
+        },
+        "title": {
+			"type": "text",
+			"fields" : {
+               "keyword" : {
+               "type" : "keyword",
+               "ignore_above" : 256
+             }
+          }
+        },
+        "abstract": {
+          "type": "text"
+        },
+      "brand_shop_join": {  //定义一个字段的名字
+        "type": "join",
+        "relations": {
+            //父与子
+          "brand": "shop"
+        }
+      }
+    }
+  }
+}
+
+构建父子文档索引
+POST article/_doc/1
+{
+  "brand_article_id":1,
+  "title":"父资讯标题1",
+  "abstract":"父资讯摘要1",
+    "brand_shop_join": {
+    "name": "brand"
+  }
+}
+
+PUT /article/_doc/101?routing=1
+{
+  "brand_article_id":101,
+  "title":"门店资讯标题1",
+  "abstract":"门店资讯摘要1",
+ 
+  "brand_shop_join":{
+    "name":"shop",
+    "parent":"1"
+  }
+}
+
+
+1、根据父文档id查询它下方的子文档
+GET /article/_search
+{
+  "query":{
+    "parent_id": {
+      "type":"shop",
+      "id":"1"
+    }
+  }
+}
+
+2、has_child返回满足条件的父文档
+GET /article/_search
+{
+  "query": {
+    "has_child": {
+      "type": "shop",    //子文档类型
+      "min_children": 1,  
+      "query": {
+        "match": {
+          "title": "门店资讯标题1"
+        }
+      }
+    }
+  }
+}
+3、has_parent返回满足父文档的子文档
+GET /article/_search
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "brand",
+      "query": {
+        "match": {
+          "title":"资讯标题1"
+        }
+      }
+    }
+  }
+}
+
+
+内嵌查询
+GET /es_shop_scheme/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "scheme_id": {
+              "value": "1250"
+            }
+          }
+        },
+        {
+          "term": {
+            "brand_id": {
+              "value": "77"
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "space_extend",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "match": {
+                      "space_extend.brand_scheme_category_id": "2018"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "size": 100,
+  "aggs": {
+    "categorySeries": {
+      "terms": {
+        "field": "category_series",
+        "size": 5
+      }
+    },
+    "categorySpace": {
+      "terms": {
+        "field": "category_space.keyword",
+        "size": 500
+      }
+    },
+    "categoryLayout": {
+      "terms": {
+        "field": "category_layout",
+        "size": 5
+      }
+    }
+  }
+}
+
+// 大于  不等  not in  in
+ {
+          "range": {
+            "status": {
+              "gte":2,
+			  "lte":3
+            }
+          }
+        },
+		
+in:
+ "terms": {
+      "t_id": [
+        1,2,3,4      ]
+    }
+
+not  in
+"must_not"[
+			{
+			"terms": 
+				{
+					"goods_id": [1,2,3]
+				}
+			}]
+		}
+	]
+
+
+ and (  or )
+
+$must[] = [
+          'bool' =>
+           [
+            'should' => [
+             ['terms' => ['brand_goods_id' => $params['brand_goods_id']]],
+             ['terms' => ['goods_id' => $params['shop_goods_id']]]
+                    ]
+                      ]
+           ];
+
+

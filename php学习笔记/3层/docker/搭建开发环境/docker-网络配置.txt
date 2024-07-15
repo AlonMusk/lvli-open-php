@@ -1,0 +1,78 @@
+https://docs.docker.com/network/
+
+1、 docker网络模式 ：默认提供了3种网络模式。，生成容器时，不指定网络模式，默认使用bridge桥接模式。
+
+bridge
+host 
+none
+
+
+https://blog.csdn.net/CSDN1csdn1/article/details/123961079
+
+
+有四种茴字写法：
+1：进行容器修改 /etc/hosts
+2: 制作镜像时，直接修改。用root用,安装sudo.增大了镜像大小。
+3: docker run  --add-host =myhostname:10.180.8.1
+4:docker-compose.yml 里面有 extra_hosts 可以配置
+	- "onehost:162.145.121.12"
+
+# 查看docker所有网络模式  scope: 范围
+# docker network ls
+
+2、
+
+
+
+3、主机模式 桥接模式  NAT模式  网桥的概念 
+
+
+桥接：通过虚拟网桥 就可以连通。  宿主机和 虚拟机之间在同一个网段。 局域网是不可以访问虚拟机的。
+核心点：是怎样连接网卡上网： 将虚拟交换机 通过网桥 连接主机网卡上网。虚拟交换机，是因为 虚拟机可能需要多张网卡吧
+
+主机模式： 虚拟机使用了 宿主机的IP。  NAT网络 去掉虚拟NAT设备就可以了。
+
+NAT模式： 通过虚拟的NAT设备上网。 有局域网的独立IP。内部还包括了DHCP服务器(动态分配虚拟机IP) 和 虚拟交换机 。默认情况下，局域网的其他主机不可以访问虚拟机。但虚拟机可以访问他们。可以通过设置：通过主机端口转发，即可。
+
+
+# docker network --help
+# docker network create --help 
+## 查看当前docker所有的网络模式
+# docker network ls
+# ip addr
+# brctl show 
+
+## docker 容器完成bridge网络配置过程：
+1、主机上创建一对虚拟网卡 veth pair 设备。veth设备总是成对出现。因此，veth设备用来连接两个网络设备。
+2、 docker将veth pair设备的一端放在新建容器eth0.另一端放在主机以veth43jfcf命名。并将这个网络设备加入到docker0网桥中。
+3、从docker0子网中分配一个IP给容器使用。并设置docker0的IP地址为容器默认网关。 
+
+
+## 所有的容器在不指定网络时，都由docker0路由默认分配一个随机可用的IP地址。
+
+## 新建网络
+# docker network create --driver bridge  --subnet 192.168.0.0/16 --gatway 192.168.0.1 mynet
+
+## 查看新建网络
+# docker network  inspect mynet
+
+## 创建两个使用相同自定义网络的容器
+# docker run -d -P --name centos-net-01 --net mynet -it 5d3kj4h43j324h4h /bin/bash
+# docker run -d -P --name centos-net-02 --net mynet -it 834sksj3234j /bin/bash
+
+## 测试容器互联
+# docker exec -it centos-net-01 ping centos-net-02 
+# docker exec -it centos-net-02 ping 192.168.0.2
+
+
+## 网络之间的连通
+# docker ps 
+# 不同docker网络之间容器连通，需要将该容器注册到另一个容器所在网络。
+# docker network connect  mynet centos01 
+
+
+
+
+
+
+

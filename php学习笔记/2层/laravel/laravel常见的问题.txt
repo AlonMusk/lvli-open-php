@@ -1,0 +1,10 @@
+存在跨域问题：
+config/cors.php 的配置问题  尤其是paths
+还有可能是前端的某些包没有安装，所以前端请求接口时，报跨域，比如socket.io
+
+could not be opened in append mode: failed to open stream: Permission denied
+ chmod -R 775 storage
+ 
+ file_put_contents(.../storage/framework/cache/data/)
+ php artisan config:cache
+ php artisan config:clear

@@ -1,0 +1,72 @@
+0、卸载旧版docker    sudo  apt-get remove  docker  docker-engine docker.io 
+1、安装docker
+curl -sSL https://get.daocloud.io/docker | sh
+
+2、启动 Docker
+$ sudo systemctl enable docker
+$ sudo systemctl start docker
+
+3、建立 docker 用户组
+默认情况下，docker 命令会使用 Unix socket 与 Docker 引擎通讯。而只有 root 用户和 docker 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 root 用户。因此，更好地做法是将需要使用 docker 的用户加入 docker 用户组。
+
+建立 docker 组：
+$ sudo groupadd docker
+将当前用户加入 docker 组：
+$ sudo usermod -aG docker $USER
+
+4、测试 Docker 是否安装正确
+$ docker run hello-world
+
+ 安装 PHP
+ docker search php
+ docker pull php:7.3-fpm
+ docker images
+ 
+ 安装nginx
+ docker search nginx
+ docker pull nginx:latest
+ docker images
+ //运行nginx容器
+ docker run --name nginx-test -p 8080:80 -d nginx 
+ 
+ nginx+php部署
+ 启动 PHP：
+ $ docker run --name  myphp-fpm -v ~/nginx/www:/www  -d php:7.3-fpm
+ 创建 ~/nginx/conf/conf.d 目录：
+  mkdir ~/nginx/conf/conf.d 
+
+  在该目录下添加 ~/nginx/conf/conf.d/runoob-test-php.conf 文件，内容如下：
+  server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm index.php;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /www/$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+ }
+
+ 启动 nginx：
+ docker run --name cs-php-nginx -p 8083:80 -d \
+    -v ~/nginx/www:/usr/share/nginx/html:ro \
+    -v ~/nginx/conf/conf.d:/etc/nginx/conf.d:ro \
+    --link myphp-fpm:php \
+    nginx
+	
+  接下来我们在 ~/nginx/www 目录下创建 index.php，代码如下：
+  <?php
+  echo phpinfo();
+  ?>
+  浏览器打开 http://127.0.0.1:8083/index.php，显示如下

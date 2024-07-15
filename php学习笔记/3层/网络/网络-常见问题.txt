@@ -1,0 +1,13 @@
+Q1:No server is currently available to service your request.
+window cmd
+# ipconfig /flushdns
+# ipconfig /registerdns
+# ipconfig /release
+# ipconfig /renew
+
+跨域
+No 'Access-Control-Allow-Origin' header is present on the requested resource
+ 
+ 
+
+

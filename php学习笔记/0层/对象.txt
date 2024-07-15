@@ -1,0 +1,29 @@
+对象的操作一般是转换成数组来操作
+那么对象的基本操作是什么
+
+$this->$proname=$value;
+
+对象初始化 ¶
+要创建一个新的对象 object，使用 new 语句实例化一个类：
+<?php
+class foo
+{
+    function do_foo()
+    {
+        echo "Doing foo."; 
+    }
+}
+
+$bar = new foo;
+$bar->do_foo();
+?>
+
+<?php
+$obj = (object) array('1' => 'foo');
+var_dump(isset($obj->{'1'})); // PHP 7.2.0 后输出 'bool(true)'，之前版本会输出 'bool(false)' 
+var_dump(key($obj)); // PHP 7.2.0 后输出 'string(1) "1"'，之前版本输出  'int(1)' 
+?>
+
+
+$obj = (object) 'ciao';
+echo $obj->scalar;  // outputs 'ciao'

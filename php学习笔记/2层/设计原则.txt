@@ -1,0 +1,6 @@
+罗伯特·C·马丁在 21 世纪早期引入了名为「SOLID」的设计原则，指代了面向对象编程和面向对象设计的五个基本原则：
+单一职责原则（Single Responsibility Principle）
+开放封闭原则（Open Closed Principle）
+里氏替换原则（Liskov Substitution Principle）
+接口隔离原则（Interface Segregation Principle）
+依赖反转原则（Dependency Inversion Principle）

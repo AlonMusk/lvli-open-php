@@ -1,0 +1,46 @@
+1、http://deb.debian.org/debian stretch-updates/main amd64 Packages   404  Not Found
+
+更换源:
+mv /etc/apt/sources.list  /etc/apt/sources.list.bak
+cat  /etc/apt/sources.list
+ echo 'deb [trusted=yes] http://mirrors.ustc.edu.cn/debian stable main contrib non-free' >> /etc/apt/sources.list
+ echo 'deb [trusted=yes] http://mirrors.ustc.edu.cn/debian stable-updates main contrib non-free' >> /etc/apt/sources.list
+ apt-get update
+ 成功
+
+2、E: There were unauthenticated packages and -y was used without --allow-unauthenticated
+
+重置源 加上 [trusted=yes]
+
+3、configure: error: freetype-config not found.
+（libfreetype6-dev is already the newest version (2.10.4+dfsg-1+deb11u1)）
+是 freetype 的版本问题：
+freetype-config 被替代成 pkg-config ，新版本使用 pkg-config 管理 CFLAGS 和 库
+解决方法一般都是apt install freetype 之类的，但其实没有用，因为freetype2.10版本已经没有 freetype-config文件。
+在尝试改为pkg-config 编译后，正常通过了，但zabbix页面的图形和图片显示就会有问题......，一直打圈圈或者图片异常。
+
+而PHP在 7.4 版本后才修复和这个问题，但没有测试过7.4的兼容性，所以换个思路，使用编译方式安装freetype-2.8版本，然后指定目录编译即可。
+
+故：安装 freetype-2.8版本
+https://mirror.ossplanet.net/nongnu/freetype/freetype-2.8.tar.gz
+
+mkdir /usr/include/freetype
+tar -zxf freetype-2.8.tar.gz
+cd freetype-2.8
+./configure --prefix=/usr/include/freetype && make && make install
+
+4、ft2build.h: No such file or directory
+apt-get install libfontconfig1-dev
+
+5、//文件权限不足
+chown -R www-data:www-data /var/www/html 
+
+6、pecl install redis-4.0.1 需要输入 yes or no
+$ no | pecl install redis-4.0.1
+$ docker-php-ext-enable redis
+
+# vim 
+apt-get install vim -y
+
+# 远程下载文件  wget
+apt-get install wget -y

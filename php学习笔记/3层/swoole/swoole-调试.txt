@@ -1,0 +1,35 @@
+https://blog.51cto.com/u_2309998/1381878
+首先要重新编译，加入调试信息，然后才能用gdb调试。
+
+使用gdb的一种调试模式（运行时调试模式）
+
+编译学习：
+https://wiki.swoole.com/wiki/page/6.html
+https://www.w3cschool.cn/swoole/swoole-install.html
+编译参数配置
+https://wiki.swoole.com/wiki/page/437.html
+使用phpize生成php编译配置。 ./configure 做编译配置检测，make进行编译，make install安装
+
+下载最新release版 编译安装
+
+tar zxvf ./swoole.tar.gz && \
+mv swoole-src* swoole-src && \
+cd swoole-src && \
+phpize && \
+./configure \
+--enable-openssl  \
+--enable-http2  \
+--enable-async-redis \
+--enable-sockets \
+--enable-mysqlnd  \
+--enable-debug-log \
+--enable-trace-log && \
+make clean && make && sudo make install
+
+
+
+IDE添加helper
+git clone https://github.com/swoole/ide-helper.git
+在External Libaraies ->config php include 点+ 添加即可
+
+

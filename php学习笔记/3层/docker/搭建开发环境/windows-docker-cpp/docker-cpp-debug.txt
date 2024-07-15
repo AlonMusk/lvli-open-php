@@ -1,0 +1,53 @@
+
+1、安装插件 C/C++、Code Runner
+
+2、安装编译器 minGW-w64 （Minimalist GNU on Windows ）
+下载：https://www.mingw-w64.org/downloads/
+点击 sorceForge 找 到 MinGW-W64-install.exe 根据下面的选项，选择安装包下载。比如（x86_64-posix-seh）
+Version: 最新 <说明：Version 指的是 gcc 的版本，如果没有特殊的需求，一般选择最高的版本号即可>
+Architecture :<说明：电脑系统是 64位的，选择 x86_64；如果是 32位 系统，则选择 i686 即可。>
+Threads(操作系统接口协议): <如果你想要开发 Windows 程序，需要选择 win32 ，而开发 Linux、Unix、Mac OS 等其他操作系统下的程序，则需要选择 posix 。>
+
+Exception(异常处理模型)：
+<异常处理在开发中非常重要，在开发的过程中，大部分的时间会耗在处理各种异常情况上。seh 是新发明的，而 sjlj 则是古老的。seh 性能比较好，但不支持 32位。 sjlj 稳定性好，支持 32位。建议64位操作系统选择seh。>
+
+解压到任意目录，配置环境变量，在环境变量后面要加/bin
+打开cmd/powershell，执行gcc -v，若正常输出表示没有问题
+
+
+新建一个test.cpp文件
+
+#include <iostream>
+#include <windows.h>
+#include <vector>
+using namespace std;
+
+int main() {
+    cout << "hi, I love you!" << endl;
+    vector<int> a;
+    a.push_back(5);
+    cout << a[0] << endl;
+    system("pause");
+    return 0;
+}
+
+终端->配置默认生成任务
+将显示一个下拉列表，其中列出了C++编译器的各种预先定义的构建任务。选择C/C++: g++.exe生成活动文件
+
+如果这时候按f5（或者在上方菜单栏选择运行→启动调试），依次选择C++(GDB/LLDB)，g++.exe - 生成和调试活动文件
+
+设置断点 >>> end
+
+Q1: std 不明确(vs code中命名空间不明确问题)
+首先打开 文件 -> 首选项 -> 设置
+找到 C/C++ 一栏，然后将 C_Cpp: Intelli Sence Engine下的Default改为 Tag Parser
+
+Q2:
+VS code运行C++文件时显示“终端将被任务重用，按任意键关闭。”-解决办法
+原因
+提示的原因是本地端口是被共享的，只需要对tasks.json文件做一些修改即可。
+修改方法
+如果tasks.json文件中修改/追加
+"presentation": {
+                "panel": "new"
+            }

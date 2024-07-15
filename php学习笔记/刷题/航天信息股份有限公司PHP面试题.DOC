@@ -1,0 +1,159 @@
+{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\fmodern\fprq6\fcharset134 \'cb\'ce\'cc\'e5;}{\f2\fnil\fprq2\fcharset134 \'cb\'ce\'cc\'e5;}}
+{\*\generator Msftedit 5.41.15.1515;}\viewkind4\uc1\pard\nowidctlpar\qj\kerning2\f0\fs21  \lang2052\f1\'ba\'bd\'cc\'ec\'d0\'c5\'cf\'a2\'b9\'c9\'b7\'dd\'d3\'d0\'cf\'de\'b9\'ab\'cb\'bePHP\'c3\'e6\'ca\'d4\'cc\'e2\par
+\'b1\'ca\'ca\'d4\'cc\'e2\'a3\'ac\'d7\'a8\'d2\'b5\'cc\'e2\'ce\'e5\'b5\'c0\'a1\'a3\lang1033\f0\par
+\par
+1.\lang2052\f2\'ca\'b9\'d3\'c3\'ce\'e5\'d6\'d6\'d2\'d4\'c9\'cf\'b7\'bd\'ca\'bd\'bb\'f1\'c8\'a1\'d2\'bb\'b8\'f6\'ce\'c4\'bc\'fe\'b5\'c4\'c0\'a9\'d5\'b9\'c3\'fb\lang1033\f0\par
+\lang2052\f2\'d2\'aa\'c7\'f3\'a3\'ba\lang1033\f0 dir/upload.image.jpg\lang2052\f2\'a3\'ac\'d5\'d2\'b3\'f6\lang1033\f0  .jpg \lang2052\f2\'bb\'f2\'d5\'df\lang1033\f0  jpg \lang2052\f2\'a3\'ac\lang1033\f0\par
+\lang2052\f2\'b1\'d8\'d0\'eb\'ca\'b9\'d3\'c3\lang1033\f0 PHP\lang2052\f2\'d7\'d4\'b4\'f8\'b5\'c4\'b4\'a6\'c0\'ed\'ba\'af\'ca\'fd\'bd\'f8\'d0\'d0\'b4\'a6\'c0\'ed\'a3\'ac\'b7\'bd\'b7\'a8\'b2\'bb\'c4\'dc\'c3\'f7\'cf\'d4\'d6\'d8\'b8\'b4\'a3\'ac\'bf\'c9\'d2\'d4\'b7\'e2\'d7\'b0\'b3\'c9\'ba\'af\'ca\'fd\'a3\'ac\'b1\'c8\'c8\'e7\lang1033\f0  get_ext1($file_name), get_ext2($file_name)\par
+\par
+\lang2052\f2\'b4\'f0\'a3\'ba\lang1033\f0 //1)\par
+function get_ext1($file_name)\par
+\{\par
+        return strrchr($file_name, '.');\par
+\}\par
+\par
+//2)\par
+function get_ext2($file_name)\par
+\{\par
+        return substr($file_name, strrpos($file_name, '.'));\par
+\}\par
+\par
+//3)\par
+function get_ext3($file_name)\par
+\{\par
+        return array_pop(explode('.', $file_name));\par
+\}\par
+\par
+//4)\par
+function get_ext4($file_name)\par
+\{\par
+        $p = pathinfo($file_name);\par
+        return $p['extension'];\par
+\}\par
+\par
+//5)\par
+function get_ext5($file_name)\par
+\{\par
+        return strrev(substr(strrev($file_name), 0, strpos(strrev($file_name), '.')));\par
+\}\par
+\par
+\par
+\lang2052\b\f2\'b7\'bd\'b7\'a8\'b6\'fe\b0\'a3\'ba\lang1033\f0 <?php\par
+$file='dir/upload.image.jpg';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 1\par
+$a=pathinfo($file);\par
+echo $a['extension'].'<br/>';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 2\par
+echo substr($file,strrpos($file,'.')+1).'<br/>';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 3\par
+echo array_pop(explode('.',$file)).'<br/>';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 4\par
+echo preg_replace('/(.)*\\.\{1\}/ix','',$file).'<br/>';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 5\par
+echo strrchr($file,'.').'<br/>';\par
+//\lang2052\f2\'b7\'bd\'b7\'a8\lang1033\f0 6\par
+echo strrev(substr(strrev($file),0,strpos(strrev($file),'.')));\par
+?>\par
+\par
+\par
+\lang2052\b\f2\'d7\'d6\'b7\'fb\'b4\'ae\'ba\'cd\'ca\'fd\'d7\'e9\'d4\'f5\'c3\'b4\'c8\'a1\'b3\'a4\'b6\'c8\'a3\'bf\lang1033\f0\par
+\lang2052\b0\f2\'d7\'d6\'b7\'fb\'b4\'ae\'a3\'ba\lang1033\f0 strlen(); // \lang2052\f2\'bc\'c6\'cb\'e3\'d7\'d6\'b7\'fb\'b4\'ae\'b5\'c4\'d7\'d6\'bd\'da\'b3\'a4\'b6\'c8\lang1033\f0 ,\par
+mb_strlen   //\lang2052\f2\'bc\'c6\'cb\'e3\'d7\'d6\'b7\'fb\'b3\'a4\'b6\'c8\lang1033\f0\par
+\lang2052\f2\'c0\'fd\lang1033\f0 :mb_strlen('hello \lang2052\f2\'d6\'d0\'b9\'fa\lang1033\f0 ','utf-8'); //8\par
+count() -- \lang2052\f2\'bc\'c6\'cb\'e3\'ca\'fd\'d7\'e9\'d6\'d0\'b5\'c4\'d4\'aa\'cb\'d8\'b8\'f6\'ca\'fd\'a1\'a3\lang1033\f0\par
+\par
+\par
+\lang2052\b\f2\'d3\'d0\'b1\'ed\'a3\'ba\lang1033\f0\par
+id\~ \~name\line 1\~ \~\lang2052\f2\'d5\'c5\'c8\'fd\lang1033\f0\line 2\~ \~\lang2052\f2\'c0\'ee\'cb\'c4\lang1033\f0\line 3\~ \~\lang2052\f2\'cd\'f5\'ce\'e5\lang1033\f0\line 4\~ \~\lang2052\f2\'d5\'d4\'c1\'f9\lang1033\f0\line 5\~ \~\lang2052\f2\'d5\'c5\'c8\'fd\lang1033\f0\line 6\~ \~\lang2052\f2\'cd\'f5\'ce\'e5\lang1033\f0\par
+\lang2052\f2\'d2\'aa\'c7\'f3\'b0\'d1\lang1033\f0  \lang2052\f2\'d5\'c5\'c8\'fd\'a3\'ac\'ba\'cd\'cd\'f5\'ce\'e5\'c8\'a1\'b3\'f6\'c0\'b4\'a3\'ac\'be\'cd\'ca\'c7\'d0\'d5\'c3\'fb\'d6\'d8\'b8\'b4\'c1\'bd\'b8\'f6\'d2\'d4\'c9\'cf\'b5\'c4\'be\'cd\'c8\'a1\'b3\'f6\'c0\'b4\'a3\'ba\lang1033\f0\par
+\lang2052\b0\f2\'b4\'f0\'a3\'ba\lang1033\f0 select name,count(*) as cf from mian group by name having cf>=2;\par
+\par
+\par
+\lang2052\b\f2\'d3\'d0\lang1033\f0 10\lang2052\f2\'b8\'f6\'c8\'cb\'a3\'a8\'b1\'e0\'ba\'c5\lang1033\f0 1-10\lang2052\f2\'a3\'a9\lang1033\f0  \lang2052\f2\'ce\'a7\'b3\'c9\'d2\'bb\'b8\'f6\'c8\'a6\lang1033\f0  \lang2052\f2\'b4\'d3\'b5\'da\'d2\'bb\'b8\'f6\'bf\'aa\'ca\'bc\'ca\'fd\lang1033\f0  \lang2052\f2\'ca\'fd\'b5\'bd\'c8\'fd\lang1033\f0  \lang2052\f2\'cc\'df\'b3\'f6\'d5\'e2\'b8\'f6\'c8\'cb\lang1033\f0  \lang2052\f2\'c8\'bb\'ba\'f3\'bd\'d3\'d7\'c5\'cd\'f9\'cf\'c2\'d1\'ad\'bb\'b7\'ca\'fd\'a3\'a1\lang1033\f0  \lang2052\f2\'d6\'b1\'b5\'bd\'ca\'a3\'cf\'c2\'d2\'bb\'b8\'f6\'c8\'cb\'ce\'aa\'d6\'b9\'a3\'a1\lang1033\f0  \lang2052\f2\'ce\'ca\'d7\'ee\'ba\'f3\'ca\'a3\'cf\'c2\'b5\'c4\'c4\'c7\'b8\'f6\'c8\'cb\'b5\'c4\'b1\'e0\'ba\'c5\'ca\'c7\'bc\'b8\'a3\'bf\lang1033\f0 (\lang2052\f2\'b4\'f0\'b0\'b8\'ca\'c7\lang1033\f0 4\lang2052\f2\'ba\'c5\lang1033\f0 )\lang2052\f2\'d0\'b4\'b3\'f6\'b9\'fd\'b3\'cc\'a1\'a3\lang1033\f0\line $a=array('1','2','3','4','5','6','7','8','9','10');\par
+\par
+\b0 <?php\par
+class Child\{\par
+ public $no;  //\lang2052\f2\'d0\'a1\'ba\'a2\'b1\'e0\'ba\'c5\lang1033\f0\par
+ public $next; //\lang2052\f2\'cf\'c2\'d2\'bb\'b8\'f6\'d0\'a1\'ba\'a2\lang1033\f0\par
+\par
+//\lang2052\f2\'b9\'b9\'b3\'c9\'bb\'b7\'d0\'ce\'c1\'b4\'b1\'ed\lang1033\f0  \lang2052\f2\'b5\'c8\'d3\'da\'d0\'a1\'ba\'a2\'ce\'a7\'b3\'c9\'d2\'bb\'b8\'f6\'d4\'b2\'c8\'a6\lang1033\f0\par
+ function addChild($n)\{\par
+ \par
+   for($i=0;$i<$n;$i++)\{\par
+        $child= new self();\par
+                $child->no=$i+1;\par
+           if($i==0)\{\par
+                 $head = $child;\par
+                 $child->next=$head;\par
+                 $cur=$head;\par
+           \}else\{\par
+             $cur->next=$child;\par
+\par
+                 $child->next=$head;\par
+                 $cur=$cur->next;\par
+       \} \par
+   \}\par
+    return $head;\par
+ \}\par
+ //\lang2052\f2\'bf\'aa\'ca\'bc\'cc\'df\'d0\'a1\'ba\'a2\lang1033\f0\par
+ function countChild($head)\{\par
+    $cur=$head;\par
+        while($cur->next!=$head)\{  \par
+              $cur=$cur->next;\par
+        \}\par
+    //\lang2052\f2\'b5\'b1\'c7\'b0\'d0\'a1\'ba\'a2\'b5\'c8\'cd\'b7\'d0\'a1\'ba\'a2\lang1033\f0  \lang2052\f2\'be\'cd\'d6\'bb\'ca\'a3\'cf\'c2\'d2\'bb\'b8\'f6\'d0\'a1\'ba\'a2\lang1033\f0\par
+        while($cur!=$head)\{\par
+           \par
+           //\lang2052\f2\'ca\'fd\'b5\'bd\lang1033\f0 3\lang2052\f2\'d0\'a1\'ba\'a2\'b3\'f6\'c8\'a6\lang1033\f0\par
+           for($i=0;$i<3-1;$i++)\{\par
+             $cur=$cur->next;\par
+                 $head=$head->next;\par
+           \par
+           \} \par
+            echo '\lang2052\f2\'b3\'f6\'c8\'a6\'d0\'a1\'ba\'a2\lang1033\f0 '.$head->no.'<br />';\par
+            $head=$head->next;\par
+                $cur->next=$head;\par
+        \par
+        \}\par
+    echo '\lang2052\f2\'d7\'ee\'ba\'f3\'b5\'c4\'d0\'a1\'ba\'a2\lang1033\f0 '.$cur->no;\par
+ \}\par
+\}\par
+\par
+$child =new Child();\par
+$b=$child->addChild(10);\par
+$child->countChild($b);\par
+\par
+?>\par
+\par
+\par
+\lang2052\b\f2\'b0\'d1\'d2\'bb\'c6\'aa\'d3\'a2\'ce\'c4\'ce\'c4\'b5\'b5\'d6\'d0\'cb\'f9\'d3\'d0\'b5\'a5\'b4\'ca\'b5\'c4\'ca\'d7\'d7\'d6\'c4\'b8\'d7\'aa\'ce\'aa\'b4\'f3\'d0\'b4\'a3\'ac\'ce\'c4\'b5\'b5\'b4\'e6\'d4\'da\lang1033\f0 doc.txt\lang2052\f2\'d6\'d0\'a1\'a3\'bf\'c9\'d2\'d4\'d4\'da\'b6\'e0\'d6\'d6\'b1\'e0\'b3\'cc\'d3\'ef\'d1\'d4\'d6\'d0\'d1\'a1\'d4\'f1\'a3\'a8\lang1033\f0 C\\C++,JAVA,PHP...)\lang2052\f2\'d0\'b4\'b3\'f6\'c4\'e3\'b5\'c4\'cb\'bc\'c2\'b7\'a3\'ac\'be\'a1\'c1\'bf\'d3\'c5\'bb\'af\'c4\'e3\'b5\'c4\'b3\'cc\'d0\'f2\'a1\'a3\lang1033\f0\par
+\par
+\b0 <?php\par
+\par
+$txt = <<<STRING\par
+commencement season is once again upon us and with that comes a\par
+flurry of leaders traversing the country to don the ceremonial\par
+cap and gown, all with the mission of imparting words of wisdom\par
+and lessons learned upon 2013\rquote s newly-minted grads. Universities\par
+may vie to land bold-faced names for their esteemed commencement\par
+speaker slots, yet even the most prestigious leaders have fallen\par
+short when it comes to inspiring a future generation of leaders\par
+thanks to addresses peppered more with formulaic life lessons\par
+than authentic personal reflections\par
+STRING;\par
+\par
+\lang1030 if (ord($txt[0])>96 && ord($txt[0])<123) \{\par
+    $txt[0] = chr(ord($txt[0])-32);\par
+\}\par
+for ($i=0, $strlen=strlen($txt); $i<$strlen-1; $i++) \{\par
+    $ordCur = ord($txt[$i]);\par
+    $ordNext = ord($txt[$i+1]);\par
+    \lang1033 if ($ordCur==32 && (($ordNext>96) && ($ordNext<123))) \{\par
+        $txt[$i+1] = chr($ordNext-32);\par
+    \}\par
+\}\par
+\par
+echo $txt;\par
+\pard\lang2052\kerning0\f1\fs20\par
+}
+ 

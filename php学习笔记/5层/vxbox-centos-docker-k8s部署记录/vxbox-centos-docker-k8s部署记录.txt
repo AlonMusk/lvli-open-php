@@ -1,0 +1,21 @@
+https://blog.csdn.net/jsd2honey/article/details/93902561
+
+1. 系统规划
+OS_Info	机器ip	角色	部署内容	说明
+192.168.10.228	k8s-master	etcd、kube-apiserver、kube-controller-manager、kube-scheduler	
+192.168.10.227	k8s-slave01	kube-proxy,kubelet,docker,flanneld	
+192.168.10.226	k8s-slave02	kube-proxy,kubelet,docker,flanneld
+
+分三步走：
+0、软件包   打包相关服务容器为docker镜像
+1、安装vxbox教程记录  安装centos8的记录   单独安装docker记录  在前面基础上的k8s安装记录
+2、 导出VM直接使用 =>   单机版centos   单机版docker版本   多机版k8s版本（多个VM）  自定义版本 
+
+
+
+ 
+
+
+
+
+

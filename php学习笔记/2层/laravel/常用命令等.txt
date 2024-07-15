@@ -1,0 +1,28 @@
+laravel优质扩展包
+https://xueyuanjun.com/post/153
+
+controller(service)
+{
+}
+
+
+//业务逻辑
+service($resposity) {
+   $resposity
+}
+
+
+//仅仅是 CURD 吗  包括 联合查询吗
+resposity($model){
+
+}
+
+//仅仅是euloqment class
+model(){
+
+}
+
+php artisan config:clear 清除config缓存
+php artisan config:cache  缓存config
+php artisan cache:clear 清除所有缓存 包括redis
+php artisan router:clear 清除路由缓存

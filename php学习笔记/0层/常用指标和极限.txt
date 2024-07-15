@@ -1,0 +1,13 @@
+php
+
+laravel
+
+web(nginx)
+
+mysql: 版本号：
+一张表最多是多少行
+最大容量：
+
+mongo
+
+redis

@@ -1,0 +1,53 @@
+JSON串和JSON数据格式  JSON响应有什么区别？
+JSO串本身就是一个字符串
+JSON的数据格式有：
+{
+  "key" : "value",
+  "key2":"value",
+  "key3": [
+   { 
+     "subkey":"subvalue",
+	 "subkey":"subvalue",
+   },
+   {
+   
+   }
+   ],
+
+}
+
+在 JSON 中，值必须是以下数据类型之一：
+字符串
+数字
+对象（JSON 对象）
+数组
+布尔
+Null
+
+通过 JSON.parse() 解析数据，这些数据会成为 JavaScript 对象。
+请想象一下我们从 web 服务器接收到这段文本：
+
+'{ "name":"Bill Gates", "age":62, "city":"Seattle"}'
+请使用 JavaScript 函数 JSON.parse() 把文本转换为 JavaScript 对象：
+
+var obj = JSON.parse('{ "name":"Bill Gates", "age":62, "city":"Seattle"}');
+obj.name
+
+通过 JSON.stringify() 把 JavaScript 对象转换为字符串。
+var obj = { name:"Bill Gates", age:62, city:"Seattle"};
+var myJSON = JSON.stringify(obj);
+
+
+$php  = {
+  "3"=>1,
+};
+
+哪些不是JSON格式
+这种是不？
+[
+{
+ 
+ },
+ {
+ }
+]

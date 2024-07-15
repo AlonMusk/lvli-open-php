@@ -1,0 +1,8 @@
+
+https://xlswriter-docs.viest.me/en/an-zhuang/pecl
+https://github.com/viest/php-ext-xlswriter
+
+pecl install xlswriter
+ echo 'extension=xlswriter' >  /etc/php.d/30-xlswriter.ini
+ 
+ 

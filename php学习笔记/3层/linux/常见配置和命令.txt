@@ -1,0 +1,157 @@
+电脑以及操作系统的相关信息
+# uname  -a
+#lsb_release -a
+# cat  /etc/redhat-release
+
+出现Text file busy 杀死进程
+#fuser filename
+#kill -9 pid
+
+查看crontab的配置文件
+sudo  cat /var/spool/cron
+
+1）管理用户（user）的工具或命令；
+useradd 注：添加用户 useradd -g root kk //添加用户kk，并指定用户所在的组为root用户组 useradd -r kk //创建一个系统用户kk
+adduser 注：添加用户
+passwd 注：为用户设置密码  passwd runoob  //设置runoob用户的密码  passwd -S runoob 显示账号密码信息
+usermod 注：修改用户命令，可以通过usermod 来修改登录名、用户的家目录等等；
+userdel 删除用户 userdel -r testuser // 指定了 -r 参数表示，删除用户时，连同该用户家目录的所有文件一起删除
+2）管理用户组（group）的工具或命令；
+groupadd 注：添加用户组；
+groupdel 注：删除用户组；
+groupmod 注：修改用户组信息  groupmod -n newgroupName linuxso 
+groups 注：显示用户所属的用户组
+
+建立 docker 组：
+$ sudo groupadd docker
+将当前用户加入 docker 组：
+$ sudo usermod -aG docker $USER
+将用户从用户组移出
+gpasswd -d root www-data
+
+chmod 控制用户对文件的权限的命令
+文件调用权限分为三级 : 文件所有者（Owner）、用户组（Group）、其它用户（Other Users）
+u g o
+u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。
++ 表示增加权限、- 表示取消权限、= 表示唯一设定权限。
+r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。
+-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递归的方式逐个变更)
+
+修改文件的拥有者
+chown -R www-data:www-data /var/www/erp-api
+
+
+crontab使用
+1、配置文件的独立性
+不同用户，在/var/spool/cron/crontabs里存在一个对应的配置文件
+
+2、守护进程cron自动执行
+在etc目录下存在如下cron文件，这几个文件会让你的任务计划安装计划正确执行
+1、 /etc/cron.daily，目录下的脚本会每天让执行一次，在每天的6点25分时运行；
+2、 /etc/cron.hourly，目录下的脚本会每个小时让执行一次，在每小时的17分钟时运行；
+3、/etc/cron.mouthly，目录下的脚本会每月让执行一次，在每月1号的6点52分时运行；
+4、 /etc/cron.weekly，目录下的脚本会每周让执行一次，在每周第七天的6点47分时运行；
+
+crontab系统日志
+默认的系统日志 存在于 /var/log/syslog 文件里
+自定义启用cron日志 通过编辑 /etc/rsyslog.d/50-default.conf配置文件，达到启用cron.log专用日志
+
+crontab执行日志
+在crontab命令里，可以自定义执行日志的路径和名称【分 时 日 月 星期 <执行的命令> <执行的日志>】，如下两个实例：
+
+（1） * 8 * * 0  /home/shiyanlou/mybin/back.sh 1>>/home/shiyanlou/back.log 2>>/home/shiyanlou/back.log
+ （2） * 8 * * 0 /home/shiyanlou/mybin/back.sh >>/home/shiyanlou/back.log 2>&1
+
+（1）和（2）是两种不同的写法，但是含义是一样的
+其中，“2>&1” 表示 2跟1使用同一个日志文件
+其中， 1 表示执行的标准日志输出 ；2表示 执行异常的日志输出
+
+f1 f2 f3 f4 f5 program
+其中 f1 是表示分钟，f2 表示小时，f3 表示一个月份中的第几日，f4 表示月份，f5 表示一个星期中的第几天。program 表示要执行的程序。
+当 f1 为 * 时表示每分钟都要执行 program，f2 为 * 时表示每小时都要执行程序，其馀类推
+当 f1 为 a-b 时表示从第 a 分钟到第 b 分钟这段时间内要执行，f2 为 a-b 时表示从第 a 到第 b 小时都要执行，其馀类推
+当 f1 为 */n 时表示每 n 分钟个时间间隔执行一次，f2 为 */n 表示每 n 小时个时间间隔执行一次，其馀类推
+当 f1 为 a, b, c,... 时表示第 a, b, c,... 分钟要执行，f2 为 a, b, c,... 时表示第 a, b, c...个小时要执行，其馀类推
+*    *    *    *    *
+-    -    -    -    -
+|    |    |    |    |
+|    |    |    |    +----- 星期中星期几 (0 - 7) (星期天 为0)
+|    |    |    +---------- 月份 (1 - 12) 
+|    |    +--------------- 一个月中的第几天 (1 - 31)
+|    +-------------------- 小时 (0 - 23)
++------------------------- 分钟 (0 - 59)
+
+
+Linux crontab是用来定期执行程序的命令。
+当安装完成操作系统之后，默认便会启动此任务调度命令。
+crond 命令每分锺会定期检查是否有要执行的工作，如果有要执行的工作便会自动执行该工作。
+注意：新创建的 cron 任务，不会马上执行，至少要过 2 分钟后才可以，当然你可以重启 cron 来马上执行。
+而 linux 任务调度的工作主要分为以下两类：
+1、系统执行的工作：系统周期性所要执行的工作，如备份系统数据、清理缓存
+2、个人执行的工作：某个用户定期要做的工作，例如每隔10分钟检查邮件服务器是否有新信，这些工作可由每个用户自行设置
+语法
+crontab [ -u user ] file
+或
+crontab [ -u user ] { -l | -r | -e }
+说明：
+
+crontab 是用来让使用者在固定时间或固定间隔执行程序之用，换句话说，也就是类似使用者的时程表。
+-u user 是指设定指定 user 的时程表，这个前提是你必须要有其权限(比如说是 root)才能够指定他人的时程表。如果不使用 -u user 的话，就是表示设定自己的时程表。
+参数说明：
+-e : 执行文字编辑器来设定时程表，内定的文字编辑器是 VI，如果你想用别的文字编辑器，则请先设定 VISUAL 环境变数来指定使用那个文字编辑器(比如说 setenv VISUAL joe)
+-r : 删除目前的时程表
+-l : 列出目前的时程表
+
+
+脚本无法执行问题
+如果我们使用 crontab 来定时执行脚本，无法执行，但是如果直接通过命令（如：./test.sh)又可以正常执行，这主要是因为无法读取环境变量的原因。
+
+解决方法：
+1、所有命令需要写成绝对路径形式，如: /usr/local/bin/docker。
+2、在 shell 脚本开头使用以下代码：
+#!/bin/sh
+. /etc/profile
+. ~/.bash_profile
+3、在 /etc/crontab 中添加环境变量，在可执行命令之前添加命令 . /etc/profile;/bin/sh，使得环境变量生效，例如：
+20 03 * * * . /etc/profile;/bin/sh /var/www/runoob/test.sh
+
+重启crontab
+1.在系统中有service这个命令时：
+这个命令在red hat当中常用,有的linux发行版本中没有这个命令.
+service crond start //启动服务
+service crond stop //关闭服务
+service crond restart //重启服务
+2.linux发行版本没有service这个命令时：
+/etc/init.d/cron stop
+/etc/init.d/cron start
+3.执行出现 /bin/systemctl 。。。。说明是新版的可用以下命令操作
+/bin/systemctl restart crond.service  #启动服务
+/bin/systemctl reload  crond.service  #重新载入配置
+/bin/systemctl status  crond.service  #查看crontab服务状态
+
+逻辑卷管理（Logical Volume Manager，LVM）
+LVM 是 Linux 环境下对硬盘分区进行管理的一种机制，它是建立在硬盘或分区之上的逻辑层。
+物理卷（Physical Volume，PV）
+PV 处于 LVM 系统的最底层，是 LVM 的基本储存逻辑块。
+卷组（Volume Group，VG）
+VG 由一个或者多个 PV 组成。一个 LVM 系统中可以有一个或者多个 VG。
+逻辑卷（Logical Volume，LV）
+逻辑卷即从卷组中"切出"的一块空间，并且可以伸缩。文件系统建立在逻辑卷之上。
+
+Linux 常用硬盘命令
+查看文件系统可用空间情况：
+df -h
+查看硬盘、分区和逻辑卷等情况：
+lsblk
+查看硬盘分区信息：
+fdisk -l
+查看物理卷信息：
+pvdisplay
+查看卷组信息：
+vgdisplay
+查看逻辑卷信息：
+lvdisplay
+扩展逻辑卷至最大可用空间，并在扩展后调用 fsadm 扩展文件系统的尺寸：
+lvextend -l+100%FREE <lv-name> -r
+
+系统提示 no space left on device 的原因是所在逻辑卷空间将近耗尽：

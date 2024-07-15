@@ -1,0 +1,33 @@
+
+# docker pull alpine
+
+# docker run -it alpine /bin/sh
+
+# 
+先在容器里面编写一个最简单的hello world
+PS： 这个alpine之中各种命令都是使用busybox的，vi之类的用起来会有点怪
+
+#include <stdio.h>
+int main()
+{
+  printf("Hello world\n");
+}
+
+##  c程序有了，我们还缺gcc编译器。
+alpine的包管理命令是apk，安装gcc
+apk add gcc
+
+
+不过alpine默认的安装源慢得要命，装个gcc都要好久。可以手动修改repositories，改为国内源
+echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.8/main" > /etc/apk/repositories
+echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.8/community" >> /etc/apk/repositories
+
+不过一编译就报错了，很无语
+
+1.c:1:19: fatal error: stdio.h: No such file or directory
+
+在alpine之中，libc是要单独安装的
+apk add libc-dev
+
+安装完libc后，gcc终于可以顺利编译，hello world也顺利出现了
+

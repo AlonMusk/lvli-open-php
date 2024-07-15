@@ -1,0 +1,67 @@
+function writeLog($log, $dir = null, $filename=null)
+{
+    $dir = !empty($dir) ? $dir : __DIR__;
+    $filename = !empty($filename) ? $filename : date('Y-m-d') . '.log';
+
+    $dir =rtrim($dir,'/');
+    $filename =ltrim($filename,'/');
+
+  
+    if(!is_dir($dir)){
+         mkdir($dir,0777,true);
+    }
+
+    //不存在该文件则创建：w
+    $fd = fopen($dir . '/' . $filename, 'a+');
+    if (empty($fd)) {
+        return '';
+    }
+
+    $type = gettype($log);
+    // 数组 json int  string  float
+    if (!in_array($type, [
+        'boolean',
+        'interger',
+        'double',
+        'string',
+        'array',
+        'object',
+        'NULL',
+    ])) {
+        echo '不支持该类型:' . $type . '的日志打印';
+        exit();
+    }
+
+    switch ($type) {
+        case 'boolean':
+            break;
+        case 'interger':
+
+            break;
+        case 'double':
+            break;
+        case 'string':
+            break;
+        case 'NULL';
+            break;
+        case 'array':
+            $log = json_encode($log,JSON_UNESCAPED_UNICODE);
+            break;
+        case 'object';
+           $log = collect($log)->toArray();
+            $log = json_encode($log,JSON_UNESCAPED_UNICODE);
+            break;
+        default:
+            break;
+    }
+    $log = $type.':'.$log."\n";
+    fwrite($fd, $log);
+    fclose($fd);
+    return true;
+}
+
+
+$log = ['三年低幅度','扫地机sd'];
+$dir = './03/';
+$filename = '/02.log';
+echo writeLog($log,$dir,$filename);

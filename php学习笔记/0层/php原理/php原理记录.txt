@@ -1,0 +1,123 @@
+惠新宸  鸟哥  php
+https://www.laruence.com/
+
+php的设计指向什么方向？
+变量 
+php原理之
+内存管理 
+sessionGC  
+异常机制 
+对象 
+变量生命期 
+扩展载入过程  
+foreach 
+文件上传 
+变量分离/引用  
+变量作用域  
+ 
+函数 
+opcodes
+
+php7重构三原则
+降低内存占用, 提高缓存友好性, 降低执行的指令数
+
+变量：
+Zval
+
+php5  32个字节
+struct _zval_struct {
+     union {
+          long lval;
+          double dval;
+          struct {
+               char *val;
+               int len;
+          } str;
+          HashTable *ht;
+          zend_object_value obj;
+          zend_ast *ast;
+     } value;
+     zend_uint refcount__gc;
+     zend_uchar type;
+     zend_uchar is_ref__gc;
+};
+
+php7  16个字节
+struct _zval_struct {
+     union {
+          zend_long         lval;             /* long value */
+          double            dval;             /* double value */
+          zend_refcounted  *counted;
+          zend_string      *str;
+          zend_array       *arr;
+          zend_object      *obj;
+          zend_resource    *res;
+          zend_reference   *ref;
+          zend_ast_ref     *ast;
+          zval             *zv;
+          void             *ptr;
+          zend_class_entry *ce;
+          zend_function    *func;
+          struct {
+               uint32_t w1;
+               uint32_t w2;
+          } ww;
+     } value;
+    union {
+        struct {
+            ZEND_ENDIAN_LOHI_4(
+                zend_uchar    type,         /* active type */
+                zend_uchar    type_flags,
+                zend_uchar    const_flags,
+                zend_uchar    reserved)     /* call info for EX(This) */
+        } v;
+        uint32_t type_info;
+    } u1;
+    union {
+        uint32_t     var_flags;
+        uint32_t     next;                 /* hash collision chain */
+        uint32_t     cache_slot;           /* literal cache slot */
+        uint32_t     lineno;               /* line number (for ast nodes) */
+        uint32_t     num_args;             /* arguments number for EX(This) */
+        uint32_t     fe_pos;               /* foreach position */
+        uint32_t     fe_iter_idx;          /* foreach iterator index */
+    } u2;
+};
+
+//共同体
+typedef union _zend_value {
+	zend_long         lval;				/* long value */
+	double            dval;				/* double value */
+	zend_refcounted  *counted;
+	zend_string      *str;
+	zend_array       *arr;
+	zend_object      *obj;
+	zend_resource    *res;
+	zend_reference   *ref;
+	zend_ast_ref     *ast;
+	zval             *zv;
+	void             *ptr;
+	zend_class_entry *ce;
+	zend_function    *func;
+	struct {
+		uint32_t w1;
+		uint32_t w2;
+	} ww;
+} zend_value;
+
+Opcode是一种PHP脚本编译后的中间语言，
+
+JIT just in time
+FFI 调用C原生函数
+
+动态语言： 语言结构在运行期是可改变的
+脚本语言： 不是独立运行的，需要PHP解析器
+
+接下来了解原理，就直接画图就好了。图像化加深记忆
+学技术最成功的之一就是把脑力活转变为体力活
+
+于这样的数组，还是依照arHash来记录添加循序。
+
+总的来说，arData中的值是按照添加顺序来自然增长使用的，而索引的顺序则记录在arHash中。
+
+SIMD(Single Instruction Multiple Data)即单指令流多数据流，是一种采用一个控制器来控制多个处理器，同时对一组数据（又称“数据向量”）中的每一个分别执行相同的操作从而实现空间上的并行性的技术。简单来说就是一个指令能够同时处理多个数据。 如上图所示，使用标量运算一次只能对一对数据执行乘法操作，而采用SIMD乘法指令，则一次可以对四对数据同时执行乘法操作。

@@ -1,0 +1,35 @@
+根据集合获取数据
+
+
+carbon获取 30天前(的第一天):   
+Carbor::now->startOfMonth()->subMonth()->toDateString();
+// 当前月的第一天  或者当前周的周几
+Carbor::now->firstOfMonth()->subMonth()->toDateString();
+//这种获取到的上个月不太准确的  比如有31天的情况
+Carbon::now->subMonth()->startOfMonth()->toDateString();
+
+构造器
+eloquent和查询器 ORM
+在封装中使用各种情形的原生sql
+
+eloquent  ORM
+返回值是 IlluminateDatabaseEloquentCollection 的一个实例
+$users = User::where('active', 1)
+             ->orderBy('name', 'desc')
+             ->take(10)
+             ->get();
+			 
+我们可以从 DB 门面的 table 方法开始，table 方法为给定表返回一个流式查询构建器实例，该实例允许你在查询上链接多个约束条件并返回最终查询结果。在本例中，我们使用 get 方法获取表中所有记录：
+ $users = DB::table('users')->get();
+get 方法返回包含结果集的 Illuminate\Support\Collection，其中每一个结果都是 PHP 的 StdClass 对象实例：
+
+			 
+权限 laravel-permission
+https://laravelacademy.org/post/9389
+鉴权
+
+
+单点登录
+
+
+

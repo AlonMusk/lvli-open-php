@@ -1,0 +1,41 @@
+GET shop_scheme/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "total_goals": {
+      "script": {
+        "lang": "painless",
+        "source": """
+        
+          return doc['title.keyword'];
+        """
+      }
+    }
+  }
+}
+
+
+  "script_fields": {
+    "is_new": {
+      "script": {
+        "lang": "painless",
+        "source": """
+ if(doc['created_at'].size() != 0 && doc['created_at'].value ==params.created_at  &&
+                     doc['type'].size() != 0 && ( doc['type'] == params.brand_type  ||  doc['type'] ==params.platform_type ))
+                    {
+                       return 1;
+                     }
+                     return 0;
+                
+        """,
+        "params": {
+          "created_at": "1619599364",
+          "brand_type": 2,
+          "platform_type": 2,
+          "bind_industry_id": 2
+        }
+      }
+    }
+  }

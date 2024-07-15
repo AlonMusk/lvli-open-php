@@ -1,0 +1,61 @@
+docker pull percona/percona-xtradb-cluster
+或者本地安装
+docker load < /home/soft/pxc.tar.gz
+
+重命名镜像：（名称太长，重命名一下）
+docker tag percona/percona-xtradb-cluster:latest pxc
+
+可删除原镜像
+docker rmi percona/percona-xtradb-cluster
+
+出于安全考虑，给PXC集群创建Docker内部网络
+# 创建网段
+docker network create --subnet=172.18.0.0/24 net1
+# 查看网段
+docker network inspect net1
+# 删除网段
+# docker network rm net1
+
+
+创建Docker卷：
+使用Docker时，业务数据应保存在宿主机中，采用目录映射，这样可以使数据与容器独立。但是容器中的PXC无法直接使用映射目录，解决办法是采用Docker卷来映射
+# 创建名称为v1的数据卷，--name可以省略
+docker volume create --name v1
+查看数据卷
+docker inspect v1
+结果：
+[root@localhost ~]# docker inspect v1
+[
+    {
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/v1/_data",#这里是在宿主机的保存位置
+        "Name": "v1",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+删除数据卷
+docker volume rm v1
+创建5个数据卷
+docker volume create --name v1
+docker volume create --name v2
+docker volume create --name v3
+docker volume create --name v4
+docker volume create --name v5
+
+  ??? 先安装好mysql,接着
+创建5个PXC容器构成集群
+# 第一个节点
+docker run -d -p 3305:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=abc123456 -v v1:/var/lib/mysql --name=node1 --network=net1 --ip 172.18.0.2 pxc
+# 在第一个节点启动后要等待一段时间，等候mysql启动完成。
+
+# 第二个节点
+docker run -d -p 3307:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=abc123456 -e CLUSTER_JOIN=node1 -v v2:/var/lib/mysql --name=node2 --net=net1 --ip 172.18.0.3 pxc
+# 第三个节点
+docker run -d -p 3308:3306 -e MYSQL_ROOT_PASSWORD=abc123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=abc123456 -e CLUSTER_JOIN=node1 -v v3:/var/lib/mysql --name=node3 --net=net1 --ip 172.18.0.4 pxc
+# 第四个节点
+docker run -d -p 3309:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=abc123456 -e CLUSTER_JOIN=node1 -v v4:/var/lib/mysql --name=node4 --net=net1 --ip 172.18.0.5 pxc
+# 第五个节点
+docker run -d -p 3310:3306 -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=abc123456 -e CLUSTER_JOIN=node1 -v v5:/var/lib/mysql --name=node5 --net=net1 --ip 172.18.0.6 pxc
+

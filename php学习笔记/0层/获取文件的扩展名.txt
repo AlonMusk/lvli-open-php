@@ -1,0 +1,56 @@
+五种方式
+
+字符串的截取
+strstr 获取子串  strchr  strpos  
+
+翻转  再翻转
+str_reverse
+
+匹配表达式
+str_replace
+
+联合使用
+
+使用php自带的处理函数
+
+
+
+    /**
+     * 远程下载文件到本地
+     * @param $remoteUrl
+     * @param string $saveFile
+     * @param int $timeout
+     * @return array
+     */
+    public static function downLoadFileFromRemote($remoteUrl, $saveFile = '', $timeout = 60)
+    {
+        $saveFile = empty($saveFile) ? pathinfo($remoteUrl, PATHINFO_BASENAME) : $saveFile;
+        $dir = pathinfo($saveFile, PATHINFO_DIRNAME);
+        !is_dir($dir) && @mkdir($dir, 0755, true);
+        $remoteUrl = str_replace(' ', "%20", $remoteUrl);
+        $result = ['size' => 0, 'spend_time' => 0];
+        $startTime = explode(' ', microtime());
+        $startTime = (float)$startTime[0] + (float)$startTime[1];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $remoteUrl);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $temp = curl_exec($ch);
+
+        // 如果请求没有发送失败
+        if ($temp !== false) {
+            // 再检查http响应码是否为200
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($statusCode == 200 && file_put_contents($saveFile, $temp)) {
+                $result['size'] = sprintf('%.3f', strlen($temp) / 1024);
+            }
+        }
+
+        curl_close($ch);
+
+        $endTime = explode(' ', microtime());
+        $endTime = (float)$endTime[0] + (float)$endTime[1];
+        $result['spend_time'] = round($endTime - $startTime) * 1000;//单位：毫秒
+        return $result;
+    }
+

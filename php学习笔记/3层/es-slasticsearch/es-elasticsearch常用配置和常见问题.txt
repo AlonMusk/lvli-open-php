@@ -1,0 +1,106 @@
+1、查看版本:
+启动es。 curl -XGET localhost:9200  其中number值就是版本号
+
+Elasticsearch  可视化管理工具
+https://github.com/360EntSecGroup-Skylar/ElasticHD/releases/
+下载windos-i386版 
+执行 ElasticHD.exe -p 127.0.0.1:9800
+
+
+全文搜索属于最常见的需求，开源的 Elasticsearch （以下简称 Elastic）是目前全文搜索引擎的首选。
+
+它可以快速地储存、搜索和分析海量数据。维基百科、Stack Overflow、Github 都采用它。
+
+ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便
+
+四种常见的存储方案：
+应用端关联  
+适用场景：数据量少的业务场景。
+优点：数据量少时，用户体验好。
+缺点：数据量大，两次查询耗时肯定会比较长，影响用户体验。
+宽表冗余存储
+父子文档存在
+nested存储  内嵌存储
+
+默认的index字段上限 1000.可以修改任意值
+
+父子文档是存储在同一个index的同一个type中的，即有的记录是父文档，有的记录是子文档
+父子文档必须存储在同一个shard中
+一个子文档只能定义一个父文档关联
+在父-子文档中支持 子文档聚合，这一点和 嵌套聚合 类似。但是，对于父文档的聚合查询是不支持的
+
+路由：
+
+索引（index）   数据库
+文档(document)  记录
+type             表
+fields           字段
+ 
+ 基本使用：
+https://learnku.com/articles/48200
+问问黄药师 有没有坑  注意事项
+
+kibana下载链接
+https://www.elastic.co/cn/downloads/past-releases/kibana-7-13-3
+
+MySQL	Elasticsearch
+数据库（Database）	索引（Index）  库
+表（Table）	        类型（Type）  表
+记录（Row）	        文档（Document）  行
+字段（Column）	    字段（Fields）
+
+
+常用的查询语句  聚合 统计语句和文档输出
+分片 和集群的策略和服务器配置以及项目开发的config
+性能分析数据（100W）
+
+安装ik分词器  参考https://github.com/medcl/elasticsearch-analysis-ik
+1、找到分词器和ES对应的版本  安装
+cd /usr/share/elasticsearch
+./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.13.3/elasticsearch-analysis-ik-7.13.3.zip
+2、restart elasticsearch
+
+3、查看测试例子
+curl -XPUT http://localhost:9200/demo2_index
+
+curl -XPOST http://localhost:9200/demo_2index/_mapping -H 'Content-Type:application/json' -d'
+{
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "ik_max_word",
+                "search_analyzer": "ik_smart"
+            }
+        }
+
+}'
+
+curl -XPOST http://localhost:9200/demo2_index/_create/1 -H 'Content-Type:application/json' -d'
+{"content":"美国留给伊拉克的是个烂摊子吗"}
+'
+
+curl -XPOST http://localhost:9200/demo2_index/_create/2 -H 'Content-Type:application/json' -d'
+{"content":"公安部：各地校车将享最高路权"}
+'
+curl -XPOST http://localhost:9200/demo2_index/_create/3 -H 'Content-Type:application/json' -d'
+{"content":"中韩渔警冲突调查：韩警平均每天扣1艘中国渔船"}
+'
+curl -XPOST http://localhost:9200/demo2_index/_create/4 -H 'Content-Type:application/json' -d'
+{"content":"中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首"}
+'
+curl -XPOST http://localhost:9200/demo2_index/_search  -H 'Content-Type:application/json' -d'
+{
+    "query" : { "match" : { "content" : "中国" }},
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "content" : {}
+        }
+    }
+}
+'
+
+
+
+

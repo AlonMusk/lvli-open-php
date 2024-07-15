@@ -1,0 +1,33 @@
+WSL：适用于windows的linux子系统
+https://learn.microsoft.com/zh-cn/windows/wsl/about
+
+
+## apt 是啥? unbuntu 系统下的命令
+## ping no found
+# apt-get update
+# apt install iputils-ping
+# apt install net-tools
+
+## -it 参数是啥
+
+## -d  参数是啥
+
+
+Hardware assisted virtualization and data execution protection must be enabled in the BIOS. See https://docs.docker.com/desktop/windows/troubleshoot/#virtualization
+
+
+开启window10 虚拟化
+del 进入 BIOS  -> Intel Virtual Technology ->enable
+
+然后 通过控制面板，开启 Hyper-V 功能 即可。
+
+## 命令行方式启动 Hyper-V  然后重启电脑
+bcdedit /set hypervisorlaunchtype auto
+
+## 无法打开启动配置数据存储
+# 用管理员身份启动cmd
+
+## Docker-compose提示 exited with code 0
+# 加上 stdin_open: true ， tty: true 这两行参数，代码如下，其中 stdin_open 相当于 run 命令中的 -d, 其中 tty 相当于 run 命令中的 -i
+
+

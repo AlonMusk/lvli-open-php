@@ -1,0 +1,26 @@
+垃圾回收：简称GC
+
+PHP进行内存管理的核心算法一共两项：
+一是引用计数，二是写时拷贝(拷贝复制)
+
+PHP7 中复杂类型，像字符串、数组、对象等的数据结构中，头部都有一个 gc, 这个 gc 的作用就是用来对垃圾回收的支持。当变量赋值、传递时，会增加 value 的引用数， unset、return 等释放变量时再减掉引用数，减掉后如果发现 refcount 变为 0 则直接释放 value，这是变量的基本回收过程。
+不过有一种问题是这个机制无法解决的，就是循环引用的问题。
+
+什么是循环引用呢？ 简单说就是变量的内部里存的 value 又引用了变量自身。 这种比较经常发生在数组和对象类型的变量上。
+
+这里先讲一下引用，即 zend_reference 这个类型，这个是 PHP7 新增的变量类型，当对变量使用 “&” 操作时，会创建新的中间结构体 zend_reference，这个结构体会真正的指向对应的 value 结构。
+
+zval
+
+zend_value
+
+
+_zend_refcounted_h 
+zend_refcounted_h.gc_info 紫色 黑色 白色
+
+当一个zval在被unset的时候、或者从一个函数中运行完毕出来（就是局部变量）的时候等等很多地方，都会产生zval与zend_value发生断开的行为，这个时候zend引擎需要检测的就是zend_value的refcount是否为0，如果为0，则直接KO free空出内容来。如果zend_value的recount不为0，这个value不能被释放，但是也不代表这个zend_value是清白的，因为此zend_value依然可能是个垃圾。
+
+
+
+
+

@@ -1,0 +1,69 @@
+区别：
+1、MyISAM不支持事务，而InnoDB支持。
+2、InnoDB支持数据行锁定，MyISAM不支持行锁定，只支持锁定整个表。
+3、InnoDB支持外键，MyISAM不支持。
+4、InnoDB的主键范围更大，最大是MyISAM的2倍。
+
+
+	      事务  行锁定  表锁定  支持外键  全文索引  主键范围更大
+myisam     X      X       V        X        V          X
+innodb     V      V               V         X          v
+
+在MySQL 5.1之前的版本中，默认的搜索引擎是MyISAM，从MySQL 5.5之后的版本中，默认的搜索引擎变更为InnoDB。
+
+MyISAM：
+不支持事务，但是每次查询都是原子的；
+支持表级锁，即每次操作是对整个表加锁；
+存储表的总行数；
+一个MYISAM表有三个文件：索引文件、表结构文件、数据文件；
+采用非聚集索引，索引文件的数据域存储指向数据文件的指针。辅索引与主索引基本一致，但是辅索引不用保证唯一性。
+
+InnoDb：
+支持ACID的事务，支持事务的四种隔离级别；
+支持行级锁及外键约束：因此可以支持写并发；
+不存储总行数；
+一个InnoDb引擎存储在一个文件空间（共享表空间，表大小不受操作系统控制，一个表可能分布在多个文件里），也有可能为多个（设置为独立表空，表大小受操作系统文件大小限制，一般为2G），受操作系统文件大小的限制
+
+InnoDB存储引擎的特点是：行级锁、事务安全（ACID兼容）、支持外键、
+两种类型最主要的差别就是InnoDB支持事务处理与外键和行级锁。而MyISAM不支持。所以MyISAM往往就容易被人认为只适合在小项目中使用。
+
+-- 整个项目的数据库脚本
+-- 开始创建一个数据库
+CREATE DATABASE seckill;
+-- 使用数据库
+USE seckill;
+-- 创建秒杀库存表
+
+CREATE TABLE seckill(
+  `seckill_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '商品库存ID',
+  `name` VARCHAR(120) NOT NULL COMMENT '商品名称',
+  `number` INT NOT NULL COMMENT '库存数量',
+  `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '秒杀开启的时间',
+  `end_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '秒杀结束的时间',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '创建的时间',
+  PRIMARY KEY (seckill_id),
+  KEY idx_start_time(start_time),
+  KEY idx_end_time(end_time),
+  KEY idx_create_time(create_time)
+)ENGINE =InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='秒杀库存表';
+
+-- 插入初始化数据
+
+insert into
+  seckill(name,number,start_time,end_time)
+values
+  ('1000元秒杀iphone6',100,'2016-5-22 00:00:00','2016-5-23 00:00:00'),
+  ('500元秒杀iPad2',200,'2016-5-22 00:00:00','2016-5-23 00:00:00'),
+  ('300元秒杀小米4',300,'2016-5-22 00:00:00','2016-5-23 00:00:00'),
+  ('200元秒杀红米note',400,'2016-5-22 00:00:00','2016-5-23 00:00:00');
+
+-- 秒杀成功明细表
+-- 用户登录相关信息
+create table success_killed(
+  `seckill_id` BIGINT NOT NULL COMMENT '秒杀商品ID',
+  `user_phone` BIGINT NOT NULL COMMENT '用户手机号',
+  `state` TINYINT NOT NULL DEFAULT -1 COMMENT '状态标示:-1无效 0成功 1已付款',
+  `create_time` TIMESTAMP NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (seckill_id,user_phone), /*联合主键*/
+  KEY idx_create_time(create_time)
+)ENGINE =InnoDB DEFAULT CHARSET =utf8 COMMENT ='秒杀成功明细表';

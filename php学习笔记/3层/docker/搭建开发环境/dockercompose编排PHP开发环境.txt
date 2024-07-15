@@ -1,0 +1,69 @@
+互联方案三：Docker Compose 换一个文件
+
+# docker -v
+# docker-compose -v
+
+# 创建 docker-compose.yml 文件
+version: '3'
+services:
+  php-workspace:
+    image: php:7.3-fpm-alpine
+  nginx:
+    image: nginx:alpine
+
+## 构建镜像并启动容器
+# docker-compose up --build 
+
+
+# 关闭项目
+# docker-compose down
+
+# 增加端口 指定宿主机端口和容器端口的映射关系
+# 
+version: '3'
+services:
+  php-workspace:
+    image: php:7.3-fpm-alpine
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:8080"
+	  
+# 执行 docker-compose up
+# docker-compose up
+
+## 配置
+## 新增 nginx/Dockerfile 文件
+FROM nginx:alpine
+
+COPY conf.d /etc/nginx/conf.d
+
+## 新增 php/Dockerfile 文件
+FROM php:7.3-fpm-alpine
+
+## 新增index.php文件
+<?php
+
+phpinfo();
+
+##修改 docker-compose.yml 文件
+version: '3'
+services:
+  php-workspace:
+    build: D:\env\env_docker\php # 这里php指我们的创建的目录
+    volumes: # 这里指定数据卷，可以指定多个， 中划线代表值为数组的一个成员
+      - D:\work_space\docker\proj01:/var/www/html
+  nginx:
+    build: D:\env\env_docker\nginx # 这里nginx指我们的创建的目录
+	volumes: 
+      - D:\work_space\docker\proj01:/var/www/html
+    ports:
+      - "8080:8080"
+
+
+# 重启项目
+# docker-compose down
+#  docker-compose up --build
+
+
+## 开启多个站点，添加 nginx 端口配置 就可以了

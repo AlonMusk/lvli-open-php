@@ -1,0 +1,100 @@
+品牌和门店装修知识存在父子关系
+
+那么先设计  品牌的mapping
+
+PUT /article
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+       "brand_article_id": {
+          "type": "integer"
+        },
+        "title": {
+			"type": "text",
+			"analyzer": "ik_max_word",
+			"search_analyzer": "ik_smart"
+        },
+        "abstract": {
+          "type": "text"
+        },
+      "brand_shop_join": {  //定义一个字段的名字
+        "type": "join",
+        "relations": {
+            //父与子
+          "brand": "shop"
+        }
+      }
+    }
+  }
+}
+
+POST article/_doc/1
+{
+  "brand_article_id":1,
+  "title":"品牌资讯标题1",
+    "abstract":"品牌资讯摘要1",
+    "brand_shop_join": {
+    "name": "brand"
+  }
+}
+
+PUT /article/_doc/101?routing=1
+{
+  "shop_article_id":101,
+  "title":"门店资讯标题1",
+  "abstract":"门店资讯摘要1",
+ 
+  "brand_shop_join":{
+    "name":"shop",
+    "parent":"1"
+  }
+}
+
+
+1、根据父文档id查询它下方的子文档
+GET /article/_search
+{
+  "query":{
+    "parent_id": {
+      "type":"shop",
+      "id":"1"
+    }
+  }
+}
+
+2、has_child返回满足条件的父文档
+GET /article/_search
+{
+  "query": {
+    "has_child": {
+      "type": "shop",    //子文档类型
+      "min_children": 1,  
+      "query": {
+        "match": {
+          "title": "门店资讯标题1"
+        }
+      }
+    }
+  }
+}
+3、has_parent返回满足父文档的子文档
+GET /article/_search
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "brand",
+      "query": {
+        "match": {
+          "title":"资讯标题1"
+        }
+      }
+    }
+  }
+}
+
+
+

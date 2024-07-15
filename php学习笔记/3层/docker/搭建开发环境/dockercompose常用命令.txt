@@ -1,0 +1,45 @@
+ ## 重启某个服务
+ docker-compose  up --build --no-deps proj00
+ 
+ docker-compose up -d --no-deps --build my-service
+ --no-deps 选项表示不重启服务的依赖项，--build 选项表示需要重新构建服务
+ -d 参数用于将服务在后台（detached）模式下运行。这意味着服务将在后台继续运行，而不会在终端上显示日志输出。
+## 删除某个服务
+docker-compose rm -f app
+
+## 查看所有的服务
+
+docker-compose ps
+
+## 运行重启服务 并且查看运行效果
+docker-compose up -d <service-name>
+docker-compose logs -f <service-name>
+
+
+## 在后台运行
+docker-compose up -d 
+
+## 只是启动新的服务，不影响其他服务
+docker-compose up -d my-new-service
+
+## 查看服务IP
+docker ps
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container_name_or_id>
+
+## nslookup 命令进行域名解析，以验证是否能够正确解析上游服务的容器名称或服务名称。
+#nslookup proj01
+
+[error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: local.proj01.com, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://172.18.0.2:9000", host: "local.proj01.com"
+
+
+## 尝试使用 docker network inspect 命令查看容器是否在相同的网络中，并且是否可以相互访问。
+# docker network lsCREATE USER 'proj01_user'@'localhost' IDENTIFIED BY 'proj01_password';
+# docker network inspect my-network
+
+
+## 为数据库增加账号
+
+use mysql;
+CREATE USER 'proj01_user'@'%' IDENTIFIED BY 'proj01_password';
+GRANT ALL PRIVILEGES ON proj01_db.* TO 'proj01_user'@'%';
+FLUSH PRIVILEGES;

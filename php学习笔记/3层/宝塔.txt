@@ -1,0 +1,6 @@
+升级
+curl http://download.bt.cn/install/update_panel.sh|bash
+
+宝塔：
+redis 启动失败
+

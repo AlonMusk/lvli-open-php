@@ -1,0 +1,29 @@
+centos 8已停止维护。而 centos7 维护到2024年，故 先安装centos7
+安装centos7
+
+#  docker pull roboxes/centos7
+
+## 运行centos镜像 并把centos的22端口映射到本机的8022端口，做shh连接使用
+## --privileged 付给容器root权限，不然系统级别的操作都搞不了
+# docker run -it -d --name=centos7 --privileged -p 8022:22 -p 8080:8080  roboxes/centos7 /usr/sbin/init
+
+ 
+
+#查看已经启动的容器
+docker ps
+#进入centos
+docker exec -it eefdeafde870  /bin/bash
+
+## 安装必要
+# yum -y install gcc gcc-c++
+
+## 安装php7 需要安装和启动EPEL 和Remi存储库
+#  yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
+
+##管理 yum存储库以及包
+# yum -y install yum-utils
+
+##安装php 7.0
+# yum-config-manager --enable remi-php70 
+

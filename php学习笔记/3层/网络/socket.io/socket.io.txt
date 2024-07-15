@@ -1,0 +1,9 @@
+socket.io 原理分析
+https://www.jianshu.com/p/a3e06ec1a3a0
+
+例子
+https://www.w3cschool.cn/socket/socket-ulbj2eii.html
+https://github.com/socketio/chat-example
+
+关于setInterval()你所不知道的地方
+https://blog.csdn.net/qq_25652949/article/details/81462498?utm_medium=distribute.wap_relevant.none-task-blog-baidujs_title-11

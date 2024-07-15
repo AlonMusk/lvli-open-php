@@ -1,0 +1,63 @@
+https://xueyuanjun.com/post/9547.html
+
+验证规则大全
+下面是有效规则及其函数列表：
+
+Accepted
+Active URL
+After (Date)
+After Or Equal（Date）
+Alpha
+Alpha Dash
+Alpha Numeric
+Array
+Before (Date)
+Before Or Equal（Date）
+Between
+Boolean
+Confirmed
+Date
+Date Equals
+Date Format
+Different
+Digits
+Digits Between
+Dimensions（图片文件）
+Distinct
+E-Mail
+Exists (Database)
+File
+Filled
+Greater Than
+Greater Than Or Equal
+Image (File)
+In
+In Array
+Integer
+IP Address
+JSON
+Less Than
+Less Than Or Equal
+Max
+MIME Types (File)
+MIME Type By File Extension
+Min
+Not In
+Not Regex
+Nullable
+Numeric
+Present
+Regular Expression
+Required
+Required If
+Required Unless
+Required With
+Required With All
+Required Without
+Required Without All
+Same
+Size
+String
+Timezone
+Unique (Database)
+URL

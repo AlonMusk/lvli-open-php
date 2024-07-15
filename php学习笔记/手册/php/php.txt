@@ -1,0 +1,411 @@
+鸟哥的深入理解php原理  https://www.laruence.com/2008/09/19/520.html
+https://github.com/php/php-src
+输出换行(用双引号)：
+<br /> 目前没有换行
+//unix系统使用\n；windows系统下\r\n 
+PHP_EOL
+php的内部函数在操作二进制数据时能保证达到预期的结果，例如str_replace、stristr、strcmp等函数，我们就说这些函数是二进制安全的。
+php都是C来开发的。
+zval结构
+typedef union _zvalue_value{
+	long lval;
+	double dval;
+	struct {
+		char *val;
+		int len;
+	} str;
+	HashTable *ht;
+	zend_object_value obj;
+}zvalue_value;
+struct _zval_struct{
+	zvalue_value value;
+	zend_unit refcount;
+	zend_uchar type;
+	zend_uchar is_ref;
+};
+typedef struct _zval_struct zval;
+
+array_walk(array,myfunction,parameter...) 函数对数组中的每个元素应用用户自定义函数。在函数中，数组的键名和键值是参数。
+array_walk_recursive
+(PHP 5, PHP 7) — 对数组中的每个成员递归地应用用户函数
+说明 
+array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ) : bool
+array_column ( array $input , mixed $column_key [, mixed $index_key = null ] )   返回数组中指定的一列
+
+bccomp — 比较两个任意精度的数字
+int bccomp ( string $left_operand , string $right_operand [, int $scale = int ] )
+echo bccomp('1', '2') . "\n";   // -1
+echo bccomp('1.00001', '1', 3); // 0
+echo bccomp('1.00001', '1', 5); // 1
+
+2个任意精度数字的减法
+bcsub ( string $left_operand , string $right_operand [, int $scale = int ] ) : string
+
+定义为fina的类合方法不能被继承
+
+
+
+设计模式就是一套解决方案，目的是为了重用代码，同时也能保证代码的可靠性
+
+享元模式通过尽可能多的类似对象共享来最小化内存使用或计算开销
+intdiv PHP 7 新增加了 intdiv() 函数，接收两个参数，返回值为第一个参数除于第二个参数的值并取整。
+
+trim
+(PHP 4, PHP 5, PHP 7)
+trim ( string $str [, string $character_mask = " \t\n\r\0\x0B" ] ) : string
+trim — 去除字符串首尾处的空白字符（或者其他字符）
+
+
+laravel  
+
+
+
+/**
+ * 数组 转 对象
+ *
+ * @param array $arr 数组
+ * @return object
+ */
+function array_to_object($arr) {
+    if (gettype($arr) != 'array') {
+        return;
+    }
+    foreach ($arr as $k => $v) {
+        if (gettype($v) == 'array' || getType($v) == 'object') {
+            $arr[$k] = (object)array_to_object($v);
+        }
+    }
+ 
+    return (object)$arr;
+}
+ 
+/**
+ * 对象 转 数组
+ *
+ * @param object $obj 对象
+ * @return array
+ */
+function object_to_array($obj) {
+    $obj = (array)$obj;
+    foreach ($obj as $k => $v) {
+        if (gettype($v) == 'resource') {
+            return;
+        }
+        if (gettype($v) == 'object' || gettype($v) == 'array') {
+            $obj[$k] = (array)object_to_array($v);
+        }
+    }
+ 
+    return $obj;
+}
+
+类：声明为static的变量。
+
+$a=$c??$b;
+等同于 $a=isset($c)?$c:$b;
+$a=$c?:$b;
+等同于 $a=$c?$c:$b;
+
+
+final: 如果父类的方法被声明为final，则子类无法覆盖该方法，如果一个类被声明为final，则不能被继承
+extends 继承
+instanceof 类型运算符  用于确定一个PHP变量是否属于某一个类class的实例
+
+protected :
+
+247个必背函数。
+array_change_key_case — 将数组中的所有键名修改为全大写或小写
+array_chunk — 将一个数组分割成多个
+array_column — 返回数组中指定的一列
+array_combine — 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
+array_count_values — 统计数组中所有的值
+array_diff_assoc — 带索引检查计算数组的差集
+array_diff_key — 使用键名比较计算数组的差集
+array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
+array_diff_ukey — 用回调函数对键名比较计算数组的差集
+array_diff — 计算数组的差集
+array_fill_keys — 使用指定的键和值填充数组
+array_fill — 用给定的值填充数组
+array_filter — 用回调函数过滤数组中的单元
+array_flip — 交换数组中的键和值
+array_intersect_assoc — 带索引检查计算数组的交集
+array_intersect_key — 使用键名比较计算数组的交集
+array_intersect_uassoc — 带索引检查计算数组的交集，用回调函数比较索引
+array_intersect_ukey — 用回调函数比较键名来计算数组的交集
+array_intersect — 计算数组的交集
+array_key_exists — 检查数组里是否有指定的键名或索引
+array_key_first — Gets the first key of an array
+array_key_last — Gets the last key of an array
+array_keys — 返回数组中部分的或所有的键名
+array_map — 为数组的每个元素应用回调函数
+array_merge_recursive — 递归地合并一个或多个数组
+array_merge — 合并一个或多个数组
+array_multisort — 对多个数组或多维数组进行排序
+array_pad — 以指定长度将一个值填充进数组
+array_pop — 弹出数组最后一个单元（出栈）
+array_product — 计算数组中所有值的乘积
+array_push — 将一个或多个单元压入数组的末尾（入栈）
+array_rand — 从数组中随机取出一个或多个单元
+array_reduce — 用回调函数迭代地将数组简化为单一的值
+array_replace_recursive — 使用传递的数组递归替换第一个数组的元素
+array_replace — 使用传递的数组替换第一个数组的元素
+array_reverse — 返回单元顺序相反的数组
+array_search — 在数组中搜索给定的值，如果成功则返回首个相应的键名
+array_shift — 将数组开头的单元移出数组
+array_slice — 从数组中取出一段
+array_splice — 去掉数组中的某一部分并用其它值取代
+array_sum — 对数组中所有值求和
+array_udiff_assoc — 带索引检查计算数组的差集，用回调函数比较数据
+array_udiff_uassoc — 带索引检查计算数组的差集，用回调函数比较数据和索引
+array_udiff — 用回调函数比较数据来计算数组的差集
+array_uintersect_assoc — 带索引检查计算数组的交集，用回调函数比较数据
+array_uintersect_uassoc — 带索引检查计算数组的交集，用单独的回调函数比较数据和索引
+array_uintersect — 计算数组的交集，用回调函数比较数据
+array_unique — 移除数组中重复的值
+array_unshift — 在数组开头插入一个或多个单元
+array_values — 返回数组中所有的值
+array_walk_recursive — 对数组中的每个成员递归地应用用户函数
+array_walk — 使用用户自定义函数对数组中的每个元素做回调处理
+array — 新建一个数组
+arsort — 对数组进行逆向排序并保持索引关系
+asort — 对数组进行排序并保持索引关系
+compact — 建立一个数组，包括变量名和它们的值
+count — 计算数组中的单元数目，或对象中的属性个数
+current — 返回数组中的当前单元
+each — 返回数组中当前的键／值对并将数组指针向前移动一步
+end — 将数组的内部指针指向最后一个单元
+extract — 从数组中将变量导入到当前的符号表
+in_array — 检查数组中是否存在某个值
+key_exists — 别名 array_key_exists
+key — 从关联数组中取得键名
+krsort — 对数组按照键名逆向排序
+ksort — 对数组按照键名排序
+list — 把数组中的值赋给一组变量
+natcasesort — 用“自然排序”算法对数组进行不区分大小写字母的排序
+natsort — 用“自然排序”算法对数组排序
+next — 将数组中的内部指针向前移动一位
+pos — current 的别名
+prev — 将数组的内部指针倒回一位
+range — 根据范围创建数组，包含指定的元素
+reset — 将数组的内部指针指向第一个单元
+rsort — 对数组逆向排序
+shuffle — 打乱数组
+sizeof — count 的别名
+sort — 对数组排序
+uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
+uksort — 使用用户自定义的比较函数对数组中的键名进行排序
+usort — 使用用户自定义的比较函数对数组中的值进行排序
+81
+
+addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
+addslashes — 使用反斜线引用字符串
+bin2hex — 函数把包含数据的二进制字符串转换为十六进制值
+chop — rtrim 的别名
+chr — 返回指定的字符
+chunk_split — 将字符串分割成小块
+convert_cyr_string — 将字符由一种 Cyrillic 字符转换成另一种
+convert_uudecode — 解码一个 uuencode 编码的字符串
+convert_uuencode — 使用 uuencode 编码一个字符串
+count_chars — 返回字符串所用字符的信息
+crc32 — 计算一个字符串的 crc32 多项式
+crypt — 单向字符串散列
+echo — 输出一个或多个字符串
+explode — 使用一个字符串分割另一个字符串
+fprintf — 将格式化后的字符串写入到流
+get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表
+hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）
+hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符
+hex2bin — 转换十六进制字符串为二进制字符串
+html_entity_decode — Convert HTML entities to their corresponding characters
+htmlentities — 将字符转换为 HTML 转义字符
+htmlspecialchars_decode — 将特殊的 HTML 实体转换回普通字符
+htmlspecialchars — 将特殊字符转换为 HTML 实体
+implode — 将一个一维数组的值转化为字符串
+join — 别名 implode
+lcfirst — 使一个字符串的第一个字符小写
+levenshtein — 计算两个字符串之间的编辑距离
+localeconv — Get numeric formatting information
+ltrim — 删除字符串开头的空白字符（或其他字符）
+md5_file — 计算指定文件的 MD5 散列值
+md5 — 计算字符串的 MD5 散列值
+metaphone — Calculate the metaphone key of a string
+money_format — 将数字格式化成货币字符串
+nl_langinfo — Query language and locale information
+nl2br — 在字符串所有新行之前插入 HTML 换行标记
+number_format — 以千位分隔符方式格式化一个数字
+ord — 转换字符串第一个字节为 0-255 之间的值
+parse_str — 将字符串解析成多个变量
+print — 输出字符串
+printf — 输出格式化字符串
+quoted_printable_decode — 将 quoted-printable 字符串转换为 8-bit 字符串
+quoted_printable_encode — 将 8-bit 字符串转换成 quoted-printable 字符串
+quotemeta — 转义元字符集
+rtrim — 删除字符串末端的空白字符（或者其他字符）
+setlocale — 设置地区信息
+sha1_file — 计算文件的 sha1 散列值
+sha1 — 计算字符串的 sha1 散列值
+similar_text — 计算两个字符串的相似度
+soundex — Calculate the soundex key of a string
+sprintf — Return a formatted string
+sscanf — 根据指定格式解析输入的字符
+str_getcsv — 解析 CSV 字符串为一个数组
+str_ireplace — str_replace 的忽略大小写版本
+str_pad — 使用另一个字符串填充字符串为指定长度
+str_repeat — 重复一个字符串
+str_replace — 子字符串替换
+str_rot13 — 对字符串执行 ROT13 转换
+str_shuffle — 随机打乱一个字符串
+str_split — 将字符串转换为数组
+str_word_count — 返回字符串中单词的使用情况
+strcasecmp — 二进制安全比较字符串（不区分大小写）
+strchr — 别名 strstr
+strcmp — 二进制安全字符串比较
+strcoll — 基于区域设置的字符串比较
+strcspn — 获取不匹配遮罩的起始子字符串的长度
+strip_tags — 从字符串中去除 HTML 和 PHP 标记
+stripcslashes — 反引用一个使用 addcslashes 转义的字符串
+stripos — 查找字符串首次出现的位置（不区分大小写）
+stripslashes — 反引用一个引用字符串
+stristr — strstr 函数的忽略大小写版本
+strlen — 获取字符串长度
+strnatcasecmp — 使用“自然顺序”算法比较字符串（不区分大小写）
+strnatcmp — 使用自然排序算法比较字符串
+strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
+strncmp — 二进制安全比较字符串开头的若干个字符
+strpbrk — 在字符串中查找一组字符的任何一个字符
+strpos — 查找字符串首次出现的位置
+strrchr — 查找指定字符在字符串中的最后一次出现
+strrev — 反转字符串
+strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）
+strrpos — 计算指定字符串在目标字符串中最后一次出现的位置
+strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+strstr — 查找字符串的首次出现
+strtok — 标记分割字符串
+strtolower — 将字符串转化为小写
+strtoupper — 将字符串转化为大写
+strtr — 转换指定字符
+substr_compare — 二进制安全比较字符串（从偏移位置比较指定长度）
+substr_count — 计算字串出现的次数
+substr_replace — 替换字符串的子串
+substr — 返回字符串的子串
+trim — 去除字符串首尾处的空白字符（或者其他字符）
+ucfirst — 将字符串的首字母转换为大写
+ucwords — 将字符串中每个单词的首字母转换为大写
+vfprintf — 将格式化字符串写入流
+vprintf — 输出格式化字符串
+vsprintf — 返回格式化字符串
+wordwrap — 打断字符串为指定数量的字串
+98
+
+mb_check_encoding — 检查字符串在指定的编码里是否有效
+mb_chr — Get a specific character
+mb_convert_case — 对字符串进行大小写转换
+mb_convert_encoding — 转换字符的编码
+mb_convert_kana — Convert "kana" one from another ("zen-kaku", "han-kaku" and more)
+mb_convert_variables — 转换一个或多个变量的字符编码
+mb_decode_mimeheader — 解码 MIME 头字段中的字符串
+mb_decode_numericentity — 根据 HTML 数字字符串解码成字符
+mb_detect_encoding — 检测字符的编码
+mb_detect_order — 设置/获取 字符编码的检测顺序
+mb_encode_mimeheader — 为 MIME 头编码字符串
+mb_encode_numericentity — Encode character to HTML numeric string reference
+mb_encoding_aliases — Get aliases of a known encoding type
+mb_ereg_match — Regular expression match for multibyte string
+mb_ereg_replace_callback — Perform a regular expression search and replace with multibyte support using a callback
+mb_ereg_replace — Replace regular expression with multibyte support
+mb_ereg_search_getpos — Returns start point for next regular expression match
+mb_ereg_search_getregs — Retrieve the result from the last multibyte regular expression match
+mb_ereg_search_init — Setup string and regular expression for a multibyte regular expression match
+mb_ereg_search_pos — Returns position and length of a matched part of the multibyte regular expression for a predefined multibyte string
+mb_ereg_search_regs — Returns the matched part of a multibyte regular expression
+mb_ereg_search_setpos — Set start point of next regular expression match
+mb_ereg_search — Multibyte regular expression match for predefined multibyte string
+mb_ereg — Regular expression match with multibyte support
+mb_eregi_replace — Replace regular expression with multibyte support ignoring case
+mb_eregi — Regular expression match ignoring case with multibyte support
+mb_get_info — 获取 mbstring 的内部设置
+mb_http_input — 检测 HTTP 输入字符编码
+mb_http_output — 设置/获取 HTTP 输出字符编码
+mb_internal_encoding — 设置/获取内部字符编码
+mb_language — 设置/获取当前的语言
+mb_list_encodings — 返回所有支持编码的数组
+mb_ord — Get code point of character
+mb_output_handler — 在输出缓冲中转换字符编码的回调函数
+mb_parse_str — 解析 GET/POST/COOKIE 数据并设置全局变量
+mb_preferred_mime_name — 获取 MIME 字符串
+mb_regex_encoding — Set/Get character encoding for multibyte regex
+mb_regex_set_options — Set/Get the default options for mbregex functions
+mb_scrub — Description
+mb_send_mail — 发送编码过的邮件
+mb_split — 使用正则表达式分割多字节字符串
+mb_strcut — 获取字符的一部分
+mb_strimwidth — 获取按指定宽度截断的字符串
+mb_stripos — 大小写不敏感地查找字符串在另一个字符串中首次出现的位置
+mb_stristr — 大小写不敏感地查找字符串在另一个字符串里的首次出现
+mb_strlen — 获取字符串的长度
+mb_strpos — 查找字符串在另一个字符串中首次出现的位置
+mb_strrchr — 查找指定字符在另一个字符串中最后一次的出现
+mb_strrichr — 大小写不敏感地查找指定字符在另一个字符串中最后一次的出现
+mb_strripos — 大小写不敏感地在字符串中查找一个字符串最后出现的位置
+mb_strrpos — 查找字符串在一个字符串中最后出现的位置
+mb_strstr — 查找字符串在另一个字符串里的首次出现
+mb_strtolower — 使字符串小写
+mb_strtoupper — 使字符串大写
+mb_strwidth — 返回字符串的宽度
+mb_substitute_character — 设置/获取替代字符
+mb_substr_count — 统计字符串出现的次数
+mb_substr — 获取部分字符串
+58
+
+preg_filter — 执行一个正则表达式搜索和替换
+preg_grep — 返回匹配模式的数组条目
+preg_last_error — 返回最后一个PCRE正则执行产生的错误代码
+preg_match_all — 执行一个全局正则表达式匹配
+preg_match — 执行匹配正则表达式
+preg_quote — 转义正则表达式字符
+preg_replace_callback_array — Perform a regular expression search and replace using callbacks
+preg_replace_callback — 执行一个正则表达式搜索并且使用一个回调进行替换
+preg_replace — 执行一个正则表达式的搜索和替换
+preg_split — 通过一个正则表达式分隔字符串
+10
+
+public 表示全局，类内部外部子类都可以访问；
+private 表示私有的，只有本类内部可以使用；
+protected 表示受保护的，只有本类或子类或父类中可以访问；
+
+
+protected：是受保护的，只有在类内部以及继承类中使用，类外部不能使用。换句话说，就是子类和父类中使用$this->或者$parent::  调用父类;变量的调用:$this->变量名，如果子类中有该变量则调用的是子类中的，若没有则调用的是父类中的 ；方法的调用：$this->方法名();如果子类中有该方法则调用的是子类中的方法，若没有则是调用父类中的
+parent::则始终调用的是父类中的方法，没有调用属性
+
+spl_autoload_register
+
+
+/ect/php/7.3/cli/php.ini
+
+php -r "echo ini_get('memory_limit').PHP_EOL;"
+
+先思考如何对该功能进行测试，并完成测试代码的编写，然后编写相关的代码满足这些测试用例，然后循环进行添加其他功能，直到完成全部功能的开发。
+ 
+测试驱动开发的基本过程如下：
+1） 明确当前要完成的功能。可以记录成一个 TODO 列表。
+2） 快速完成针对此功能的测试用例编写。
+3） 测试代码编译不通过。
+4） 编写对应的功能代码。
+5） 测试通过。
+6） 对代码进行重构，并保证测试通过。
+7） 循环完成所有功能的开发。
+
+
+锁：
+文件锁  互斥锁  读写锁
+
+硬编码和软编码： 体现的是一种设计思想。尽量使用软编码。就是用一个可变变量来标记。
+
+
+
+
+
+
+
+
+

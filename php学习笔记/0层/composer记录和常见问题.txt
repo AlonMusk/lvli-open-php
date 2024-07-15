@@ -1,0 +1,107 @@
+命令行：
+composer config -g secure-http false
+
+
+
+安装composer
+wget -c https://getcomposer.org/composer.phar
+chmod u+x composer.phar
+放置到安装文件夹
+sudo mv composer.phar /usr/local/bin/composer
+
+执行命令，出现欢迎界面即成功。
+composer
+版本更新
+composer selfupdate
+6.全局配置依赖包国内镜像地址
+composer config -g repositories.packagist composer https://packagist.phpcomposer.com
+查看全局配置
+ composer config -l -g 
+
+7.安装依赖包（guzzlehttp）
+composer require guzzlehttp/guzzle
+
+清除缓存
+composer  clearcache
+
+常见问题
+1、Cannot create cache directory /home/ubuntu/.composer/cache/repo/https---mirrors.aliyun.com-composer/, or directory is not writable. Proceeding without cache
+
+sudo chown -R ubuntu /home/ubuntu/.composer/
+sudo chown -R ubuntu /home/ubuntu/.composer/cache/repo/https---mirrors.aliyun.com-composer
+sudo chown -R ubuntu /home/ubuntu/.composer/cache/files/
+
+2、composer file_put_contents(./composer.json): failed to op
+sudo chown -R ubuntu:ubuntu  ./composer.lock
+
+3、undefine XX 
+是插件的文件，通过 加 -vvv 定位到对应的文件看一下就行
+
+4、GPG error: The following signatures couldn't be verified because the public key is not available
+
+sudo gpg --keyserver keyserver.ubuntu.com --recv 5523BAEEB01FA116 //(这个公钥根据提示来写的)
+sudo gpg --export --armor 5523BAEEB01FA116 | sudo apt-key add -
+sudo apt-get update
+
+5、
+[Composer\Downloader\TransportException]                                                                  
+  Your configuration does not allow connection to http://packagist.phpcomposer.com. See https://getcompose  
+  r.org/doc/06-config.md#secure-http for details.    
+  composer config -g secure-http false
+
+ubuntu库中的composer，不能完成self-update。或者composer install 卡住了
+sudo apt-get remove composer
+sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/bin/composer
+chmod +x /usr/local/bin/composer
+
+6、Problem 1
+    - mongodb/mongodb is locked to version 1.8.0 and an update of this package was not requested.
+    - mongodb/mongodb 1.8.0 requires ext-mongodb ^1.8.1 -> it is missing from your system. Install or enable PHP's mongodb extension.
+  Problem 2
+    - mongodb/mongodb 1.8.0 requires ext-mongodb ^1.8.1 -> it is missing from your system. Install or enable PHP's mongodb extension.
+    - jenssegers/mongodb v3.8.2 requires mongodb/mongodb ^1.6 -> satisfiable by mongodb/mongodb[1.8.0].
+    - jenssegers/mongodb is locked to version v3.8.2 and an update of this package was not requested.
+
+To enable extensions, verify that they are enabled in your .ini files:
+You can also run `php --ini` inside terminal to see which files are used by PHP in CLI mode
+
+解决：
+composer install --ignore-platform-reqs
+或者安装mongodb
+
+7、Install of composer/package-versions-deprecated failed
+解决： composer install --no-plugins
+
+8、requires psr/log, it could not be found in any version, there may be a typo in the package name
+解决： 包的来源问题
+composer config -g repo.packagist composer https://packagist.org
+
+9、Plugin initialization failed 
+加参数  --no-plugins
+
+10、Unable to locate publishable resources
+composer/InstalledVersions.php on line 1774
+删除composer.lock 
+
+11、composer install 遇到 Could not delete 
+解决：composer install  --no-plugins 
+
+降低composer版本
+composer self-update --1
+
+composer require 参数说明：
+申明依赖-参数
+--prefer-source: 当有可用的包时，从 source 安装。
+--prefer-dist: 当有可用的包时，从 dist 安装。
+--dev: 安装 require-dev 字段中列出的包。
+--no-update: 禁用依赖关系的自动更新。
+--no-progress: 移除进度信息，这可以避免一些不处理换行的终端或脚本出现混乱的显示。
+--update-with-dependencies 一并更新新装包的依赖。
+
+//优化自动化加载
+composer dump-autoload --optimize
+安装包的时候可以同样使用--optimize-autoloader。不加这一选项，你可能会发现20%到25%的性能损失。
+
+
+

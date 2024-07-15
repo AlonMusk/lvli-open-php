@@ -1,0 +1,51 @@
+##修改 docker-compose.yml 文件
+version: '3'
+services:
+  php-workspace:
+    build: D:\env\env_docker\php # 这里php指我们的创建的目录
+    volumes: # 这里指定数据卷，可以指定多个， 中划线代表值为数组的一个成员
+      - D:\work_space\docker\proj01:/var/www/html
+  nginx:
+    build: D:\env\env_docker\nginx # 这里nginx指我们的创建的目录
+	volumes: 
+      - D:\work_space\docker\proj01:/var/www/html
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment: # 设定环境变量，只给定名称的变量会自动获取运行 Compose 主机上对应变量的值
+      MYSQL_ROOT_PASSWORD: root
+
+
+## 重新构建
+#  docker-compose up --build
+
+## 确认mysql可用
+# 容器执行 mysql -u root -p
+
+## phpinfo() 确认 pdo不支持mysql驱动
+## 修改 php 下的Dockerfile 文件
+
+FROM php:7.3-fpm-alpine
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories \ 
+    && docker-php-ext-install pdo_mysql
+	
+ ## 重新构建
+#  docker-compose up --build
+
+## 测试
+<?php
+
+$dsn = 'mysql:host=db;port=3306'; // host=db,这里的db其实是mysql的服务名
+$user = 'root';
+$password = 'root';
+
+try {
+    $dbh = new PDO($dsn, $user, $password);
+    print_r($dbh);
+} catch (PDOException $e) {
+    echo 'Connection failed: '.$e->getMessage();
+}

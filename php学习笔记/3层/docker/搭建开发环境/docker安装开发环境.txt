@@ -1,0 +1,41 @@
+https://www.yuque.com/baiyutang/tech/qxkcve
+
+
+# docker pull nginx
+# docker run --rm --name test-nginx -p 8080:80  nginx
+# localhost:8080
+
+
+# docker run --rm --name test-nginx -p 8080:80 -v /docker-server/www:/usr/share/nginx/html -v /docker-server/nginx:/etc/nginx/conf.d  nginx
+
+## windows
+# docker run --rm --name test-nginx -p 8080:80 -v D:\work_space\docker\proj01:/usr/share/nginx/html -v D:\env\env_docker\nginx\conf:/etc/nginx/conf.d  nginx
+
+# 拉取php-fpm镜像
+# docker pull php:fpm
+
+## 快速启动php-fpm容器
+# docker run --rm --name php-app php:fpm
+
+容器的互联：
+互联方案一：使用 --link 参数指定连接容器
+
+# docker run  --rm --name test-nginx -p 8080:80 -v D:\work_space\docker\proj01:/usr/share/nginx/html -v D:\env\env_docker\nginx\conf:/etc/nginx/conf.d --link php-app nginx
+
+# 指定 fpm 挂载的项目根目录，启动 fpm 容器
+# docker run --rm --name php-app -v D:\work_space\docker\proj01:/var/www/html php:fpm
+
+互联方案二：使用 --network 指定使用的容器网络实现互联
+# docker run --help
+
+# 手动创建一个网络
+# docker network create my-php-network
+
+2、 重启 fpm，用--network 显式声明使用的网络
+# docker run --rm --name php-app --network my-php-network -v D:\work_space\docker\proj01:/var/www/html php:fpm
+
+3、 重启 nginx，用--network 显式声明使用的网络
+# docker run  --rm --name test-nginx -p 8080:80 -v D:\work_space\docker\proj01:/usr/share/nginx/html -v D:\env\env_docker\nginx\conf:/etc/nginx/conf.d --network my-php-network  nginx
+
+互联方案三：Docker Compose 换一个文件
+

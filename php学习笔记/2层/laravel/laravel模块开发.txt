@@ -1,0 +1,128 @@
+1、根据不同 Laravel 版本，选择扩展包版本。
+这一步可以省略
+　　packagest 链接 - https://packagist.org/packages/nwidart/laravel-modules
+
+2、用 composer 命令下载并安装扩展包包
+
+　　composer require nwidart/laravel-modules
+
+　　会自动注册服务提供者和别名，并自动创建了模块相关的 artisan 命令。
+
+　　会在项目根目录下自动创建目录 Modules。
+
+3、生成配置文件
+
+　　php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"
+
+　　会在 config 目录下生成 modules.php
+
+ 
+
+二、创建模块
+
+1、用 artisan 命令创建
+
+　　php artisan module:make Name
+
+　　Name 为模块的名字
+
+　　会在 Modules 目录下自动创建 Name 目录，并包含整套代码。
+
+　　可创建多个
+
+2、加载模块
+
+　　修改 composer.json 文件，将 Modules 加入自动加载中。
+
+复制代码
+　　　　　{
+          "autoload": {
+            "psr-4": {
+              "App\\": "app/",
+              "Modules\\": "Modules/"
+            }
+          }
+        }
+复制代码
+　　修改后执行 composer 命令使之生效。
+
+　　composer dump-autoload
+
+
+常用命令
+module:make 创建一个新模块
+module:use 使用一个模块（这允许执行其他命令时不用输入模块名）
+module:unuse 和上面相反
+module:list 列出所有可用模块
+module:migrate 执行某个模块的数据迁移（或者所有模块的）
+php artisan module:seed –class=TableSeeder Blog 填充数据
+php artisan module:make-controller Admin/ReplyController Blog 创建控制器
+php artisan module:make-request CreatePostRequest Blog 生成指定模块的给定请求
+php artisan module:migrate-rollback Blog 执行模块最近一次迁移的回滚
+php artisan module:migrate-refresh Blog 执行模块所有回滚后执行所有迁移
+php artisan module:migrate-reset Blog 执行模块所有回滚
+php artisan module:seed Blog 执行模块数据填充
+php artisan module:publish-migration Blog 发布迁移
+php artisan module:publish-config Blog 发布配置
+php artisan module:publish-translation Blog 发布语言包
+php artisan module:enable Blog 开启模块
+php artisan module:disable Blog 关闭模块
+php artisan module:update Blog 升级模块
+
+生成器命令：
+
+php artisan module:make-command CreatePostCommand Blog
+php artisan module:make-migration create_posts_table Blog
+php artisan module:make-seed seed_fake_blog_posts Blog
+php artisan module:make-controller PostsController Blog
+php artisan module:make-model Post Blog （可以使用-m同步生成迁移文件）
+php artisan module:make-provider BlogServiceProvider Blog
+php artisan module:make-middleware CanReadPostsMiddleware Blog
+php artisan module:make-mail SendWeeklyPostsEmail Blog
+php artisan module:make-notification NotifyAdminOfNewComment Blog
+php artisan module:make-listener NotifyUsersOfANewPost Blog
+php artisan module:make-listener NotifyUsersOfANewPost Blog –event=PostWasCreated
+php artisan module:make-listener NotifyUsersOfANewPost Blog –event=PostWasCreated –queued
+php artisan module:make-request CreatePostRequest Blog
+php artisan module:make-event BlogPostWasUpdated Blog
+php artisan module:make-job JobName Blog（可以使用-sync生成同步任务）
+php artisan module:route-provider Blog 为指定的模块生成给定的路由服务提供程序。
+php artisan module:make-factory FactoryName Blog
+php artisan module:make-policy PolicyName Blog
+php artisan module:make-rule ValidationRule Blog
+php artisan module:make-resource PostResource Blog
+php artisan module:make-resource PostResource Blog –collection
+php artisan module:make-test EloquentPostRepositoryTest Blog
+
+门面方法
+
+Module::all(); 获取所有模块
+Module::getCached() 获取所有缓存的模块
+Module::getOrdered(); 获取排序后的所有模块（按照module.json文件中的priority排序）
+Module::scan(); 获取扫描过的模块
+Module::find(‘name’); 查询某个模块（返回Module类）
+Module::get(‘name’);
+Module::findOrFail(‘module-name’);
+Module::getScanPaths(); 获取扫描的路径
+Module::toCollection(); 获取模块集合
+Module::getByStatus(1); 按照状态获取模块（1可用0不可用）
+Module::has(‘blog’); 判断模块是否存在
+Module::allEnabled(); 获取所有可用模块
+Module::allDisabled();
+Module::count(); 统计模块数量
+Module::getPath(); 获取模块路径
+Module::register(); 注册模块
+Module::boot(); 初始化模块
+Module::collections(); 获取所有可用模块的集合
+Module::getModulePath(‘name’); 获取某个模块路径
+Module::assetPath(‘name’); 获取某个模块的资源路径
+Module::config(‘composer.vendor’); 从这个包中获取配置值。
+Module::getUsedStoragePath(); 获取使用的存储路径。
+Module::getUsedNow(); 获取cli会话正在使用的模块。
+Module::getUsed();
+Module::setUsed(‘name’); 设置会话使用的模块
+Module::asset(‘blog:img/logo.img’); 从某个模块获取资源路径
+Module::install(‘nwidart/hello’); 根据给定的模块名称安装指定的模块。
+Module::update(‘hello’); 更新指定模块的依赖项。
+
+模块开发常用的命令以及步骤：

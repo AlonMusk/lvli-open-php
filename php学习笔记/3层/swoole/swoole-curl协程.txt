@@ -1,0 +1,18 @@
+swoole  curl  guzzle  Elasticsearch
+
+https://wiki.swoole.com/#/runtime?id=swoole_hook_curl
+
+
+https://learnku.com/articles/25179
+http://blog.bigfoot.xin/post/5.html
+http://blog.bigfoot.xin/post/3.html
+https://learnku.com/articles/40289
+
+话语： 用 guzzle 的话 可以用guzzle设置默认的handle
+
+Curl 在 Swoole 协程中的解决方案
+https://blog.csdn.net/assasin0308/article/details/103728610
+
+composer require yurunsoft/guzzle-swoole
+
+$client = \Elasticsearch\ClientBuilder::create()->setHosts(['192.168.0.233:9200'])->setHandler(new \Yurun\Util\Swoole\Guzzle\Ring\SwooleHandler())->build();

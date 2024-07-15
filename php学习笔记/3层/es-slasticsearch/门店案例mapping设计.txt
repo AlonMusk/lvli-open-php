@@ -1,0 +1,142 @@
+PUT /shop_scheme/
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1,
+	  
+    }
+  },
+  "mappings": {
+    "properties": {
+      "scheme_id": {
+        "type": "integer"
+      },
+      "brand_id": {
+        "type": "integer"
+      },
+      "shop_id": {
+        "type": "integer"
+      },
+      "user_id": {
+        "type": "integer"
+      },
+      "image": {
+        "type": "text"
+      },
+      "show_image": {
+        "type": "text"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "abstract": {
+        "type": "integer"
+      },
+      "content": {
+         "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "content_wap": {
+         "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "is_recommended": {
+        "type": "integer"
+      },
+      "hit": {
+        "type": "integer"
+      },
+      "like": {
+        "type": "integer"
+      },
+      "c_share": {
+        "type": "integer"
+      },
+      "which_detail": {
+        "type": "integer"
+      },
+      "consulting_count": {
+        "type": "integer"
+      },
+      "sales_gist": {
+		"type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "words": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "category_series": {
+        "type": "integer"
+      },
+      "category_style": {
+        "type": "integer"
+      },
+      "category_layout": {
+        "type": "integer"
+      },
+      "category_space": {
+        "type": "text"
+      },
+      "is_add_category": {
+        "type": "integer"
+      },
+      "brand_scheme_id": {
+        "type": "integer"
+      },
+      "imported_at": {
+        "type": "integer"
+      },
+      "brand_scheme_category_id": {
+        "type": "integer"
+      },
+      "space_image": {
+        "type": "integer"
+      },
+      "details_content": {
+        "type": "integer"
+      },
+      "extend_details_content": {
+        "type": "integer"
+      },
+      "status": {
+        "type": "integer"
+      },
+      "sort": {
+        "type": "integer"
+      },
+      "published_at": {
+        "type": "integer"
+      },
+      "created_at": {
+        "type": "integer"
+      },
+      "updated_at": {
+        "type": "integer"
+      }
+    }
+  }
+}

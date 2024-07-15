@@ -1,0 +1,26 @@
+mongodb 安装
+sudo apt-get update
+sudo apt-get install mongodb
+
+php-mongodb安装
+sudo apt-get update
+sudo apt-get install php7.3-mongodb
+
+'Please provide a valid cache path.'
+
+创建目录:
+
+ ✗ mkdir -p storage/framework/views
+ ✗ mkdir -p storage/framework/cache
+ ✗ mkdir -p storage/framework/sessions
+ 确保 storage 目录结构如下:
+
+./storage
+├── app
+├── framework
+│   ├── cache
+│   ├── sessions
+│   └── views
+└── logs
+    └── lumen.log
+ 注意这些目录要有读写权限.

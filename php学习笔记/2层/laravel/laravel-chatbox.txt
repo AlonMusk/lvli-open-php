@@ -1,0 +1,30 @@
+https://chatterbot.readthedocs.io/en/stable/
+
+
+git clone https://github.com/gunthercox/ChatterBot.git
+python3 setup.py install
+pip3 install spacy==2.3.5
+pip3 install spacy zh_cn_web_sm --force   //这个竟然报错？
+
+python3 -m spacy download en
+
+问题
+No module named 'Cython'
+python3 -m pip install cython
+
+#include "Python.h"
+compilation terminated.
+error: command 'gcc' failed with exit status 1
+yum install python36-devel    //# for python3.x installs
+
+keyError:'chatterbot'
+git clone https://github.com/gunthercox/ChatterBot.git
+python3 setup.py install
+
+
+cant find model en. It doesn’t seem to be a shortcut link..
+ python3 -m spacy download en
+ 
+ 
+ HTTPSConnectionPool(host='raw.githubusercontent.com', port=443):
+ 本地的hosts  raw.githubusercontent.com注释一下 

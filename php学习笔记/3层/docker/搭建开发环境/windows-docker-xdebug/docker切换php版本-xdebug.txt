@@ -1,0 +1,33 @@
+WARNING: channel "pecl.php.net" has updated its protocols, use "pecl channel-update pecl.php.net" to update
+pecl/xdebug requires PHP (version >= 7.2.0, version <= 8.1.99), installed version is 5.3.29
+
+php5.3 --- xdbeug-2.1.0  没有配置成功 在vscode配置成功 主要是触发 session
+php5.6 --- xdebug-2.5.5?? 没有配置成功
+php7.0 PHP Version 7.0.9 --- xdebug 2.7.0?? 2.6.1
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20090626/xdebug.so'
+install ok: channel://pecl.php.net/xdebug-2.1.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=xdebug.so" to php.ini
+
+
+php7.0
+ [Xdebug]
+xdebug.idekey=myidekey1 
+xdebug.remote_enable=1
+xdebug.remote_host=host.docker.internal
+xdebug.remote_port=9013
+
+期间用xdebug helper save 了PHPSTORM 以及设置了 GDB proxy。URL带了  ?XDEBUG_SESSION_START=PHPSTORM 不知道是不是因为要激活，就可以了
+
+private const VERSIONS =  [
+	'7.0' => [ 'src' => '2.8.1',                        ],
+	'7.1' => [ 'src' => '2.9.8',       'win' => '2.9.8' ],
+	'7.2' => [ 'src' => '3.1.6',       'win' => '3.1.6' ],
+	'7.3' => [ 'src' => '3.1.6',       'win' => '3.1.6' ],
+	'7.4' => [ 'src' => '3.1.6',       'win' => '3.1.6' ],
+	'8.0' => [ 'src' => '3.2.1',       'win' => '3.2.1' ],
+	'8.1' => [ 'src' => '3.2.1',       'win' => '3.2.1' ],
+	'8.2' => [ 'src' => '3.2.1',       'win' => '3.2.1' ]
+];

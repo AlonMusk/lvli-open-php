@@ -1,0 +1,24 @@
+
+https://blog.csdn.net/m0_46641521/article/details/120107786
+
+
+1、运行phpinfo 粘贴到 xdebug官网，获取xdebug版本下载。 
+配置完，再次 打印 phpinfo() 查看 xdebug 是否安装成功
+
+2、 phpstorm 中使用xdebug 
+2.1 修改php.ini文件
+2.2 设置phpstorm的xdebug端口
+ file->setting->lang & framework ->php ->debug 
+2.3 配置 DBGp Proxy
+2.4 配置servers
+2.5  配置 php CLI interpreter  
+ 
+3、配置测试项目
+ RUN -> edit configure (php web page)
+ 
+4、断电测试。
+
+https://wb14.local.com/?XDEBUG_SESSION_START=PHPSTORM
+
+Q： 是否份本地 cli 调试和 浏览器调试
+Q: 远程调试和本地调试有什么不同？

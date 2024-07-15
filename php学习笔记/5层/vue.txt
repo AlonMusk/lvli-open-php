@@ -1,0 +1,40 @@
+1、第一步npm安装  （安装node.js)
+2、使用淘宝NPM 镜像
+大家都知道国内直接使用npm 的官方镜像是非常慢的，这里推荐使用淘宝 NPM 镜像。
+$  npm  install  -g  cnpm  --registry=https://registry.npm.taobao.org
+这样就可以使用cnpm 命令来安装模块了：
+
+3、项目初始化
+1.第一步：安装vue-cli
+cnpm install vue-cli -g      //全局安装 vue-cli
+4、项目名为sell新建vue项目
+vue init webpack  ”项目名称“
+5、
+cnpm install
+cnpm run dev
+
+安装socket.io模块
+npm install socket.io@2.3.0 --save
+
+使用socket.oi-client模块
+安装socket.io-client模块
+npm install socket.io-client@2.3.0 --save
+
+
+
+"axios": "^0.21.1",
+"socket.io": "^2.3.0",
+"socket.io-client": "^2.3.0",
+
+import io from 'socket.io-client'
+import axios from 'axios' 
+// 携带cookie
+axios.defaults.withCredentials = true
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest' // 判断是否为ajax请求
+
+const socket = io.connect('http://erp-api.fulan.com',
+  {
+    namespace: '/',
+    upgrade: true,
+    transports: ['polling', 'websocket']
+  }) // 建立连接

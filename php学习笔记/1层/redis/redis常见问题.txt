@@ -1,0 +1,19 @@
+在redis的配置文件redis.conf中，Redis3.2加入的新特性，开启保护模式。即开启了protected-mode，默认值为
+
+protected-mode =yes
+
+是说redis只允许本机登录。
+
+这样登录的前提是要设置密码，即要requirepass属性，
+
+requirepass = 你设置的密码
+
+如要无密码登录，就要设置protected-mode =no ，即可
+
+windows版：
+redis.windows-service.conf  protected-mode no 
+
+是由于root用户没有相关权限造成的:
+sudo: error in /etc/sudo.conf, line 19 while loading plugin "sudoers_policy" sudo: /usr/libexec/sudo/sudoers.so must be only be writable by owner sudo: fatal error, unable to load plugins
+chmod 644 /usr/libexec/sudo/sudoers.so
+chown -R root /usr/libexec/sudo

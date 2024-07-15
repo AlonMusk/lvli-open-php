@@ -1,0 +1,83 @@
+浮点型 。。。
+
+浮点型 和 字符创的转换 入 1.75 "1.75"
+
+==
+===  判断值 和类型
+!=  
+!==  比较值和类型
+empty isset
+
+C语言中，空字符串 、NULL和false 都是以值0存储的，
+true 是以值1存储的。
+
+NULL是特殊的类型， 两种情况下为NULL 。$var;和 $var = NULL;
+
+
+"" 、0、"0"、NULL、FALSE、array()、var $var以及没有任何属性的对象都被认为是空
+
+isset() 是否已设置并且非NULL（非NULL和非空不是一个概念）
+empty() 是否为空  其中字符串'0'也是空  0.0也是空 0.0000也是空
+$a??$b <=> isset($a)?$a:$b
+
+判断一个变量存在且不为空先 isset 函数再用 empty 函数
+$a = array(
+    'test'=>1,
+    'testb'=>''
+);
+//当$b='testb'   string(0) "" 存在为空
+//当$b='test'    1存在且不为空
+//当$b='tests'   NULL 不存在,且为NULL 
+if(isset($a[$b])){
+    if(!empty($a[$b])){
+        echo $a[$b].'存在且不为空';die;
+    }
+    echo var_dump($a[$b]).'存在为空';die;
+}else{
+    echo var_dump($a[$b]).'不存在,且为NULL';
+}
+
+ 
+类型转换问题：
+浮点型与字符串型等的转换问题
+运算同时有int和float 结果是float
+int 和string 如果字符串变量实际是一个整型或者浮点型，这时计算会自动将字符串变量自动转换为整型或者浮点型;如果字符串变量实际不是是一个整型或者浮点型，而是字符，这时计算会报错
+
+数组和json格式的转换：
+json_encode()将PHP数组转换为json格式
+json_decode — 对 JSON 格式的字符串进行解码  第二个参数assoc
+当该参数为 TRUE 时，将返回 array 而非 object 。
+数据库中的字段里面放的是json数据格式，
+例如：$str=[{"attachment":"images\/5\/2019\/08\/ol777omFo7B2b7N977Bs9m6d6VL5bl.jpg","title":"14.jpg","cover":"0"},{"attachment":"images\/5\/2019\/08\/wzkI8P581TsPMRaM11zm5KAgaH8taL.jpg","title":"12.jpg","cover":"0"},{"attachment":"images\/5\/2019\/08\/R1r5o5Ww17VrLr2lAaR73yLyOl5im7.jpg","title":"13.jpg","cover":"0"}]
+现在想将里面对应的键值取出，方法：
+
+$img= json_decode($str);
+foreach ($img as $value) {
+   $imgarr=$value->attachment;    //取出对应的值
+   $arr[]=$imgarr;      //将取出的值放入一个数组
+}
+
+
+其他：
+6、
+empty：
+如果 变量 是非空或非零的值，则 empty() 返回 FALSE。换句话说，”"、0、”0″、NULL、FALSE、array()、var $var、未定义;以及没有任何属性的对象都将被认为是空的，如果 var 为空，则返回 TRUE。
+isset：
+如果 变量 存在(非NULL)则返回 TRUE，否则返回 FALSE(包括未定义）。变量值设置为：null，返回也是false;unset一个变量后，变量被取消了。注意，isset对于NULL值变量，特殊处理。
+is_null：
+检测传入值【值，变量，表达式】是否是null,只有一个变量定义了，且它的值是null，它才返回TRUE . 其它都返回 FALSE 【未定义变量传入后会出错！】
+$myvar = NULL;  
+var_dump(is_null($myvar)); // TRUE 
+$myvar1;      
+var_dump(is_null($myvar1)); // TRUE Notice: Undefined variable 
+$num = 520; 
+unset($num); 
+var_dump(is_null($num)); //TRUE Notice: Undefined variable 
+var_dump(is_null($some_undefined_var)); //TRUE Notice: Undefined variable 
+$myvar = 0; is_null($myvar);   // FALSE 
+$myvar = FALSE; is_null($myvar); // FALSE 
+$myvar = ''; is_null($myvar);  // FALSE
+
+隐式类型转换规则。
+算术运算式中，低类型转换为高类型。  转换以占用内存空间最大的类型为标准，将其他较小的类型转换为较大的类型，以保证精度不降低。如int型和long型运算时，先把int量转换成long型后再进行运算。  所有的浮点运算都是以双精度进行的，即使仅含float单精度量运算的表达式，也要先转换成double型，再作运算。  char型和short型参与运算时，必须先转换成int型。
+赋值表达式中，右边表达式的值自动隐式转换为左边变量的类型，并赋值给他。 函数调用中参数传递时，系统隐式地将实参转换为形参的类型后，赋给形参。 函数有返回值时，系统将隐式地将返回表达式类型转换为返回值类型，赋值给调用函数。

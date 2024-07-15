@@ -1,0 +1,28 @@
+1、安装 php Ddebug 扩展。配置 拓展  launch.json
+{
+    "version":"0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "hostname": "localhost",
+            "port": 9013,
+            "pathMappings": {
+                "/var/www/proj00":"E:\\work_space\\docker\\proj00"
+            }
+        }
+    ]
+}
+
+
+然后开始监听即可。
+
+php5.3
+xdebug.idekey=www-data
+xdebug.remote_enable=on
+xdebug.remote_host=host.docker.internal
+xdebug.remote_port=9053
+
+fastcgi_params 追加
+set $b  &XDEBUG_SESSION_START=www-data;

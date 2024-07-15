@@ -1,0 +1,91 @@
+https://learnku.com/articles/28245
+
+https://learnku.com/courses/ecommerce-advance/7.x/stress-testing-part-2/9143
+
+
+使用redis链表来做，因为pop操作是原子的，即使有很多用户同时到达，也是依次执行，推荐使用。
+第一步，先将商品库存入队列
+/**
+ * 添加商品数量到商品队列
+ * @param int $couponId 优惠券ID
+ */
+function addCoupons($couponId)
+{
+ //1.初始化Redis连接
+ $redis = new Redis();
+ if (!$redis->connect('127.0.0.1', 6379)) {
+ trigger_error('Redis连接出错！！！', E_USER_ERROR);
+ } else {
+ echo '连接正常<br>';
+ }
+ 
+ //根据优惠券ID从数据库中查询该优惠券的库存量
+ //$sql = "select id, stock from coupon where id = {$couponId}";
+ $stock = 10; //假设10就是我们从数据库中查询出的该优惠券在数据库中的库存量
+ 
+ //我们现在将这10个库存放入到以该商品ID为key的redis链表中,有几件库存，就存入多少次1，链表长度代表商品库存数
+ for($i = 0; $i < $stock; $i++) {
+ $redis->lPush("secKill:".$couponId.":stock", 1);
+ }
+ 
+ $redis->close();
+}
+$couponId = 11211;
+addCoupons($couponId);
+
+第二步，抢购开始，设置库存的缓存周期
+
+这一步根据自己的业务来定，如果业务规定，这个优惠券就放出2分钟给用户抢，那么就通过expire()方法给链表设置一个有效期，即使是在有效期内没有抢完仍然有库存也不让用户抢了(由于我们公司业务不对优惠券抢券设置有效期，所以这一步我不需要做)
+
+//设置链表有效期是两分钟
+$redis->expire('key', 120);
+
+第三步，客户端执行瞬时抢购操作
+/**
+ * 抢优惠券(秒杀)
+ * @param int $couponId 商品ID
+ * @param int $uid 用户ID
+ * @return bool
+ */
+function secKill($couponId, $uid)
+{
+ //1.初始化Redis连接
+ $redis = new Redis();
+ if (!$redis->connect('127.0.0.1', 6379)) {
+ trigger_error('Redis连接出错！！！', E_USER_ERROR);
+ } else {
+ echo '连接正常<br>';
+ }
+
+ //将已经成功抢购的用户添加到该以该商品ID为key的集合(set)中
+ //如果用户已经在集合中，说明用户已经成功秒杀过一次了，不允许再次参与秒杀
+ if ($redis->sIsMember('secKill:'.$couponId.':uid', $uid)) {
+ echo '秒杀失败';
+ return false;
+ }
+
+ //秒杀商品的库存key
+ $key = 'secKill:'.$couponId.':stock';
+
+ //从以该优惠券ID为key的链表中弹出一个值，如果有值，证明优惠券还有库存
+ $isSockNotEmpty = $redis->lPop($key);
+
+ //判断库存，如果库存大于0，则减库存，将该成功秒杀用户加入哈希表，如果小于等于0，秒杀结束
+ if ($isSockNotEmpty != 1) {
+ echo '秒杀已结束';
+ return false;
+ }
+
+ //抢券成功，将优惠券ID和UID放入到队列中，由一个单独的进程队列来消费队列里的数据，向用户推送抢到的优惠券
+ $redis->lPush('couponOrder', $couponId.'+'.$uid);
+
+ //将成功抢券的用户记录到集合中，防止被已抢过的用户再次秒杀
+ $redis->sAdd('secKill:'.$couponId.':uid', $uid);
+ $redis->close();
+ return true;
+}
+
+$couponId = 11211;
+$uid = mt_rand(1, 100);
+secKill($couponId, $uid);
+

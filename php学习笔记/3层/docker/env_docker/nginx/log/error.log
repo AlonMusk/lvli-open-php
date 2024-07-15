@@ -1,0 +1,191 @@
+2023/01/19 06:59:46 [error] 23#23: *2 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:00:52 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:24 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:26 [error] 22#22: *18 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:27 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:27 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:28 [error] 22#22: *18 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:28 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:28 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:28 [error] 22#22: *18 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:01:29 [error] 22#22: *18 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:02:13 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:02:17 [error] 25#25: *17 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:02:28 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2023/01/19 07:02:28 [notice] 23#23: gracefully shutting down
+2023/01/19 07:02:28 [notice] 23#23: exiting
+2023/01/19 07:02:28 [notice] 23#23: exit
+2023/01/19 07:02:28 [notice] 24#24: gracefully shutting down
+2023/01/19 07:02:28 [notice] 24#24: exiting
+2023/01/19 07:02:28 [notice] 22#22: gracefully shutting down
+2023/01/19 07:02:28 [notice] 22#22: exiting
+2023/01/19 07:02:28 [notice] 25#25: gracefully shutting down
+2023/01/19 07:02:28 [notice] 24#24: exit
+2023/01/19 07:02:28 [notice] 22#22: exit
+2023/01/19 07:02:28 [notice] 25#25: exiting
+2023/01/19 07:02:28 [notice] 25#25: exit
+2023/01/19 07:02:28 [notice] 1#1: signal 17 (SIGCHLD) received from 23
+2023/01/19 07:02:28 [notice] 1#1: worker process 23 exited with code 0
+2023/01/19 07:02:28 [notice] 1#1: signal 29 (SIGIO) received
+2023/01/19 07:02:28 [notice] 1#1: signal 17 (SIGCHLD) received from 24
+2023/01/19 07:02:28 [notice] 1#1: worker process 24 exited with code 0
+2023/01/19 07:02:28 [notice] 1#1: signal 29 (SIGIO) received
+2023/01/19 07:02:28 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+2023/01/19 07:02:28 [notice] 1#1: worker process 22 exited with code 0
+2023/01/19 07:02:28 [notice] 1#1: worker process 25 exited with code 0
+2023/01/19 07:02:28 [notice] 1#1: exit
+2023/01/19 07:27:39 [warn] 1#1: conflicting server name "localhost" on 0.0.0.0:80, ignored
+2023/01/19 07:27:39 [notice] 1#1: using the "epoll" event method
+2023/01/19 07:27:39 [notice] 1#1: nginx/1.23.3
+2023/01/19 07:27:39 [notice] 1#1: built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r4) 
+2023/01/19 07:27:39 [notice] 1#1: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2023/01/19 07:27:39 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2023/01/19 07:27:39 [notice] 1#1: start worker processes
+2023/01/19 07:27:39 [notice] 1#1: start worker process 22
+2023/01/19 07:27:39 [notice] 1#1: start worker process 23
+2023/01/19 07:27:39 [notice] 1#1: start worker process 24
+2023/01/19 07:27:39 [notice] 1#1: start worker process 25
+2023/01/19 07:27:57 [error] 22#22: *2 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:28:06 [error] 22#22: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=1 HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:28:29 [error] 22#22: *2 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:28:34 [error] 22#22: *2 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:30:01 [error] 23#23: *15 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:31:46 [error] 23#23: *24 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:31:59 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:31:59 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:32:00 [error] 23#23: *24 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:32:00 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:32:00 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:32:00 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:32:01 [error] 23#23: *25 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:34:29 [error] 22#22: *50 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 14
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:14" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:35:37 [error] 22#22: *56 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:35:50 [error] 22#22: *56 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-1 HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:35:56 [error] 22#22: *55 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-1 HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:43:26 [error] 22#22: *66 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:43:31 [error] 22#22: *66 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:45:04 [error] 22#22: *74 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 07:48:36 [error] 22#22: *81 FastCGI sent in stderr: "PHP message: PHP Warning:  phpinfo() [<a href='function.phpinfo'>function.phpinfo</a>]: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected 'UTC' for 'UTC/0.0/no DST' instead in /var/www/proj05/index.php on line 15
+PHP message: PHP Stack trace:
+PHP message: PHP   1. {main}() /var/www/proj05/index.php:0
+PHP message: PHP   2. phpinfo() /var/www/proj05/index.php:15" while reading upstream, client: 172.23.0.1, server: local.wb14.com, request: "GET /?XDEBUG_SESSION_START=www-data HTTP/1.1", upstream: "fastcgi://172.23.0.4:9000", host: "local.wb14.com"
+2023/01/19 08:01:33 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2023/01/19 08:01:33 [notice] 23#23: gracefully shutting down
+2023/01/19 08:01:33 [notice] 25#25: gracefully shutting down
+2023/01/19 08:01:33 [notice] 24#24: gracefully shutting down
+2023/01/19 08:01:33 [notice] 24#24: exiting
+2023/01/19 08:01:33 [notice] 22#22: gracefully shutting down
+2023/01/19 08:01:33 [notice] 23#23: exiting
+2023/01/19 08:01:33 [notice] 25#25: exiting
+2023/01/19 08:01:33 [notice] 23#23: exit
+2023/01/19 08:01:33 [notice] 22#22: exiting
+2023/01/19 08:01:33 [notice] 24#24: exit
+2023/01/19 08:01:33 [notice] 25#25: exit
+2023/01/19 08:01:33 [notice] 22#22: exit
+2023/01/19 08:01:33 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+2023/01/19 08:01:33 [notice] 1#1: worker process 22 exited with code 0
+2023/01/19 08:01:33 [notice] 1#1: signal 29 (SIGIO) received
+2023/01/19 08:01:33 [notice] 1#1: signal 17 (SIGCHLD) received from 25
+2023/01/19 08:01:33 [notice] 1#1: worker process 23 exited with code 0
+2023/01/19 08:01:33 [notice] 1#1: worker process 24 exited with code 0
+2023/01/19 08:01:33 [notice] 1#1: worker process 25 exited with code 0
+2023/01/19 08:01:33 [notice] 1#1: exit

@@ -1,0 +1,87 @@
+ 查看nginx安装目录
+ ps -ef | grep nginx
+ 
+ nginx: [emerg] unknown directive "﻿server" in /etc/nginx/conf.d/erp-api.conf:1
+ 配置文件的编码格式 改为 UTF-8
+ 
+ 输入命令
+:set fileencoding
+即可显示文件编码格式。
+
+文件编码转换
+在Vim中直接进行转换文件编码,比如将一个文件转换成utf-8格式
+输入命令
+:set fileencoding=utf-8
+ 
+ upstream 不能放在server里面：（可能跟版本有关）
+ map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+upstream laravels {
+    # Connect IP:Port
+    server workspace:5200 weight=5 max_fails=3 fail_timeout=30s;
+    keepalive 16;
+}
+server {
+
+}
+
+failed (13: Permission denied) while connecting to upstream
+关闭防火墙和SElinux
+[root@promote ~]# systemctl stop firewalld.service
+[root@promote ~]# setenforce 0
+
+
+ nginx: [emerg] open() "/var/www/flan-customer-service/storage/logs/nginx_error.log" fail
+ 解决：
+ 关闭防火墙和SElinux
+ 
+ 处理nginx启动错误Failed to read PID from file /run/nginx.pid
+问题产生原因
+因为 nginx 启动需要一点点时间，而 systemd 在 nginx 完成启动前就去读取 pid file
+造成读取 pid 失败
+
+解决方法
+让 systemd 在执行 ExecStart 的指令后等待一点点时间即可
+如果你的 nginx 启动需要时间更长，可以把 sleep 时间改长一点
+建立目录
+mkdir -p /etc/systemd/system/nginx.service.d
+
+在新建目录中建立文件override.conf，输入内容
+
+[Service]
+ExecStartPost=/bin/sleep 0.1
+然后
+systemctl daemon-reload
+systemctl restart nginx.service
+
+测试配置
+nginx -t
+重载配置
+nginx -s reload 
+
+
+服务器重启之后，执行 nginx -t 是OK的，然而在执行 nginx -s reload 的时候报错
+nginx: [error] invalid PID number "" in "/run/nginx.pid"
+解决方法：
+需要先执行
+nginx -c /etc/nginx/nginx.conf
+nginx.conf文件的路径可以从nginx -t的返回中找到。
+nginx -s reload
+
+
+ nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+解决:查看端口
+netstat -ntlp
+kill xx (nginx)
+service nginx restart
+
+跨域问题
+可能是因为开了翻墙软件的原因
+
+代理缓存参考文档
+https://www.jianshu.com/p/f0a47ee4313e
+https://www.cnblogs.com/wshenjin/p/11608744.html
+
+

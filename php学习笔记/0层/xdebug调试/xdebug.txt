@@ -1,0 +1,47 @@
+远程调试
+
+yum install php-pecl-xdebug （centos8 ：pecl install xdebug）
+
+
+[xdebug]
+zend_extension=/usr/lib64/php-zts/modules/xdebug.so
+xdebug.remote_enable=1
+xdebug.remote_handler=dbgp
+xdebug.remote_mode=req
+xdebug.remote_host=192.168.7.25
+xdebug.remote_port=9111
+; xdebug.idekey="14525"
+xdebug.idekey="PHPSTORM"
+
+重启fpm
+
+配置ps即可调试
+
+
+step over 
+F8 (如果在debug 的时候，只想再当前类中一步一步往下运行，不进入任何自定义或者系统类库方法时，使用)
+
+step into 
+F7（该方式可以进入自定义方法，但不会走系统方法）
+
+force step into 
+alt shift F7（运行的是最全的 自定义方法和系统方法都会运行）
+
+step out
+shift F8 （跳出该方法）
+
+run to cursor
+alt F9（运行到光标处停下）
+
+
+resume  program :
+F9 (跳到下一个断点)
+
+方块：stop 'index.php'
+ctrl+F2
+结束程序  
+
+划线圆：
+mute brakpoints:
+在当前取消未执行的断点
+

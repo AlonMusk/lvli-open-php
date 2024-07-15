@@ -1,0 +1,10 @@
+yii
+
+DynamicModel
+$model->load
+
+$model->addRule($fields, 'safe');
+$model->load(Yii::$app->request->get());
+
+ $rules[] = ['btnName', 'string', 'max'=>5];
+

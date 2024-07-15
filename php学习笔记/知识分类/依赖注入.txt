@@ -1,0 +1,17 @@
+laravel提供的依赖注入方式有：？
+
+首先就将实现构造器或者方法参数的注入，这种依赖注入的方式比较简单，也不需要怎么配置。只要在方法的参数中写入类的类型，这个时候，类的实例就会注入到这个参数上，我们在使用的时候，就可以直接使用，而不用我们再去new这个类的实例，这个new的过程，已经由框架替我们做了。
+例如：
+class Test
+{
+ //这是一个类 
+}
+ 
+class TestController extend Controller
+{
+ public function __contract(Test $test)
+ {
+ print_r($test);
+ }
+}
+我们平时使用Laravel的控制器中接收页面参数的时候，就是依赖注入。

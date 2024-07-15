@@ -1,0 +1,37 @@
+docker pull nginx 
+
+运行
+ docker run --name nginx -p 80:80 -d nginx
+
+保存配置为 test.conf 到/etc/nginx/conf/conf.d
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm index.php;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /etc/php-7.3/$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+
+docker run --name php-nginx -p 80:80 -d \
+    -v /var/www/mypro:/usr/share/nginx/html:ro \
+    -v /etc/nginx/conf/conf.d:/etc/nginx/conf.d:ro \
+    --link myphp-fpm:php \
+    nginx
+
+在/var/www/mypro 创建 index.php 浏览器打开 http://127.0.0.1:80/index.php
+
+docker exec -it php-nginx bash

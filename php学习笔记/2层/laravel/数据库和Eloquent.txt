@@ -1,0 +1,6 @@
+Laravel 数据库功能的核心就是提供流式接口与数据库进行交互的查询构建器（Query Builder），支持 MySQL、Postgres、SQLite 和 SQL Server 等常见的数据库管理系统，没有特别说明的话，我们的所有教程都基于 MySQL。
+
+查询构建器和Eloquent模型的概念
+
+使用DB门面执行原生的SQL语句   DB 门面既可以用于构建查询构建器方法链，也可以用于原生语句的执行。
+使用查询构建器进行操作（laravel封装的）  流式接口与数据库进行交互的查询构建器（Query Builder）

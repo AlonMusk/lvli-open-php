@@ -1,0 +1,13 @@
+/usr/bin/phpize
+
+
+cat -n php.ini | grep 'max_execution_time'
+max_execution_time = 300
+cat -n php-fpm.conf
+
+request_terminate_timeout = 180
+
+
+
+proxy_connect_timeout 建议设置的比较小，
+proxy_read_timeout 和 proxy_send_timeout 

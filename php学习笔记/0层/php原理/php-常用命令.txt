@@ -1,0 +1,13 @@
+查看扩展安装的路径
+php -i | grep extension_dir
+
+查看扩展配置
+php --ri swoole
+
+
+php -r "musk_module_alon();"
+
+
+php -i|grep php.ini
+
+php -v 查看php版本

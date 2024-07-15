@@ -1,0 +1,52 @@
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+//上传文件 功能实现方法
+public function upload(Request $request){
+    if ($request->isMethod('POST')){
+      $file = $request->file('source');
+      //判断文件是否上传成功
+      if ($file->isValid()){
+        //原文件名
+        $originalName = $file->getClientOriginalName();
+        //扩展名
+        $ext = $file->getClientOriginalExtension();
+        //MimeType
+        $type = $file->getClientMimeType();
+        //临时绝对路径
+        $realPath = $file->getRealPath();
+        $filename = uniqid().'.'.$ext;
+        $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
+        //判断是否上传成功
+        if($bool){
+          echo 'success';
+        }else{
+          echo 'fail';
+        }
+      }
+    }
+    return view('upload');
+}
+
+下载：
+public function downloadfile($filename)
+  {
+    $file = public_path().'/test.xls';
+    return response()->download($file,$filename.'.xls');
+  }
+  
+为什么使用laravel自带的文件下载功能会失败能，错误如下提示：
+FatalErrorException in HandleCors.php line 18:
+Call to undefined method Symfony\Component\HttpFoundation\BinaryFileResponse::header()
+
+大概的意思就是说，header()方法没有被定义，经过各种摸索后找到了解决方案，我们可以重新定义一下header，在CorsMiddleware的handle方法中添加如下方法：
+class CorsMiddleware
+{
+  public function handle($request, Closure $next)
+  {
+    $response = $next($request);
+    $response->headers->set('Access-Control-Allow-Origin' , '*');
+    $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+    $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With, Application');
+    return $response;
+  }
+}

@@ -1,0 +1,29 @@
+https://blog.csdn.net/phpergod/article/details/92841998
+1.小型项目：CodeIngiter
+
+2.中型项目：CakePHP、Zend Framework、Laravel、Thinkphp
+
+3.大型重量级项目：Yii、Symfony、Laravel
+
+symfony 它以面向服务为核心，首创了PHP框架中的可复用组件和至今无人能出其右（2）的Extension架构，由于从灵魂深处借鉴了JAVA编程思想，Symfony变得高大上起来，同时它还兼容并包，从Python等兄弟语言“不找钱”地借鉴了不少（5），是公认的框架典范。
+PHP7进化得当，Symfony3也愈发强大，在连JS都不得不利用TypeScript转向真正企业级OOP和“模块化”大规模开发的关键阶段（6），早已掌控一切的Symfony，正迎来它最为辉煌的时刻！
+
+大体上说，一个PHP的框架至少要涉及到这些部分：
+请求，
+响应，
+路由，
+数据库，
+缓存，
+日志，
+异常，
+Session/Cookie, 
+认证(Authentication)，
+授权(Authorization ),
+安全(Security),
+Http协议,
+队列，
+Restful API,
+测试
+等约15个模块。一个框架是研究如何去组织代码的，并不能提高PHP本身的运行效率，甚至会牺牲PHP的运行效率来提高开发的效率。在实际项目中，这是笔划算的买卖。框架做不了语言本身都完成不了的事情，这是毋容置疑的，比如对数据库的处理的DAO层，本身是对PHP PDO功能的进一步封装。
+
+yii和laravel差不多的思想

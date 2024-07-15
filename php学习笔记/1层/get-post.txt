@@ -1,0 +1,34 @@
+1、GET请求一般用去请求获取数据，
+
+        POST一般作为发送数据到后台时使用
+
+2、GET请求也可传参到后台，但是其参数在浏览器的地址栏的url中可见，所以隐私性安全性较差，且参数长度也是有限制的
+
+        POST请求传递参数放在Request body中，不会在url中显示，比GET要安全，且参数长度无限制
+
+3、GET请求刷新浏览器或回退时没有影响
+
+        POST回退时会重新提交数据请求
+
+4、GET 请求可被缓存
+
+        POST 请求不会被缓存
+
+5、GET 请求保留在浏览器历史记录中
+
+       POST 请求不会保留在浏览器历史记录中
+
+6、GET 请求可被收藏为书签
+
+        POST 不能被收藏为书签
+
+7、GET请求只能进行url编码（application/x-www-form-urlencoded）
+
+        POST支持多种编码方式（application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。）
+
+8、GET产生一个TCP数据包；POST产生两个TCP数据包。
+对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+
+9、get提交的数据最大是2k（原则上url长度无限制，那么get提交的数据也没有限制咯？限制实际上取决于浏览器，(大多数)浏览器通常都会限制url长度在2K个字节，即使(大多数)服务器最多处理64K大小的url。也没有卵用。）。
+post理论上没有限制。实际上IIS4中最大量为80KB，IIS5中为100KB。

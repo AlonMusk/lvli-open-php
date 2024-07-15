@@ -1,0 +1,5 @@
+
+mongodb中基本的概念是文档、集合、数据库
+
+安装mongoDB
+https://www.cnblogs.com/hanyinglong/p/5690611.html

@@ -1,0 +1,59 @@
+Swoole Tracker之定位卡死问题
+https://course.swoole-cloud.com/course-video/76
+17288617418
+17swoolemima
+
+查看swoole
+ps -ef|grep laravels
+
+
+strace -o /var/www/erp-handle/storage/logs/starce_131774.log -f -p 131774
+
+centos使用gdb调试，出现Missing separate debuginfos, use: debuginfo-install php-cli-5.6.32-1.el6.remi.x86_64
+
+kernel-debuginfo-common-x86_64-4.18.0-240.1.1.el8_3.x86_64.rpm
+
+原理：debuginfo-install 在yum-utils中
+安装步骤
+yum install yum-utils
+
+修改如下文件，如果没有则创建
+[plain]  view plain  copy
+[root@zsc65 bake]# cat /etc/yum.repos.d/CentOS-Debuginfo.repo  
+# CentOS-Debug.repo  
+#  
+# The mirror system uses the connecting IP address of the client and the  
+# update status of each mirror to pick mirrors that are updated to and  
+# geographically close to the client.  You should use this for CentOS updates  
+# unless you are manually picking other mirrors.  
+#  
+  
+# All debug packages from all the various CentOS-5 releases  
+# are merged into a single repo, split by BaseArch  
+#  
+# Note: packages in the debuginfo repo are currently not signed  
+#  
+  
+[debug]  
+name=CentOS-6 - Debuginfo  
+baseurl=http://debuginfo.centos.org/6/$basearch/  
+gpgcheck=1  
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-6  
+enabled=1
+
+更新yum源  
+yum makecache
+yum debuginfo-install php-cli-7.3.26-1.el8.remi.x86_64
+
+yum install php-cli
+php-cli-7.3.26-1.el8.remi.x86_64
+
+
+调用阿里云OSS报错：RequestId
+pecl uninstall swoole
+pecl install swoole-4.4.19
+
+swoole为什么快？
+首先是支持多进程和协程。而多线程利用的是一个时间片内的时间。多协程：遇到堵塞操作，让出CPU，
+多进程：开辟更多的时间片来处理。 并行运算是：多个CPU同时运行，GO是真正实现了并行运算的
+

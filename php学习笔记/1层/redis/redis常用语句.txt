@@ -1,0 +1,17 @@
+秒杀例子代码 （超卖问题
+
+https://www.jb51.net/article/192395.htm
+
+
+redis常用语句 记录：
+zrem ：z类型的删除 sort set 也就是有序集合
+
+del ：直接删除
+
+z开头代表是 sort set类型 也就是有序集合
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+# 生成自签名的私钥文件
+openssl genrsa -out private.key 2048
+
+# 生成证书签名请求文件（.csr） “Common Name”（一般是你的域名） 其他项直接回车
+openssl req -new -key private.key -out certificate.csr
+# 自签名证书文件（.crt） certificate.crt，有效期为 365 天。这样就生成了 crt和 key文件
+openssl x509 -req -in certificate.csr -signkey private.key -out certificate.crt -days 365

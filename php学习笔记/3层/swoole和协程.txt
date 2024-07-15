@@ -1,0 +1,19 @@
+https://wiki.swoole.com/#/
+
+https://blog.breezelin.cn/practice-swoole-connection-pool-in-laravel.html
+
+详细介绍swoole编程+实例
+https://xueyuanjun.com/post/19848
+协程
+https://laravelacademy.org/post/19779
+
+注意 php-fpm和 LaravelS
+
+
+swoole 4.x 协程+ 通道特性，CSP编程模型
+
+CSP模型是上个世纪七十年代提出的，用于描述两个独立的并发实体通过共享的通讯 channel(管道)进行通信的并发模型。 CSP中channel是第一类对象，它不关注发送消息的实体，而关注与发送消息时使用的channel。
+
+
+
+

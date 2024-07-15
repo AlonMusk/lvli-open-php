@@ -1,0 +1,266 @@
+安装之后
+去配置你的名字和邮箱：
+git config --global user.name "bukas"
+git config --global user.email "bukas@gmail.com"
+
+获取Git配置信息
+git config --list
+
+查看远程分支
+
+git branch -r 
+
+
+撤销文件修改
+git checkout -- console/PurchaseIn.php
+
+创建版本库
+mkdir testgit && cd testgit
+git init
+
+把文件添加到版本库
+touch readme.md
+git add readme.md（多个文件 git add a.txt b.txt c.txt）
+
+把文件提交到仓库
+git commit -m "wrote a readme file"
+
+仓库状态
+git status
+
+看具体修改了什么内容
+git diff readme.md
+
+版本回退 =>
+命令可以告诉我们历史记录:
+git log
+
+嫌输出信息太多：
+git log --pretty=oneline
+
+把当前版本回退到上一个版本:
+git reset --hard HEAD^ (用HEAD表示当前版本，也就是最新的提交commit id，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100)
+
+查看你的每一次命令:
+git reflog
+
+指定回到未来的某个版本：
+git reset --hard 2e70fdf （版本号没必要写全，前几位就可以了，Git会自动去找）
+
+工作区和暂存区
+testgit是工作区 目录下的.git不属于工作区，是Git的版本库.it的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向 master的一个指针叫HEAD
+
+修改与撤销
+
+丢弃工作区的修改=>
+查看工作区和版本库里面最新版本的区别:
+git diff HEAD -- readme.md
+丢弃工作区的修改
+git checkout -- readme.md(也可以用git reset命令)
+
+git checkout . #本地所有修改的。没有的提交的，都返回到原来的状态
+
+  
+##把所有没有提交的修改暂存到stash里面。可用git stash pop恢复。
+# git stash
+
+##恢复并不会删除缓存
+# git stash list 
+# git stash apply stash@{id}
+
+## 恢复并删除缓存
+# git stash pop 
+
+git reset --hard HASH #返回到某个节点，不保留修改。
+git reset --soft HASH#返回到某个节点。保留修改
+
+
+删除文件:
+rm readme.md（接着有两种选择，确定删除还是撤回删除）
+
+生成SSH key< Shell（Windows下打开Git Bash）>
+ssh-keygen -t rsa -C "youremail@example.com"
+
+远程服务器
+添加一个远程服务器很简单：
+git remote add origin(别名，根据爱好命名) git@github.com:bukas/bukas.git
+
+查看远程服务器的相关信息:
+# shows URLs of each remote server
+git remote -v
+# gives more details about origin
+git remote show origin(别名)
+把本地库的所有内容推送到远程库:
+git push -u origin master
+实际上是把当前分支master推送到远程。
+由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
+从现在起，只要本地作了提交，就可以通过命令把本地master分支的最新修改推送至GitHub：
+git push origin master
+
+
+
+从远程库克隆=>
+用命令git clone克隆一个本地库:
+git clone git@github.com:test/testgit.git
+
+
+
+创建与合并分支=>
+创建dev分支，然后切换到dev分支：
+git checkout -b dev(
+git branch dev
+git checkout dev)
+用git branch命令查看当前分支：
+git branch
+在dev分支上进行添加修改操作，然后把dev分支的工作合并到master(注意到git merge的信息里面可能有Fast-forward字样，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
+当然也不是每次合并都能Fast-forward。)：
+git checkout master
+git merge dev
+可以放心地删除dev分支了：
+git branch -d dev
+如果要丢弃一个没有被合并过的分支，可以通过:
+git branch -D <branch>强行删除。
+在本地创建和远程分支对应的分支，使用:
+git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用:
+git branch --set-upstream branch-name origin/branch-name；
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+解决冲突=>
+解决冲突后，再提交。
+用带参数的git log也可以看到分支的合并情况：
+git log --graph --pretty=oneline --abbrev-commit
+
+分支管理策略=>
+(通常，合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。
+如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。)
+准备合并dev分支，请注意--no-ff参数，表示禁用Fast forward：
+git merge --no-ff -m "merge with no-ff" dev
+
+
+Bug分支=>
+把当前工作现场“储藏”起来:
+git stash
+修复完BUG之后，用git stash list命令看看：
+git stash list
+一是用：
+git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+另一种方式是用：
+git stash pop，恢复的同时把stash内容也删了：
+git stash pop
+
+你可以多次stash，恢复的时候，先用git stash list查看，然后恢复指定的stash，用命令
+git stash apply stash@{0}
+
+
+标签管理=>
+发布一个版本时，我们通常先在版本库中打一个标签，这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
+命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id。
+git tag -a <tagname> -m "blablabla..."可以指定标签信息。
+还可以通过-s用私钥签名一个标签：
+git tag -s v0.5 -m "signed version 0.2 released" fec145a
+git tag可以查看所有标签。
+用命令git show <tagname>可以查看某个标签的详细信息。
+如果标签打错了，也可以删除：
+git tag -d v0.1
+因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+如果要推送某个标签到远程，使用命令git push origin <tagname>：
+git push origin v1.0
+或者，一次性推送全部尚未推送到远程的本地标签：
+git push origin --tags
+如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+git tag -d v0.9
+然后，从远程删除。删除命令也是push，但是格式如下：
+git push origin :refs/tags/v0.9
+
+忽略特殊文件=>
+
+配置别名=>
+敲git st就表示git status那就简单多了。以后st就表示status：
+git config --global alias.st status
+
+修改本地的.gitignore 
+git rm -r --cached .  #清除缓存
+git add . #重新trace file
+git commit -m "update .gitignore" #提交和注释
+git push origin master #可选，如果需要同步到remote上的话
+
+//取消合并
+git merge --abort
+
+git出现Your branch and 'origin/master' have diverged解决方法
+如果不需要保留本地的修改，只要执行下面两步：
+git fetch origin
+git reset --hard origin/master
+
+
+回滚版本（要亲自试一遍）
+1、git log  
+2、拷贝 目标版本号 
+3、使用“git reset --hard 目标版本号”命令将版本回退： 
+4、使用“git push -f”提交更改： 
+此时如果用“git push”会报错，因为我们本地库HEAD指向的版本比远程库的要旧：
+问题一：master不能强推，用命令行报错GitLab: Deploy key not allowed to push，如下解决
+Repository -> Protected Branches  Collapse Unprotect
+
+
+切换版本：（本地没有拉该分支时）
+git checkout -b branch-name origin/branch-name
+
+切换分支时，报错问题：
+fatal: Cannot update paths and switch to branch 'test2' at the same time.
+Did you intend to checkout 'origin/test2' which can not be resolved as commit?
+先git pull 再切换
+
+
+切换分支（本地已经存在）
+git checkout  branch-name
+
+删除分支
+git branch -d dev
+
+删除远程分支
+git branch -a (查看所有的分支)
+git push origin  --delete test2(远程分支名)
+
+
+
+报错问题：
+ git pull
+error: Pulling is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+错误：无法提取，因为您有未合并的文件。
+解决方案一（不推荐）：
+本地的push和merge会形成MERGE-HEAD(FETCH-HEAD), HEAD（PUSH-HEAD）这样的引用。HEAD代表本地最近成功push后形成的引用。MERGE-HEAD表示成功pull后形成的引用。可以通过MERGE-HEAD或者HEAD来实现类型与svn revet的效果。将本地的冲突文件冲掉，不仅需要reset到MERGE-HEAD或者HEAD,还需要–hard。没有后面的hard，不会冲掉本地工作区。只会冲掉stage区
+git reset --hard FETCH_HEAD 
+git pull
+
+时间不紧急的情况下：
+//注释：提交本地代码到工作区
+//注释：如果有冲突，先解决冲突合并代码，然后提交
+//注释：如果代码上没有冲突，但是提交的时候git提醒有冲突，那么先关闭编辑器，然后编译代码找到冲突，最后手动合并代码解决冲突
+git add .
+git commit -m '提交本地代码并且获取最新代码'
+//注释：获取源dev分支最新代码
+git pull origin dev
+//注释：如有冲突就解决冲突
+
+合并分支(到当前分支)
+git merge dev
+
+
+在master新建分支
+git checkout -b test
+git push origin test
+git branch --set-upstream-to=origin/test
+git pull
+git merge test
+
+
+
+git cherry-pick HashA 会打开的文件：
+mall\.git\rebase-merge\git-rebase-todo
+mall\.git\COMMIT-EDITMSG
+

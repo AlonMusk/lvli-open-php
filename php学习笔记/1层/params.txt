@@ -1,0 +1,7 @@
+Runtime 配置 文件系统函数的行为受到 php.ini 中设置的影响。  文件系统配置选项：  名称	默认	描述	可改变 allow_url_fopen	"1"	 本选项激活了 URL 形式的 fopen 封装协议使得可以访问 URL 对象例如文件。默认的封装协议提供用 ftp 和 http 协议来访问远程文件，一些扩展库例如 zlib 可能会注册更多的封装协议。  （PHP 4.0.4 版以后可用。）  PHP_INI_SYSTEM user_agent	NULL	 定义 PHP 发送的 User-Agent。  （PHP 4.3.0 版以后可用。）  PHP_INI_ALL default_socket_timeout	"60"	 基于 socket 的流的默认超时时间(秒)。  （PHP 4.3.0 版以后可用。）  PHP_INI_ALL from	""	定义匿名 ftp 的密码（您的 email 地址）。	PHP_INI_ALL auto_detect_line_endings	"0"	 当设为 On 时，PHP 将检查通过 fgets() 和 file() 取得的数据中的行结束符号是符合 Unix，MS-DOS，还是 Macintosh 的习惯。  这使得 PHP 可以和 Macintosh 系统交互操作，但是默认值是 Off，因为在检测第一行的 EOL 习惯时会有很小的性能损失，而且在 Unix 系统下使用回车符号作为项目分隔符的人们会遭遇向下不兼容的行为。  （PHP 4.3.0 版以后可用。）  PHP_INI_ALL Unix / Windows 兼容性 当在 Unix 平台上规定路径时，正斜杠 (/) 用作目录分隔符。而在 Windows 平台上，正斜杠 (/) 和反斜杠 (\) 均可使用。  PHP Filesystem 函数 PHP：指示支持该函数的最早的 PHP 版本。  函数	描述	PHP
+ basename()	返回路径中的文件名部分。	3 chgrp()	改变文件组。	
+3 chmod()	改变文件模式。	
+3 chown()	改变文件所有者。	
+3 clearstatcache()	清除文件状态缓存。	
+3 copy()	复制文件。
+	3 delete()	参见 unlink() 或 unset()。	  dirname()	返回路径中

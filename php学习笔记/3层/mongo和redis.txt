@@ -1,0 +1,8 @@
+设置redis登录密码
+ config set requirepass my_redis
+ 
+ 待密码登录
+  redis-cli -h 127.0.0.1 -p 6379 -a Flan1688.
+  
+  开启redis的远程连接
+  注释配置文件的bind 127.0.0.1  然后重启

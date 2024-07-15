@@ -1,0 +1,98 @@
+phpunit ：
+断言 
+还有laravel的测试助手
+创建新的测试应用程序：  
+laravel new phpunit-tests  或
+composer  create-project  laravel/laravel  --prefer-dist
+
+创建一个测试类 在./tests 下 <name>Test.php 
+ExampleTest.php  实例测试类 包含基本测试用例
+TestCase.php  引导文件 设置laravel环境  使用laravel Facades 并为测试助手提供框架，
+
+创建一个测试类：
+php  artisan make:test  BasicTest
+
+运行测试
+./vendor/bin/phpunit  -> 游乐园一个有效的phpunit设置
+
+接下来写一个基础的测试：
+
+在./app/目录中创建一个名为box.php的新文件。
+七个基本的phpunit断言
+assertTrue()
+assertFalse()
+assertEquals()
+assertNull()
+assertContains()
+assertCount()
+assertEmpty()
+
+
+
+
+visit() see() dontSee()
+
+
+开发前先写测试
+测试驱动开发（TDD） 首先我们先写测试，写完测试并执行他们，测试没有通过。写满足测试的代码，再次执行测试，使得测试通过。
+
+通过 Semaphore 对 PHPUnit 持续集成
+
+click()  seePagels()
+
+
+https://segmentfault.com/a/1190000018355154
+https://segmentfault.com/a/1190000014643515
+
+https://www.cnblogs.com/jeJee/archive/2012/10/31/2747736.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

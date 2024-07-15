@@ -1,0 +1,4 @@
+学习账号
+15900181357  longjianbo
+
+Eloquent 是 Laravel 的 'ORM'，即 'Object Relational Mapping'，对象关系映射。ORM 的出现是为了帮我们把对数据库的操作变得更加地方便Eloquent 让一个 'Model类' 对应一张数据库表，并且在底层封装了很多 'function'，可以让 Model 类非常方便地调用。没错，Eloquent 就是这么屌炸天，只需要继承一下 Eloquent 类，就可以干 'first() find() where() orderBy()' 等非常非常多的事情，这就是面向对象的强大威力。

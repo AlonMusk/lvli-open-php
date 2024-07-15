@@ -1,0 +1,35 @@
+第三步：安装pthreads（重点）
+
+//安装
+
+wget https://codeload.github.com/krakjoe/pthreads/zip/master
+unzip master
+cd pthreads-master/
+/usr/bin/zts-phpize 
+./configure  --with-php-config=/usr/bin/zts-php-config 
+make && make install
+//配置
+
+echo extension = pthreads.so >> /etc/php-zts.d/50-pthreads.ini
+php是remi源上的，默认提供了php-zts的支持，只要在标准的php程序前加上zts执行
+
+
+验证和使用：
+1、确认扩展存在
+zts-php -m| grep pthreads
+2、测试代码
+
+将下面代码存为PHP文件test.php
+
+<?php
+$thread = new class extends Thread { 
+  public function run() { 
+    echo "Hello World\n";
+  }
+};
+$thread->start() && $thread->join();
+?>
+执行
+
+zts-php test.php 
+结果有Hello World输出即成功

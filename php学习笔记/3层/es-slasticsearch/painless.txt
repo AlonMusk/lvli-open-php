@@ -1,0 +1,67 @@
+PUT test1
+{
+  "mappings": {
+    "properties": {
+      "content_id": {
+        "type": "integer"
+      },
+      "title": {
+        "type": "text"
+      },
+       "other": {
+        "type": "text"
+      },
+       "is_create": {
+        "type": "integer"
+      },
+        "version": {
+        "type": "integer"
+      }
+     
+    }
+  }
+}
+
+
+PUT test1/_doc/1
+{
+  "content_id": 1,
+  "title": "标题1",
+  "other": "XXX",
+  "is_create": 1,
+  "version": 1
+}
+
+
+PUT test1/_doc/2
+{
+  "content_id": 1,
+  "title": "标题21",
+  "is_create": 0,
+  "version": 2
+}
+
+
+PUT test1/_doc/3
+{
+  "content_id": 1,
+  "title": "标题22",
+  "is_create": 0,
+  "version": 3
+}
+
+PUT test1/_doc/4
+{
+  "content_id": 1,
+  "title": "标题31",
+  "is_create": 0,
+  "version": 4
+}
+
+PUT test1/_doc/5
+{
+  "content_id": 1,
+  "title": "标题32",
+  "is_create": 0,
+  "version": 5
+}

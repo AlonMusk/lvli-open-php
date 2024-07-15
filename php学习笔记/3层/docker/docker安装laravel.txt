@@ -1,0 +1,4 @@
+docker pull hitalos/laravel 
+
+
+docker run --name <容器名称> -d -v $PWD :/var/www -p 80:80 hitalos/laravel

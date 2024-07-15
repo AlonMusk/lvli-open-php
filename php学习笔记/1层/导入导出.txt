@@ -1,0 +1,43 @@
+php类库  phpExcel
+
+
+maatwebsite/excel
+导出：
+ $cellData = [
+   ['学号','姓名','成绩'],
+   ['10001','AAAAA','99'],
+   ['10002','BBBBB','92'],
+   ['10003','CCCCC','95'],
+   ['10004','DDDDD','89'],
+   ['10005','EEEEE','96'],
+  ];
+Excel::create('学生成绩',function($excel) use ($cellData){
+     $excel->sheet('score', function($sheet) use ($cellData){
+         $sheet->rows($cellData);
+     });
+})->store('xls')->export('xls'); //文件默认保存到storage/exports目录下.
+
+导入；
+use Excel ；
+public function upload(Request $request){
+    $url = $request->file("file")->storeAs('public','import.xls');
+    if($url){
+        $filePath = "storage/import.xls";
+       Excel::load($filePath, function($reader) {
+            $data = $reader->all();
+            foreach ($data as $item){
+                Eloquent表达式 操作 数据库。
+            }
+        });
+    }
+}
+//Excel文件导入功能 By Laravel学院
+public function import(){
+ $filePath = 'storage/exports/'.iconv('UTF-8', 'GBK', '学生成绩').'.xls';
+ Excel::load($filePath, function($reader) {
+  $data = $reader->all();
+  dd($data);
+ });
+}
+Laravel Excel 在 Laravel 5 中集成 PHPOffice 套件中的 PHPExcel ，从而方便我们以优雅的、富有表现力的代码实现Excel/CSV文件的导入和 导出 。
+

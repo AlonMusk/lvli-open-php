@@ -1,0 +1,77 @@
+rabbitMQ 和laravel版本对照
+https://github.com/vyuldashev/laravel-queue-rabbitmq
+
+开启sockects扩展
+打开php.ini 找 sockets
+
+ubuntu安装 rabbitMQ server
+https://blog.csdn.net/haeasringnar/article/details/82715823
+sudo apt-get install erlang-nox
+sudo apt-get update
+sudo apt-get install rabbitmq-server
+
+
+laravel整合 rabbitMQ
+https://learnku.com/articles/21522
+composer require vladimir-yuldashev/laravel-queue-rabbitmq:v9.0.0
+VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class,
+
+基本概念
+https://learnku.com/articles/2708/rabbitmq-message-queue
+
+
+
+
+https://blog.csdn.net/qq_22638399/article/details/81704372
+
+1.由于rabbitMq需要erlang语言的支持，在安装rabbitMq之前需要安装erlang，执行命令：
+
+apt-get install erlang-nox     # 安装erlang
+erl    # 查看relang语言版本，成功执行则说明relang安装成功
+1
+2
+2.添加公钥
+
+wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+1
+3.更新软件包
+
+apt-get update
+1
+4.安装 RabbitMQ
+
+apt-get install rabbitmq-server  #安装成功自动启动
+1
+5.查看 RabbitMq状态
+
+systemctl status rabbitmq-server   #Active: active (running) 说明处于运行状态
+
+# service rabbitmq-server status 用service指令也可以查看，同systemctl指令
+1
+2
+3
+6.启动、停止、重启
+
+service rabbitmq-server start    # 启动
+service rabbitmq-server stop     # 停止
+service rabbitmq-server restart  # 重启 
+1
+2
+3
+执行了上面的步骤，rabbitMq已经安装成功。
+
+7.启用 web端可视化操作界面，我们还需要配置Management Plugin插件
+
+rabbitmq-plugins enable rabbitmq_management   # 启用插件
+service rabbitmq-server restart    # 重启
+8.查看用户
+
+rabbitmqctl list_users
+1
+9.添加管理用户
+
+rabbitmqctl add_user admin yourpassword   # 增加普通用户
+rabbitmqctl set_user_tags admin administrator    # 给普通用户分配管理员角色 
+1
+2
+ok，你可以在你的浏览器上输入：http://服务器Ip:15672/ 来访问你的rabbitmq监控页面。使用刚刚添加的新用户登录。

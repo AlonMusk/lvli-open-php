@@ -1,0 +1,7 @@
+目前项目用到的版本是 4.6.1
+
+start  
+reload 平滑重启所有的task/worker进程，这些进程内包含业务代码。不会重启master/manger/timer/custom进程
+
+查看版本
+php --ri swoole

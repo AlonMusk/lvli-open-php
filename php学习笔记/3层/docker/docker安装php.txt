@@ -1,0 +1,11 @@
+ docker search php
+安装php镜像
+docker pull php:7.3-fpm
+
+启动 PHP：
+$ docker run --name  myphp-fpm -v /etc/php-7.3:/etc/php-7.3  -d php:7.3-fpm
+命令说明：
+--name myphp-fpm : 将容器命名为 myphp-fpm。
+-v ~/nginx/www:/www : 将主机中项目的目录 www 挂载到容器的 /www
+
+docker exec -it myphp-fpm bash

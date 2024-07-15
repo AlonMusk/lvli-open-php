@@ -1,0 +1,20 @@
+开始容器
+docker start b750bbbcfd88
+停止容器
+docker stop <容器 ID>
+进入容器
+docker exec -it mysql bash
+退出容器
+exit
+删除容器
+ docker rm -f 1e560fca3906
+ 
+docker官网 
+ 
+开始demo:
+# docker run --name repo alpine/git clone https://github.com/do
+cker/getting-started.git
+# docker cp repo:/git/getting-started/ .
+
+# cd getting-started
+# docker build -t docker101tutorial .

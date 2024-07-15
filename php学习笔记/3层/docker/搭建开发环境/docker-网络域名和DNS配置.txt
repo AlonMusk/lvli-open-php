@@ -1,0 +1,8 @@
+###
+/etc/hostname
+/etc/hosts
+/etc/resolv.conf
+
+https://blog.csdn.net/weixin_39539761/article/details/110639987
+
+##涉及到DNS 的机制，稍微要花点时间弄清楚机理。

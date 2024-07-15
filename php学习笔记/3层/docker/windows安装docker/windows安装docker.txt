@@ -1,0 +1,16 @@
+
+参考 https://www.runoob.com/docker/windows-docker-install.html
+1、开启 Hyper-V
+命令行的方式开启：
+#power shell
+# Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+2、下载docker安装
+https://www.docker.com/products/docker-desktop/ 
+3、运行：
+docker run hello-world
+
+
+wsl --set-default-version 2
+
+

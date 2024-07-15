@@ -1,0 +1,58 @@
+1、关于配置DBGp Proxy选项的 需要下载 DBGP proxy软件并运行的 目的是解决多个人同时的调试，如果是一个人本地调试就不用管它.：是的
+
+2、似乎本地调试和远程调试都没有必要安装Xdebug Helper。目前发现是这样。
+
+3、 环境：windows + docker+xdebug
+
+3.1 配置 php->Dockerfile->添加 xdebug的配置。
+执行 # docker-compose up --build
+3.2 php.ini   (php 7.3.33 - xdebug :3.1.6)
+追加
+
+[Xdebug]
+xdebug.mode=debug
+xdebug.idekey=myidkey 
+xdebug.start_with_request=yes
+;xdebug.discover_client_host=true告诉 Xdebug 尝试从 HTTP 请求中提取客户端的 IP,而xdebug.client_host告诉它如果这不起作用,应该尝试什么。
+xdebug.discover_client_host=true
+xdebug.client_host=host.docker.internal
+xdebug.client_port=9013
+
+IDE->PHP:
+PHP language level: 7.3
+CLI Interpreter: 新建 CLI Interpreters ->from docker ->docker->
+<server :Docker 
+Image name: 选择php5.3-workspace
+PHP interpreter path:php
+>
+
+IDE->debug 
+port: 9013
+; php.ini-> xdebug.client_port=9013 ;不用设置 默认 9003
+
+#  DBGp Proxy 没有用到，所以不用管
+IDE-> debug->DBGp Proxy
+IDE key:  PHPSTORM1
+Host: localhost1
+port: 80051
+
+IDE->Servers
+name: proj05
+Host:  localhost
+Port: 8005
+use path mapping 打钩，并配置好映射
+
+## Run/Debug Configurations
+ PHP Remote Debug
+# Server 和 IDE->Servers->name 相关。
+# 选择 local Web server or Share Folder 创建了 docker类型的
+Server: proj05
+;ide key 要和 php.ini 的 xdebug.idekey 一致
+IDE key: myidkey
+
+
+开启调试：
+点击监听和debug按钮
+访问URL： 链接不需要加上 XDEBUG_SESSION_START 参数
+http://localhost:8005/?XDEBUG_SESSION_START=PHPSTORM
+
